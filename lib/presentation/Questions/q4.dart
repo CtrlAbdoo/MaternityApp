@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/Questions/q5.dart';
 
 class Q4 extends StatefulWidget {
   @override
@@ -89,7 +90,12 @@ class _Q4State extends State<Q4> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add navigation logic
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Q5(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFBBE2F4),

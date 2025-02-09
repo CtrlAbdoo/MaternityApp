@@ -1,0 +1,1 @@
+ C:\\Users\\theno\\AndroidStudioProjects\\maternity_app\\.dart_tool\\flutter_build\\32aeed2ab76a277f0c775897d8d19173\\native_assets.yaml: 

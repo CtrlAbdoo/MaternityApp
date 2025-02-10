@@ -47,7 +47,7 @@ class _Q6State extends State<Q6> {
               Text(
                 '${_getDayOfWeek(selectedDate)} ${selectedDate.day} - ${_getMonthName(selectedDate.month)}',
                 style: GoogleFonts.inriaSerif(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),

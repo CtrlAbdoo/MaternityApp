@@ -21,7 +21,7 @@ class _Q5State extends State<Q5> {
         child: SingleChildScrollView(
           child: Container(
             width: screenWidth,
-            height: screenHeight,
+            // Remove fixed height to allow scrolling
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFFD6E7), Color(0xFFB5E4F6)],
@@ -42,24 +42,20 @@ class _Q5State extends State<Q5> {
                     ),
                   ),
                 ),
-
                 // First Question
                 _buildQuestionSection(
                   question: "Are you currently pregnant?",
                   selectedIndex: selectedPregnancy,
                   onSelected: (index) => setState(() => selectedPregnancy = index),
                 ),
-
                 // Second Question
                 _buildQuestionSection(
                   question: "Is this your first pregnancy?",
                   selectedIndex: selectedFirstPregnancy,
                   onSelected: (index) => setState(() => selectedFirstPregnancy = index),
                 ),
-
                 // Spacer to push button to bottom
-                Expanded(child: Container()),
-
+                SizedBox(height: screenHeight * 0.05), // Replace Expanded with SizedBox
                 // Continue Button
                 Padding(
                   padding: EdgeInsets.only(bottom: screenHeight * 0.05),

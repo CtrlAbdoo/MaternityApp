@@ -90,12 +90,7 @@ class _Q9State extends State<Q9> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Q5(),
-                          ),
-                        );
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFBBE2F4),

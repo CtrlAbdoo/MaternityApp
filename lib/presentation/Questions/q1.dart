@@ -370,39 +370,41 @@ class _Q1State extends State<Q1> {
                   ),
                 ),
                 // Start Button
-                Padding(
-                  padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF87CEEB),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(25), // Matches the button's border radius
-                    ),
-                    child: ElevatedButton(
-                      onPressed: _showConfirmationDialog,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBBE2F4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: screenHeight * 0.017,
-                          horizontal: screenWidth * 0.142,
-                        ),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFF87CEEB),
+                            offset: Offset(6, 6),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(25), // Matches the button's border radius
                       ),
-                      child: Text(
-                        "Start",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                      child: ElevatedButton(
+                        onPressed: _showConfirmationDialog,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFBBE2F4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * 0.017,
+                            horizontal: screenWidth * 0.142,
+                          ),
+                        ),
+                        child: Text(
+                          "Start",
+                          style: GoogleFonts.inriaSerif(
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),

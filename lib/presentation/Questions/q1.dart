@@ -20,7 +20,7 @@ class _Q1State extends State<Q1> {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 16), // Adjust padding for full width
+        insetPadding: EdgeInsets.symmetric(horizontal: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
@@ -46,7 +46,7 @@ class _Q1State extends State<Q1> {
               Text(
                 '${_getDayOfWeek(selectedDate)} ${selectedDate.day} - ${_getMonthName(selectedDate.month)}',
                 style: GoogleFonts.inriaSerif(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -57,87 +57,54 @@ class _Q1State extends State<Q1> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // Sure Button
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Q2(),
                         ),
-                      ],
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Q2(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0x35FFFFFF),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 40,
-                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0x35FFFFFF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Text(
-                        "Sure",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                    ),
+                    child: Text(
+                      "Sure",
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
                   ),
                   // Change Button
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // Add your logic for "Change" button here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0x35FFFFFF),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 40,
-                        ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0x35FFFFFF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Text(
-                        "Change",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                    ),
+                    child: Text(
+                      "Change",
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -151,12 +118,10 @@ class _Q1State extends State<Q1> {
     );
   }
 
-// Helper function to get the day of the week
   String _getDayOfWeek(DateTime date) {
     return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][date.weekday - 1];
   }
 
-// Helper function to get the month name
   String _getMonthName(int month) {
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June',
@@ -175,7 +140,6 @@ class _Q1State extends State<Q1> {
         child: SingleChildScrollView(
           child: Container(
             width: screenWidth,
-            height: screenHeight,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFFD6E7), Color(0xFFB5E4F6)],
@@ -219,8 +183,7 @@ class _Q1State extends State<Q1> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF965391)
-                              .withOpacity(isYesSelected ? 1.0 : 0.59),
+                          backgroundColor: Color(0xFF965391).withOpacity(isYesSelected ? 1.0 : 0.59),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -247,8 +210,7 @@ class _Q1State extends State<Q1> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF965391)
-                              .withOpacity(isNoSelected ? 1.0 : 0.59),
+                          backgroundColor: Color(0xFF965391).withOpacity(isNoSelected ? 1.0 : 0.59),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
@@ -314,7 +276,6 @@ class _Q1State extends State<Q1> {
                               ),
                             ),
                           ),
-
                           // Days in the middle
                           Expanded(
                             child: SizedBox(
@@ -339,7 +300,6 @@ class _Q1State extends State<Q1> {
                               ),
                             ),
                           ),
-
                           // Years on the right
                           Expanded(
                             child: SizedBox(
@@ -370,41 +330,39 @@ class _Q1State extends State<Q1> {
                   ),
                 ),
                 // Start Button
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF87CEEB),
-                            offset: Offset(6, 6),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(25), // Matches the button's border radius
-                      ),
-                      child: ElevatedButton(
-                        onPressed: _showConfirmationDialog,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFBBE2F4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: screenHeight * 0.017,
-                            horizontal: screenWidth * 0.142,
-                          ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF87CEEB),
+                          offset: Offset(6, 6),
+                          blurRadius: 10,
+                          spreadRadius: 2,
                         ),
-                        child: Text(
-                          "Start",
-                          style: GoogleFonts.inriaSerif(
-                            textStyle: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                      ],
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _showConfirmationDialog,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBBE2F4),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: screenHeight * 0.017,
+                          horizontal: screenWidth * 0.142,
+                        ),
+                      ),
+                      child: Text(
+                        "Start",
+                        style: GoogleFonts.inriaSerif(
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ),

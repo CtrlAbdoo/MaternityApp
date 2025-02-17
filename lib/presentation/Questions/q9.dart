@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/q5.dart';
+import 'package:maternity_app/presentation/home/navi_bar.dart';
 
 class Q9 extends StatefulWidget {
   @override
@@ -90,7 +90,10 @@ class _Q9State extends State<Q9> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFBBE2F4),

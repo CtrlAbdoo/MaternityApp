@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maternity_app/presentation/home/navi_bar.dart';
 import 'package:maternity_app/presentation/splash/splash_view.dart';
 
 
@@ -20,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Hides the debug banner
-      home: SplashScreen(), // Set SplashScreen as the home
+      home: CustomNavigationBar(), // Set SplashScreen as the home
     );
   }
 }

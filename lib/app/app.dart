@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Hides the debug banner
-      home: CustomNavigationBar(), // Set SplashScreen as the home
+      home: SplashScreen(), // Set SplashScreen as the home
     );
   }
 }

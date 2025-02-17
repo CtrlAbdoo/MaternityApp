@@ -111,17 +111,17 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/physical_activity.png',
                         text: 'Physical activity',
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/rest_and_sleep.png',
                         text: 'Rest and sleep',
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/baby_care_tips.png',
                         text: 'Baby care tips',
                       ),
                     ],

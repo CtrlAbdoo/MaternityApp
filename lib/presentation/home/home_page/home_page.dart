@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/DaysoftheWeek.dart';
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Text(
-                  'Feb 25, 2024',
+                  DateFormat('MMM d, y').format(DateTime.now()),
                   style: GoogleFonts.inriaSerif(
                     textStyle: const TextStyle(
                       color: Colors.blueAccent,

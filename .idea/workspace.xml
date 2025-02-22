@@ -9,27 +9,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment="+ last Qs pages">
-      <change afterPath="$PROJECT_DIR$/assets/images/add.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/article.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/baby_bg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/baby_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/baby_in_womb.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/cantaloupe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/doctor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/healthy_food.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/home.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/search.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/CurvedNavigationBar.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/NavButton.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/NavCustomPainter.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/common/CustomAppBar.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/common/CustomDrawer.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/common/DaysoftheWeek.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/common/NutritionStack.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/home/home_page/home_page.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/home/navi_bar.dart" afterDir="false" />
+    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment="+ Custom Bottom Navigation Bar &#10;+ Custom App Bar &#10;+ Custom Drawer&#10;+ Home Screen">
+      <change afterPath="$PROJECT_DIR$/assets/images/drug.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/water_drop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/common/CustomButton.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/common/CustomDropdown.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/drug_registration/drug_registration_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/drug_registration/water_drinking_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/.filecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/app.dill" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/32aeed2ab76a277f0c775897d8d19173/debug_android_application.stamp" afterDir="false" />
@@ -44,11 +30,8 @@
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/kernel_snapshot.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/kernel_snapshot.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/kernel_snapshot.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/kernel_snapshot.stamp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/outputs.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/6d5b6807bad997c1e9265dcac3334e99/outputs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.lock" afterDir="false" />
@@ -57,9 +40,11 @@
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/Questions/q9.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/Questions/q9.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/common/DaysoftheWeek.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/common/DaysoftheWeek.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/home/home_page/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/home_page/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/home/navi_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/navi_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/resources/color_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/resources/color_manager.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +64,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -113,13 +98,15 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;ScreenRecorder.SavePath&quot;: &quot;C:\\Users\\theno\\Downloads&quot;,
+    &quot;ScreenshotViewer.SavePath&quot;: &quot;C:/Users/theno/Desktop&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/theno/AndroidStudioProjects/maternity_app/assets/images&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/theno/Desktop&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -371,7 +358,31 @@
       <option name="project" value="LOCAL" />
       <updated>1739148798378</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="+ Custom Bottom Navigation Bar &#10;+ Custom App Bar &#10;+ Custom Drawer&#10;+ Home Screen">
+      <option name="closed" value="true" />
+      <created>1739750499085</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1739750499085</updated>
+    </task>
+    <task id="LOCAL-00029" summary="*">
+      <option name="closed" value="true" />
+      <created>1739751140916</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1739751140916</updated>
+    </task>
+    <task id="LOCAL-00030" summary="+ Custom Bottom Navigation Bar &#10;+ Custom App Bar &#10;+ Custom Drawer&#10;+ Home Screen">
+      <option name="closed" value="true" />
+      <created>1739753429767</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1739753429767</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -397,6 +408,8 @@
     <MESSAGE value="+ OTP firebase_auth" />
     <MESSAGE value="+ status messages (success &amp; fail)&#10;+ 3 Qs pages" />
     <MESSAGE value="+ last Qs pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="+ last Qs pages" />
+    <MESSAGE value="*" />
+    <MESSAGE value="+ Custom Bottom Navigation Bar &#10;+ Custom App Bar &#10;+ Custom Drawer&#10;+ Home Screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="+ Custom Bottom Navigation Bar &#10;+ Custom App Bar &#10;+ Custom Drawer&#10;+ Home Screen" />
   </component>
 </project>

@@ -31,4 +31,13 @@ class ColorManager {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static LinearGradient BG2_Gradient = LinearGradient(
+    colors: [
+      Color(0xFFFFCFFA),
+      Color(0xFFCBF3FF)
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
 }

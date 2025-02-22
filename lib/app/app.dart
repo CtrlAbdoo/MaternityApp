@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maternity_app/presentation/home/navi_bar.dart';
 import 'package:maternity_app/presentation/splash/splash_view.dart';
 
 

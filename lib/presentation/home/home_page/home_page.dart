@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/DaysoftheWeek.dart';
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/baby_bg.png'),
+            image: AssetImage('assets/images/baby_bg4.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Text(
-                  'Feb 25, 2024',
+                  DateFormat('MMM d, y').format(DateTime.now()),
                   style: GoogleFonts.inriaSerif(
                     textStyle: const TextStyle(
                       color: Colors.blueAccent,
@@ -111,17 +112,17 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/physical_activity.png',
                         text: 'Physical activity',
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/rest_and_sleep.png',
                         text: 'Rest and sleep',
                       ),
                       SizedBox(height: 20),
                       NutritionStack(
-                        imagePath: 'assets/images/healthy_food.png',
+                        imagePath: 'assets/images/baby_care_tips.png',
                         text: 'Baby care tips',
                       ),
                     ],

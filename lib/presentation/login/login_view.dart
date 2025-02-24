@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/Questions/q1.dart';
 import 'package:maternity_app/presentation/register/register_view.dart';
-import 'package:maternity_app/presentation/resources/color_manager.dart';
+import 'package:maternity_app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:maternity_app/validation.dart';
 
 class LoginView extends StatefulWidget {
@@ -171,6 +171,30 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           SizedBox(height: screenHeight * 0.02),
 
+                          // Forgot Password
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgotPasswordView()));
+                            },
+                            child: Center(
+                              child: Text(
+                                'Forgot Password?',
+                                style: GoogleFonts.inriaSerif(
+                                  textStyle: TextStyle(
+                                      fontSize: screenWidth * 0.04,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.05),
+
                           // Login Button
                           GestureDetector(
                             onTap: _isLoading ? null : _login,
@@ -206,14 +230,16 @@ class _LoginViewState extends State<LoginView> {
                                       builder: (context) =>
                                           const RegisterView()));
                             },
-                            child: Text(
-                              'Sign Up',
-                              style: GoogleFonts.inriaSerif(
-                                textStyle: TextStyle(
-                                    fontSize: screenWidth * 0.04,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline),
+                            child: Center(
+                              child: Text(
+                                'Sign Up',
+                                style: GoogleFonts.inriaSerif(
+                                  textStyle: TextStyle(
+                                      fontSize: screenWidth * 0.04,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline),
+                                ),
                               ),
                             ),
                           ),

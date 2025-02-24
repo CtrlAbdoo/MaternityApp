@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/Questions/q1.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
-import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/validation.dart';
 
 class RegisterView extends StatefulWidget {
@@ -27,20 +27,35 @@ class _RegisterViewState extends State<RegisterView> {
   Future<void> _registerUser() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
-        // تسجيل المستخدم في Firebase
+        // تسجيل المستخدم في Firebase Authentication
         UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
 
-        // التحقق من نجاح التسجيل
-        if (userCredential.user != null) {
-          print('User registered successfully: ${userCredential.user!.email}');
+        User? user = userCredential.user;
+
+        if (user != null) {
+          // تخزين بيانات المستخدم في Firestore
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'firstName': _firstNameController.text.trim(),
+            'lastName': _lastNameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'phone': _phoneController.text.trim(),
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
+          // الانتقال إلى صفحة الأسئلة بعد نجاح التسجيل
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Q1()),
           );
+
+          print('User registered and data saved successfully!');
         }
       } catch (e) {
         print('Error registering user: $e');
@@ -123,6 +138,30 @@ class _RegisterViewState extends State<RegisterView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _firstNameController,
+                                  decoration:
+                                      InputDecoration(labelText: 'First Name'),
+                                  validator: (value) =>
+                                      InputValidator.validateName(value),
+                                ),
+                              ),
+                              SizedBox(width: screenWidth * 0.04),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _lastNameController,
+                                  decoration:
+                                      InputDecoration(labelText: 'Last Name'),
+                                  validator: (value) =>
+                                      InputValidator.validateName(value),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(labelText: 'Email'),
@@ -150,6 +189,13 @@ class _RegisterViewState extends State<RegisterView> {
                                 InputValidator.validatePassword(value),
                           ),
                           SizedBox(height: screenHeight * 0.02),
+                          TextFormField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(labelText: 'Phone'),
+                            validator: (value) =>
+                                InputValidator.validatePhoneNumber(value),
+                          ),
+                          SizedBox(height: screenHeight * 0.04),
                           GestureDetector(
                             onTap: _registerUser,
                             child: Container(

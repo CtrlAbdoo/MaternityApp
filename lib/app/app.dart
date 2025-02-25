@@ -20,8 +20,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Hides the debug banner
-      home: SplashScreen(), // Set SplashScreen as the home
+      debugShowCheckedModeBanner: false,
+      home: CustomNavigationBar(),
     );
   }
 }

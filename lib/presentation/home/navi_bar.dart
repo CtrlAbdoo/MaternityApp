@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maternity_app/CurvedNavigationBar.dart';
 import 'package:maternity_app/presentation/drug_registration/drug_registration_screen.dart';
 import 'package:maternity_app/presentation/home/home_page/home_page.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/pregnancy_series_screen.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -12,11 +13,11 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 2;
   final List<Widget> _pages = [
-    Center(child: Text('Home Page')),
-    Center(child: Text('Search Page')),
+    Center(child: Text('Add Page')),
+    PregnancySeriesScreen(),
     HomePage(),
     Center(child: Text('Add Page')),
-    Center(child: Text('Articles Page')),
+    Center(child: Text('Add Page')),
   ];
 
   void _onTap(int index) {
@@ -41,7 +42,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               height: 56,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: ColorManager.BG1_Gradient,
+                gradient: ColorManager.BG3_Gradient,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,

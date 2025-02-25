@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
 import 'package:maternity_app/presentation/common/CustomButton.dart';
 import 'package:maternity_app/presentation/common/CustomDropdown.dart';
 import 'package:maternity_app/presentation/drug_registration/water_drinking_screen.dart';
@@ -48,13 +49,10 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
             children: [
               // Logo Section
               SizedBox(height: screenHeight * 0.02),
-              Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  height: screenHeight * 0.1,
-                  width: screenWidth * 0.3,
-                ),
-              ),
+            Builder(
+              builder: (context) => CustomAppBarWithLogo(),
+            ),
+            const SizedBox(height: 10),
 
               // Title Section
               Row(

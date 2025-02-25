@@ -40,4 +40,13 @@ class ColorManager {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
+
+  static LinearGradient BG3_Gradient = LinearGradient(
+    colors: [
+      Color(0xFFCBF3FF),
+      Color(0xFFFFCFFA)
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }

@@ -29,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
 
     try {
       UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
@@ -74,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/Sign_In.png'), // صورة الخلفية
+            image: AssetImage('assets/images/Sign_In.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -82,7 +82,6 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // AppBar
               AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -112,8 +111,6 @@ class _LoginViewState extends State<LoginView> {
                   ],
                 ),
               ),
-
-              // Welcome Text
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.08,
@@ -129,8 +126,6 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.02),
-
-              // Form Section
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
@@ -140,7 +135,6 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Email Field
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(labelText: 'Email'),
@@ -148,8 +142,6 @@ class _LoginViewState extends State<LoginView> {
                                 InputValidator.validateEmail(value),
                           ),
                           SizedBox(height: screenHeight * 0.02),
-
-                          // Password Field
                           TextFormField(
                             controller: _passwordController,
                             obscureText: !_isPasswordVisible,
@@ -170,79 +162,73 @@ class _LoginViewState extends State<LoginView> {
                                 InputValidator.validatePassword(value),
                           ),
                           SizedBox(height: screenHeight * 0.02),
-
-                          // Forgot Password
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const ForgotPasswordView()));
+                                      const ForgotPasswordView()));
                             },
-                            child: Center(
-                              child: Text(
-                                'Forgot Password?',
-                                style: GoogleFonts.inriaSerif(
-                                  textStyle: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.underline),
-                                ),
+                            child: Text(
+                              'Forgot Password?',
+                              textAlign: TextAlign.end,
+                              style: GoogleFonts.inriaSerif(
+                                textStyle: TextStyle(
+                                    fontSize: screenWidth * 0.04,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline),
                               ),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.05),
-
-                          // Login Button
-                          GestureDetector(
-                            onTap: _isLoading ? null : _login,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFB6E8F8),
-                                    Color(0xFF90CAF9)
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                          SizedBox(height: screenHeight * 0.2),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const RegisterView()));
+                                },
+                                child: Text(
+                                  'Sign Up',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.inriaSerif(
+                                    textStyle: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.underline),
+                                  ),
                                 ),
                               ),
-                              padding: EdgeInsets.all(screenWidth * 0.06),
-                              child: _isLoading
-                                  ? CircularProgressIndicator(
-                                      color: Colors.black)
-                                  : Icon(Icons.arrow_forward,
+                              Spacer(),
+                              GestureDetector(
+                                onTap: _login,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [Color(0xFFB6E8F8), Color(0xFF90CAF9)],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(screenWidth * 0.06),
+                                  child: Icon(Icons.arrow_forward,
                                       color: Colors.black,
                                       size: screenWidth * 0.06),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.07),
-
-                          // Sign Up Link
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterView()));
-                            },
-                            child: Center(
-                              child: Text(
-                                'Sign Up',
-                                style: GoogleFonts.inriaSerif(
-                                  textStyle: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.underline),
                                 ),
                               ),
-                            ),
+                              SizedBox(height: screenHeight * 0.07),
+
+                            ],
+
                           ),
+
                           SizedBox(height: screenHeight * 0.05),
                         ],
                       ),

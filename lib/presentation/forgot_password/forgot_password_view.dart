@@ -191,14 +191,26 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       ),
                     ),
                     const Spacer(),
-                    IconButton(
-                      icon:
-                          const Icon(Icons.arrow_forward, color: Colors.black),
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         if (_formKey.currentState?.validate() ?? false) {
                           _sendPasswordResetEmail(context);
                         }
                       },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [Color(0xFFB6E8F8), Color(0xFF90CAF9)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(screenWidth * 0.06),
+                        child: Icon(Icons.arrow_forward,
+                            color: Colors.black,
+                            size: screenWidth * 0.06),
+                      ),
                     ),
                   ],
                 ),

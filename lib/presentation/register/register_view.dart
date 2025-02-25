@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/q1.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
+import 'package:maternity_app/presentation/Questions/q1.dart';
 import 'package:maternity_app/validation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -27,9 +27,8 @@ class _RegisterViewState extends State<RegisterView> {
   Future<void> _registerUser() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
-        // تسجيل المستخدم في Firebase Authentication
         UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
@@ -37,11 +36,7 @@ class _RegisterViewState extends State<RegisterView> {
         User? user = userCredential.user;
 
         if (user != null) {
-          // تخزين بيانات المستخدم في Firestore
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set({
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
             'firstName': _firstNameController.text.trim(),
             'lastName': _lastNameController.text.trim(),
             'email': _emailController.text.trim(),
@@ -49,7 +44,6 @@ class _RegisterViewState extends State<RegisterView> {
             'createdAt': FieldValue.serverTimestamp(),
           });
 
-          // الانتقال إلى صفحة الأسئلة بعد نجاح التسجيل
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Q1()),
@@ -144,7 +138,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: TextFormField(
                                   controller: _firstNameController,
                                   decoration:
-                                      InputDecoration(labelText: 'First Name'),
+                                  InputDecoration(labelText: 'First Name'),
                                   validator: (value) =>
                                       InputValidator.validateName(value),
                                 ),
@@ -154,7 +148,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: TextFormField(
                                   controller: _lastNameController,
                                   decoration:
-                                      InputDecoration(labelText: 'Last Name'),
+                                  InputDecoration(labelText: 'Last Name'),
                                   validator: (value) =>
                                       InputValidator.validateName(value),
                                 ),
@@ -195,46 +189,53 @@ class _RegisterViewState extends State<RegisterView> {
                             validator: (value) =>
                                 InputValidator.validatePhoneNumber(value),
                           ),
-                          SizedBox(height: screenHeight * 0.04),
-                          GestureDetector(
-                            onTap: _registerUser,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFB6E8F8),
-                                    Color(0xFF90CAF9)
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                          SizedBox(height: screenHeight * 0.1),
+
+
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const LoginView()));
+                                },
+                                child: Text(
+                                  'Sign In',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.inriaSerif(
+                                    textStyle: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.underline),
+                                  ),
                                 ),
                               ),
-                              padding: EdgeInsets.all(screenWidth * 0.06),
-                              child: Icon(Icons.arrow_forward,
-                                  color: Colors.black,
-                                  size: screenWidth * 0.06),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.07),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginView()));
-                            },
-                            child: Text(
-                              'Sign In',
-                              style: GoogleFonts.inriaSerif(
-                                textStyle: TextStyle(
-                                    fontSize: screenWidth * 0.04,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline),
+                              Spacer(),
+                              GestureDetector(
+                                onTap: _registerUser,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [Color(0xFFB6E8F8), Color(0xFF90CAF9)],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(screenWidth * 0.06),
+                                  child: Icon(Icons.arrow_forward,
+                                      color: Colors.black,
+                                      size: screenWidth * 0.06),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
+
+                          SizedBox(height: screenHeight * 0.07),
+
                           SizedBox(height: screenHeight * 0.05),
                         ],
                       ),

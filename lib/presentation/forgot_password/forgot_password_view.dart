@@ -1,15 +1,25 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/forgot_password/OTP_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/validation.dart';
 
-class ForgotPasswordView extends StatelessWidget {
-  ForgotPasswordView({Key? key}) : super(key: key);
+class ForgotPasswordView extends StatefulWidget {
+  const ForgotPasswordView({Key? key}) : super(key: key);
 
+  @override
+  _ForgotPasswordViewState createState() => _ForgotPasswordViewState();
+}
+
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   Future<void> _sendPasswordResetEmail(BuildContext context) async {
     final email = _emailController.text.trim();
@@ -19,18 +29,26 @@ class ForgotPasswordView extends StatelessWidget {
       );
       return;
     }
+
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent.')),
+        SnackBar(
+            content:
+                Text('Password reset link sent to $email. Check your inbox.')),
       );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const VerificationCodeView()),
-      );
+
+      Navigator.pop(context); // رجوع إلى صفحة تسجيل الدخول
     } catch (error) {
+      debugPrint('Error sending reset email: $error');
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send email: $error')),
+        SnackBar(
+            content:
+                Text('Failed to send password reset email. Try again later.')),
       );
     }
   }
@@ -65,7 +83,8 @@ class ForgotPasswordView extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, double screenHeight, double screenWidth) {
+  AppBar _buildAppBar(
+      BuildContext context, double screenHeight, double screenWidth) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -134,7 +153,8 @@ class ForgotPasswordView extends StatelessWidget {
     );
   }
 
-  Widget _buildForm(double screenHeight, double screenWidth, BuildContext context) {
+  Widget _buildForm(
+      double screenHeight, double screenWidth, BuildContext context) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
@@ -171,31 +191,14 @@ class ForgotPasswordView extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {
+                    IconButton(
+                      icon:
+                          const Icon(Icons.arrow_forward, color: Colors.black),
+                      onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
                           _sendPasswordResetEmail(context);
                         }
                       },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFB6E8F8),
-                              Color(0xFF90CAF9),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(screenWidth * 0.06),
-                        child: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.black,
-                          size: screenWidth * 0.06,
-                        ),
-                      ),
                     ),
                   ],
                 ),

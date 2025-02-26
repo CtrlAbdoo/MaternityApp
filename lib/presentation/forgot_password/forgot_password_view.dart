@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:maternity_app/presentation/forgot_password/oops_message.dart';
+import 'package:maternity_app/presentation/forgot_password/success_message.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/validation.dart';
 
@@ -34,22 +36,23 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text('Password reset link sent to $email. Check your inbox.')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //       content:
+      //           Text('Password reset link sent to $email. Check your inbox.')),
+      // );
 
-      Navigator.pop(context); // رجوع إلى صفحة تسجيل الدخول
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessMessage()));
     } catch (error) {
       debugPrint('Error sending reset email: $error');
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text('Failed to send password reset email. Try again later.')),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => OopsMessage()));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //       content:
+      //           Text('Failed to send password reset email. Try again later.')),
+      // );
     }
   }
 

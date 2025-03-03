@@ -17,11 +17,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
 
   Future<void> _sendPasswordResetEmail(BuildContext context) async {
     final email = _emailController.text.trim();

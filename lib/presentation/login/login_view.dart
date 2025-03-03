@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/Questions/q1.dart';
+import 'package:maternity_app/presentation/home/navi_bar.dart';
 import 'package:maternity_app/presentation/register/register_view.dart';
 import 'package:maternity_app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:maternity_app/validation.dart';
@@ -43,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Q1()),
+        MaterialPageRoute(builder: (context) => CustomNavigationBar()),
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage = "⚠️ خطأ في تسجيل الدخول!";

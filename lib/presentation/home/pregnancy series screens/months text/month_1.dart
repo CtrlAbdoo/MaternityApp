@@ -1,9 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Month1 extends StatelessWidget {
+class Month1 extends StatefulWidget {
   const Month1({super.key});
+
+  @override
+  State<Month1> createState() => _Month1State();
+}
+
+class _Month1State extends State<Month1> {
+  List<String> imageUrls = [];
+  List<String> links = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFirestoreData();
+  }
+
+  Future<void> fetchFirestoreData() async {
+    final imagesSnapshot = await FirebaseFirestore.instance
+        .collection('months')
+        .doc('first')
+        .collection('images')
+        .get();
+
+    final linksSnapshot = await FirebaseFirestore.instance
+        .collection('months')
+        .doc('first')
+        .collection('links')
+        .get();
+
+    setState(() {
+      imageUrls =
+          imagesSnapshot.docs.map((doc) => doc['url'] as String).toList();
+      links = linksSnapshot.docs.map((doc) => doc['url'] as String).toList();
+    });
+  }
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
@@ -14,32 +49,34 @@ class Month1 extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "In the first month of pregnancy, it is important for the mother to take special care of her health because it plays a major role in the development of the fetus. Here are the most important tips related to vitamins, exercises, food, and drinking water.",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 13)),
-        ),
-        const SizedBox(height: 15),
-        Text(
-          "1.Sports exercises:",
-          style: GoogleFonts.inriaSerif(
-            textStyle: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''Light exercise is permissible provided that the mother is in good health and does not suffer from complications.
+    return imageUrls.isEmpty && links.isEmpty
+        ? const Center(child: CircularProgressIndicator())
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "In the first month of pregnancy, it is important for the mother to take special care of her health because it plays a major role in the development of the fetus. Here are the most important tips related to vitamins, exercises, food, and drinking water.",
+                textAlign: TextAlign.center,
+                style:
+                    GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 13)),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "1.Sports exercises:",
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.start,
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''Light exercise is permissible provided that the mother is in good health and does not suffer from complications.
 
 Recommended types of exercise:
 
@@ -57,74 +94,67 @@ Avoid strenuous exercise or heavy lifting at this stage.
 
 You can start deep breathing and relaxation exercises to relieve anxiety and improve mood.
 ''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Center(
-          child: Text(
-            "Here are some yoga exercises:",
-            style: GoogleFonts.inriaSerif(
-              textStyle: const TextStyle(
-                fontSize: 20,
-                decoration: TextDecoration.underline,
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
               ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Image.asset('assets/images/month_1.png'),
-        ),
-        const SizedBox(height: 10),
-        Center(
-          child: Text(
-            "Watch some yoga videos:",
-            style: GoogleFonts.inriaSerif(
-              textStyle: const TextStyle(
-                fontSize: 20,
-                decoration: TextDecoration.underline,
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Here are some yoga exercises:",
+                  style: GoogleFonts.inriaSerif(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () =>
-              _launchURL("https://www.youtube.com/watch?v=lhotxON97xA"),
-          child: Text(
-            "https://www.youtube.com/watch?v=lhotxON97xA",
-            style: GoogleFonts.inriaSerif(
-              fontWeight: FontWeight.bold,
-                textStyle: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                    fontSize: 14
-                )),
-          ),
-        ),
-        TextButton(
-          onPressed: () =>
-              _launchURL("https://www.youtube.com/watch?v=Hlp6cBstaZs"),
-          child: Text(
-            "https://www.youtube.com/watch?v=Hlp6cBstaZs",
-            style: GoogleFonts.inriaSerif(
-              fontWeight: FontWeight.bold,
-                textStyle: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                    fontSize: 14
-                )),
-          ),
-        ),
+              const SizedBox(height: 10),
 
+              // عرض الصور من Firestore
+              for (var imageUrl in imageUrls)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                  child: Image.network(imageUrl),
+                ),
 
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Watch some yoga videos:",
+                  style: GoogleFonts.inriaSerif(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''The duration of yoga sessions depends on your goal and fitness level. In general:
+              // عرض الروابط من Firestore
+              for (var link in links)
+                TextButton(
+                  onPressed: () => _launchURL(link),
+                  child: Text(
+                    link,
+                    style: GoogleFonts.inriaSerif(
+                      fontWeight: FontWeight.bold,
+                      textStyle: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''The duration of yoga sessions depends on your goal and fitness level. In general:
 
 1. Beginners:
 
@@ -150,35 +180,36 @@ These can be from 5 to 15 minutes, ideal during the day to relieve stress.
 
 If you are starting for the first time, it is recommended to start with a short duration and gradually increase it according to your comfort and ability
 ''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
+              ),
 
-        Divider(
-          color: Color(0x50000000),
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
-        ),
+              Divider(
+                color: Color(0x50000000),
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Text(
-          "2. Vitamins and Supplements:",
-          style: GoogleFonts.inriaSerif(
-            textStyle: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
-        const SizedBox(height: 15),
+              Text(
+                "2. Vitamins and Supplements:",
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.start,
+              ),
+              const SizedBox(height: 15),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''Omega 3:
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''Omega 3:
 
  Improves fetal brain development.
 
@@ -209,36 +240,37 @@ Sources: Milk, dairy products, and almonds.
 It is preferable to consult a doctor to determine the 
 type of nutritional supplements and doses.
 ''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
+              ),
 
-        Divider(
-          color: Color(0x50000000),
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
-        ),
+              Divider(
+                color: Color(0x50000000),
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Text(
-          "3.Foods rich in folic acid:",
-          style: GoogleFonts.inriaSerif(
-            textStyle: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
+              Text(
+                "3.Foods rich in folic acid:",
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.start,
+              ),
 
-        const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''Such as spinach, broccoli, lentils, and citrus fruits, because folic acid is essential for the development of the fetus's nervous system.
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''Such as spinach, broccoli, lentils, and citrus fruits, because folic acid is essential for the development of the fetus's nervous system.
 
 Recommended foods:
 
@@ -257,38 +289,39 @@ Raw or undercooked foods (such as sushi and uncooked meats).
 Foods high in caffeine.
 
 Processed and packaged foods.''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Divider(
-          color: Color(0x50000000),
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
-        ),
+              Divider(
+                color: Color(0x50000000),
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Text(
-          "4.Drink plenty of water:",
-          style: GoogleFonts.inriaSerif(
-            textStyle: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
+              Text(
+                "4.Drink plenty of water:",
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.start,
+              ),
 
-        const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''To maintain hydration and support fetal growth.
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''To maintain hydration and support fetal growth.
 
 It is recommended to drink 8-10 glasses a day (about 2-2.5 liters).
 
@@ -301,38 +334,39 @@ Support amniotic fluid formation.
 Improves blood circulation.
 
 Reduce or avoid caffeine intake if possible.''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Divider(
-          color: Color(0x50000000),
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
-        ),
+              Divider(
+                color: Color(0x50000000),
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
 
-        const SizedBox(height: 10),
+              const SizedBox(height: 10),
 
-        Text(
-          "5.Additional tips:",
-          style: GoogleFonts.inriaSerif(
-            textStyle: const TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
+              Text(
+                "5.Additional tips:",
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.start,
+              ),
 
-        const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            '''If you suspect pregnancy, it is important to start by visiting a doctor to confirm the pregnancy and monitor its development.
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '''If you suspect pregnancy, it is important to start by visiting a doctor to confirm the pregnancy and monitor its development.
 
 Avoid smoking or drinking alcohol, as they negatively affect the development of the fetus.
 
@@ -341,13 +375,14 @@ Important Notes:
 Always consult your doctor before starting any type of exercise or supplement.
 
 If you feel any abnormal fatigue during exercise, stop immediately.''',
-            style: GoogleFonts.inriaSerif(textStyle: TextStyle(fontSize: 14)),
-            textAlign: TextAlign.start,
-          ),
-        ),
+                  style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(fontSize: 14)),
+                  textAlign: TextAlign.start,
+                ),
+              ),
 
-        const SizedBox(height: 10),
-      ],
-    );
+              const SizedBox(height: 10),
+            ],
+          );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/q2.dart';
+import 'package:maternity_app/presentation/Questions/q8.dart';
 import 'package:maternity_app/presentation/Questions/q7.dart';
+import 'package:maternity_app/presentation/Questions/q3.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class Q6 extends StatefulWidget {
@@ -10,18 +11,48 @@ class Q6 extends StatefulWidget {
 }
 
 class _Q6State extends State<Q6> {
+  bool _isVisibile = false;
+  static late var text = "";
   bool isYesSelected = false;
   bool isNoSelected = false;
   int selectedYear = DateTime.now().year;
   int selectedMonth = 1;
   int selectedDay = 1;
 
+  late FixedExtentScrollController _monthController;
+  late FixedExtentScrollController _dayController;
+  late FixedExtentScrollController _yearController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize month controller to middle position aligned with selectedMonth
+    int initialMonthIndex = (10000 ~/ 2) - (10000 ~/ 2 % 12) + (selectedMonth - 1);
+    _monthController = FixedExtentScrollController(initialItem: initialMonthIndex);
+
+    // Initialize day controller to middle position aligned with selectedDay
+    int initialDayIndex = (10000 ~/ 2) - (10000 ~/ 2 % 31) + (selectedDay - 1);
+    _dayController = FixedExtentScrollController(initialItem: initialDayIndex);
+
+    // Initialize year controller to middle position aligned with selectedYear
+    int initialYearIndex = (10000 ~/ 2) - (10000 ~/ 2 % 100) + (DateTime.now().year - selectedYear);
+    _yearController = FixedExtentScrollController(initialItem: initialYearIndex);
+  }
+
+  @override
+  void dispose() {
+    _monthController.dispose();
+    _dayController.dispose();
+    _yearController.dispose();
+    super.dispose();
+  }
+
   void _showConfirmationDialog() {
     final selectedDate = DateTime(selectedYear, selectedMonth, selectedDay);
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 16), // Adjust padding for full width
+        insetPadding: EdgeInsets.symmetric(horizontal: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
@@ -36,9 +67,9 @@ class _Q6State extends State<Q6> {
             children: [
               SizedBox(height: 20),
               Text(
-                'The date of the beginning of pregnancy determined by the doctor',
+                'Child history',
                 style: GoogleFonts.inriaSerif(
-                  fontSize: 20,
+                  fontSize: 24,
                   color: Colors.grey.shade600,
                 ),
                 textAlign: TextAlign.center,
@@ -57,88 +88,53 @@ class _Q6State extends State<Q6> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Sure Button
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Q7(),
                         ),
-                      ],
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Q7(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0x35FFFFFF),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 40,
-                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0x35FFFFFF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Text(
-                        "Sure",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                    ),
+                    child: Text(
+                      "Sure",
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
                   ),
-                  // Change Button
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // Add your logic for "Change" button here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0x35FFFFFF),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 40,
-                        ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0x35FFFFFF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Text(
-                        "Change",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                    ),
+                    child: Text(
+                      "Change",
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -152,12 +148,10 @@ class _Q6State extends State<Q6> {
     );
   }
 
-// Helper function to get the day of the week
   String _getDayOfWeek(DateTime date) {
     return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][date.weekday - 1];
   }
 
-// Helper function to get the month name
   String _getMonthName(int month) {
     const monthNames = [
       'January', 'February', 'March', 'April', 'May', 'June',
@@ -165,6 +159,7 @@ class _Q6State extends State<Q6> {
     ];
     return monthNames[month - 1];
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -209,14 +204,16 @@ class _Q6State extends State<Q6> {
                 ),
                 // Yes/No Buttons
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: EdgeInsets.only(top: screenHeight * 0.01),
                   child: Column(
                     children: [
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            _isVisibile = true;
                             isYesSelected = true;
                             isNoSelected = false;
+                            text = "Enter the pregnancy start date\ndetermined by your doctor.";
                           });
                         },
                         style: ElevatedButton.styleFrom(
@@ -225,45 +222,42 @@ class _Q6State extends State<Q6> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: screenHeight * 0.012,
-                            horizontal: screenWidth * 0.392,
-                          ),
+                          minimumSize: Size(screenWidth * 0.87, screenHeight * 0.05), // Set width & height
                         ),
                         child: Text(
-                          "Yes",
+                          "Pregnancy start date",
                           style: GoogleFonts.inriaSerif(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.02),
+                      SizedBox(height: screenHeight * 0.005),
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            _isVisibile = true;
                             isYesSelected = false;
                             isNoSelected = true;
+                            text = "Enter the date of the first day of\nyour last menstrual period.";
                           });
                         },
                         style: ElevatedButton.styleFrom(
+
                           backgroundColor: Color(0xFF965391)
                               .withOpacity(isNoSelected ? 1.0 : 0.59),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: screenHeight * 0.012,
-                            horizontal: screenWidth * 0.392,
-                          ),
+                          minimumSize: Size(screenWidth * 0.87, screenHeight * 0.05), // Set width & height
                         ),
                         child: Text(
-                          "No",
+                          "Last menstrual period",
                           style: GoogleFonts.inriaSerif(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -271,143 +265,198 @@ class _Q6State extends State<Q6> {
                   ),
                 ),
                 // Date of Birth Picker
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Select the child's date of birth",
-                        style: GoogleFonts.inriaSerif(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                      //SizedBox(height: screenHeight * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Months on the left
-                          Expanded(
-                            child: SizedBox(
-                              height: screenHeight * 0.2,
-                              child: ListWheelScrollView(
-                                itemExtent: 40,
-                                physics: FixedExtentScrollPhysics(),
-                                onSelectedItemChanged: (index) {
-                                  setState(() {
-                                    selectedMonth = index + 1;
-                                  });
-                                },
-                                children: List.generate(
-                                  12,
-                                      (index) => Center(
-                                    child: Text(
-                                      const [
-                                        'Jan', 'Feb', 'Mar', 'Apr',
-                                        'May', 'Jun', 'Jul', 'Aug',
-                                        'Sep', 'Oct', 'Nov', 'Dec'
-                                      ][index],
-                                      style: GoogleFonts.inriaSerif(fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Days in the middle
-                          Expanded(
-                            child: SizedBox(
-                              height: screenHeight * 0.2,
-                              child: ListWheelScrollView(
-                                itemExtent: 40,
-                                physics: FixedExtentScrollPhysics(),
-                                onSelectedItemChanged: (index) {
-                                  setState(() {
-                                    selectedDay = index + 1;
-                                  });
-                                },
-                                children: List.generate(
-                                  31,
-                                      (index) => Center(
-                                    child: Text(
-                                      "${index + 1}",
-                                      style: GoogleFonts.inriaSerif(fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Years on the right
-                          Expanded(
-                            child: SizedBox(
-                              height: screenHeight * 0.2,
-                              child: ListWheelScrollView(
-                                itemExtent: 40,
-                                physics: FixedExtentScrollPhysics(),
-                                onSelectedItemChanged: (index) {
-                                  setState(() {
-                                    selectedYear = DateTime.now().year - index;
-                                  });
-                                },
-                                children: List.generate(
-                                  100,
-                                      (index) => Center(
-                                    child: Text(
-                                      "${DateTime.now().year - index}",
-                                      style: GoogleFonts.inriaSerif(fontSize: 18),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 9,),
-                // Start Button
-                Padding(
-                  padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+                Visibility(
+                  visible: _isVisibile,
                   child: Container(
+                    margin: EdgeInsets.only(top: screenHeight * 0.02),
                     decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0x8889DDF7), Color(0x88FC8CF4)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: Color(0xFF87CEEB),
-                          offset: Offset(6, 6),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                          color: Colors.black.withOpacity(0.3),
+                          offset: Offset(-4, -4),
+                          blurRadius: 8,
+                          spreadRadius: -4,
+                        ),
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.4),
+                          offset: Offset(4, 4),
+                          blurRadius: 8,
+                          spreadRadius: -4,
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(25), // Matches the button's border radius
                     ),
-                    child: ElevatedButton(
-                      onPressed: _showConfirmationDialog,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBBE2F4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: screenHeight * 0.017,
-                          horizontal: screenWidth * 0.142,
-                        ),
-                      ),
-                      child: Text(
-                        "Start",
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
+                    child: Column(
+                      children: [
+                        Text(
+                          textAlign: TextAlign.center,
+                          text,
+                          style: GoogleFonts.inriaSerif(
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
                         ),
-                      ),
+                        SizedBox(height: screenHeight * 0.013),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Months Picker
+                            Expanded(
+                              child: SizedBox(
+                                height: screenHeight * 0.2,
+                                child: ListWheelScrollView.useDelegate(
+                                  controller: _monthController,
+                                  itemExtent: 40,
+                                  physics: FixedExtentScrollPhysics(),
+                                  onSelectedItemChanged: (index) {
+                                    setState(() {
+                                      selectedMonth = (index % 12) + 1;
+                                    });
+                                  },
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                    builder: (context, index) {
+                                      int monthIndex = index % 12;
+                                      bool isSelected = selectedMonth == monthIndex + 1;
+                                      return Center(
+                                        child: Text(
+                                          const [
+                                            'Jan', 'Feb', 'Mar', 'Apr',
+                                            'May', 'Jun', 'Jul', 'Aug',
+                                            'Sep', 'Oct', 'Nov', 'Dec'
+                                          ][monthIndex],
+                                          style: GoogleFonts.inriaSerif(
+                                            fontSize: isSelected ? 24 : 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: isSelected ? Colors.black : Colors.grey,
+
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    childCount: 10000,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Days Picker
+                            Expanded(
+                              child: SizedBox(
+                                height: screenHeight * 0.2,
+                                child: ListWheelScrollView.useDelegate(
+                                  controller: _dayController,
+                                  itemExtent: 40,
+                                  physics: FixedExtentScrollPhysics(),
+                                  onSelectedItemChanged: (index) {
+                                    setState(() {
+                                      selectedDay = (index % 31) + 1;
+                                    });
+                                  },
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                    builder: (context, index) {
+                                      int dayIndex = (index % 31) + 1;
+                                      bool isSelected = selectedDay == dayIndex;
+                                      return Center(
+                                        child: Text(
+                                          "$dayIndex",
+                                          style: GoogleFonts.inriaSerif(
+                                            fontSize: isSelected ? 24 : 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: isSelected ? Colors.black : Colors.grey,
+
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    childCount: 10000,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Years Picker
+                            Expanded(
+                              child: SizedBox(
+                                height: screenHeight * 0.2,
+                                child: ListWheelScrollView.useDelegate(
+                                  controller: _yearController,
+                                  itemExtent: 40,
+                                  physics: FixedExtentScrollPhysics(),
+                                  onSelectedItemChanged: (index) {
+                                    setState(() {
+                                      selectedYear = DateTime.now().year - (index % 100);
+                                    });
+                                  },
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                    builder: (context, index) {
+                                      int yearOffset = index % 100;
+                                      int year = DateTime.now().year - yearOffset;
+                                      bool isSelected = selectedYear == year;
+                                      return Center(
+                                        child: Text(
+                                          "$year",
+                                          style: GoogleFonts.inriaSerif(
+                                            fontSize: isSelected ? 24 : 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: isSelected ? Colors.black : Colors.grey,
+
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    childCount: 10000,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: screenHeight * 0.03, bottom: screenHeight * 0.04),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x5087CEEB),
+                                offset: Offset(6, 6),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: ElevatedButton(
+                            onPressed: _showConfirmationDialog,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0x35FFFFFF),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: screenHeight * 0.011,
+                                horizontal: screenWidth * 0.142,
+                              ),
+                            ),
+                            child: Text(
+                              "Start",
+                              style: GoogleFonts.inriaSerif(
+                                textStyle: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

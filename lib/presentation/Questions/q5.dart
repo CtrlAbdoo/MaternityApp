@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/Q6.dart';
+import 'package:maternity_app/presentation/Questions/q1.dart';
+import 'package:maternity_app/presentation/home/navi_bar.dart';
 
 class Q5 extends StatefulWidget {
   @override
@@ -8,8 +9,7 @@ class Q5 extends StatefulWidget {
 }
 
 class _Q5State extends State<Q5> {
-  int? selectedPregnancy;
-  int? selectedFirstPregnancy;
+  List<bool> isSelected = [false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _Q5State extends State<Q5> {
         child: SingleChildScrollView(
           child: Container(
             width: screenWidth,
-            // Remove fixed height to allow scrolling
+            height: screenHeight,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFFFD6E7), Color(0xFFB5E4F6)],
@@ -37,26 +37,44 @@ class _Q5State extends State<Q5> {
                   height: screenHeight * 0.3,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/pregnant.png'),
+                      image: AssetImage('assets/images/stress.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
-                // First Question
-                _buildQuestionSection(
-                  question: "Are you currently pregnant?",
-                  selectedIndex: selectedPregnancy,
-                  onSelected: (index) => setState(() => selectedPregnancy = index),
+
+                // Question Title
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Are you suffering from\nstress?",
+                    style: GoogleFonts.inriaSerif(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                // Second Question
-                _buildQuestionSection(
-                  question: "Is this your first pregnancy?",
-                  selectedIndex: selectedFirstPregnancy,
-                  onSelected: (index) => setState(() => selectedFirstPregnancy = index),
+
+                // Options
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.03),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildOptionButton(0, "Yes"),
+                        SizedBox(height: screenHeight * 0.02),
+                        _buildOptionButton(1, "No"),
+                        SizedBox(height: screenHeight * 0.02),
+                        _buildOptionButton(2, "sometimes"),
+                      ],
+                    ),
+                  ),
                 ),
-                // Spacer to push button to bottom
-                SizedBox(height: screenHeight * 0.05), // Replace Expanded with SizedBox
-                // Continue Button
+
+                // Continue Button (Sticky at the Bottom)
                 Padding(
                   padding: EdgeInsets.only(bottom: screenHeight * 0.05),
                   child: Container(
@@ -76,7 +94,7 @@ class _Q5State extends State<Q5> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Q6(), // Replace with actual next page
+                            builder: (context) => CustomNavigationBar(),
                           ),
                         );
                       },
@@ -111,80 +129,51 @@ class _Q5State extends State<Q5> {
     );
   }
 
-  Widget _buildQuestionSection({
-    required String question,
-    required int? selectedIndex,
-    required Function(int?) onSelected,
-  }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      child: Column(
-        children: [
-          Text(
-            question,
+  Widget _buildOptionButton(int index, String text) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF87CEEB), // Sky-blue shadow
+            offset: Offset(6, 6), // Downward-right direction
+            blurRadius: 10, // Soft blur effect
+            spreadRadius: 2, // Slightly expand the shadow area
+          ),
+        ],
+        borderRadius: BorderRadius.circular(25), // Matches the button's border radius
+      ),
+      child: SizedBox(
+        width: 370,
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              // Reset all selections to false
+              for (int i = 0; i < isSelected.length; i++) {
+                isSelected[i] = false;
+              }
+              // Select the current button
+              isSelected[index] = true;
+            });
+          },
+
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            padding: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 30,
+            ),
+          ),
+          child: Text(
+            text,
             style: GoogleFonts.inriaSerif(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
             textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 20),
-          Column(
-            children: [
-              _buildOptionButton(
-                isSelected: selectedIndex == 0,
-                text: "Yes",
-                onPressed: () => onSelected(0),
-              ),
-              SizedBox(height: 20),
-              _buildOptionButton(
-                isSelected: selectedIndex == 1,
-                text: "No",
-                onPressed: () => onSelected(1),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOptionButton({
-    required bool isSelected,
-    required String text,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF87CEEB),
-            offset: Offset(6, 6),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: SizedBox(
-        width: 370, // Fixed width from original code
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF965391).withOpacity(isSelected ? 1.0 : 0.59),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-          ),
-          child: Text(
-            text,
-            style: GoogleFonts.inriaSerif(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
           ),
         ),
       ),

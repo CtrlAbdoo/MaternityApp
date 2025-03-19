@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/q3.dart';
+import 'package:maternity_app/presentation/Questions/q4.dart';
 import 'package:maternity_app/presentation/Questions/q8.dart';
 
 class Q7 extends StatefulWidget {
@@ -9,19 +9,16 @@ class Q7 extends StatefulWidget {
 }
 
 class _Q7State extends State<Q7> {
-  bool isBoySelected = false;
-  bool isGirlSelected = false;
+  Map<String, bool> selections = {
+    "Boy": false,
+    "Girl": false,
+    "Twin girls": false,
+    "Twin boys": false,
+    "Twin": false,
+  };
 
-  void _onGenderSelected(String gender) {
-    setState(() {
-      if (gender == "Boy") {
-        isBoySelected = true;
-        isGirlSelected = false;
-      } else {
-        isBoySelected = false;
-        isGirlSelected = true;
-      }
-    });
+  Color _getCheckboxColor(String gender) {
+    return (gender == "Boy" || gender == "Twin boys") ? Colors.blue : Colors.pink;
   }
 
   @override
@@ -41,133 +38,99 @@ class _Q7State extends State<Q7> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: screenHeight * 0.02),
-            // Title
-            Text(
-              "Determine the gender of\nthe child",
-              style: GoogleFonts.inriaSerif(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            SizedBox(height: screenHeight * 0.01),
-
-            // Boy Option
-            GestureDetector(
-              onTap: () => _onGenderSelected("Boy"),
-              child: Column(
-                children: [
-                  Container(
-                    height: screenHeight * 0.33,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/boy_image.png'), // Replace with actual image path
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Checkbox(
-                        value: isBoySelected,
-                        onChanged: (value) => _onGenderSelected("Boy"),
-                      ),
-                      Text(
-                        "Boy",
-                        style: GoogleFonts.inriaSerif(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+            SizedBox(height: screenHeight * 0.05),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
-
-            SizedBox(height: screenHeight * 0.03),
-
-            // Girl Option
-            GestureDetector(
-              onTap: () => _onGenderSelected("Girl"),
-              child: Column(
-                children: [
-                  Container(
-                    height: screenHeight * 0.31,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/girl_image.png'), // Replace with actual image path
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Checkbox(
-                        value: isGirlSelected,
-                        onChanged: (value) => _onGenderSelected("Girl"),
-                      ),
-                      Text(
-                        "Girl",
-                        style: GoogleFonts.inriaSerif(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: screenHeight * 0.02),
-
-            // Skip and Continue Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Skip",
-                    style: GoogleFonts.inriaSerif(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0x51000000),
-                    ),
-                  ),
+            Center(
+              child: Text(
+                "Determine the gender of\nthe child",
+                style: GoogleFonts.inriaSerif(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.009,
-                  ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFF87CEEB),
-                        offset: Offset(6, 6),
-                        blurRadius: 10,
-                        spreadRadius: 2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.02),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                children: selections.keys.map((gender) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selections[gender] = !selections[gender]!;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: selections[gender],
+                                onChanged: (value) {
+                                  setState(() {
+                                    selections[gender] = value!;
+                                  });
+                                },
+                                activeColor: _getCheckboxColor(gender),
+                              ),
+                              Text(
+                                gender,
+                                style: GoogleFonts.inriaSerif(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Image.asset(
+                            'assets/images/${gender.toLowerCase()}_image.png',
+                            height: screenHeight * 0.11, // Ensuring uniform height
+                            width: screenWidth * 0.37,  // Ensuring uniform width
+                            fit: BoxFit.fill,          // Ensures the image fits properly within the set dimensions
+                          ),
+
+                        ],
                       ),
-                    ],
-                    borderRadius: BorderRadius.circular(25), // Matches the button's border radius
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Skip",
+                      style: GoogleFonts.inriaSerif(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0x51000000),
+                      ),
+                    ),
                   ),
-                  child: ElevatedButton(
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => Q8(),
-                        ),
+                        MaterialPageRoute(builder: (context) => Q8()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -177,22 +140,20 @@ class _Q7State extends State<Q7> {
                       ),
                       padding: EdgeInsets.symmetric(
                         vertical: screenHeight * 0.015,
-                        horizontal: screenWidth * 0.142,
+                        horizontal: screenWidth * 0.1,
                       ),
                     ),
                     child: Text(
                       "Continue",
                       style: GoogleFonts.inriaSerif(
-                        textStyle: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

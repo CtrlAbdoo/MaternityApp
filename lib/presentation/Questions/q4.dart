@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/Questions/q5.dart';
+import 'package:maternity_app/presentation/Questions/q9.dart';
 
 class Q4 extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class Q4 extends StatefulWidget {
 }
 
 class _Q4State extends State<Q4> {
-  List<bool> isSelected = [false, false, false];
+  List<bool> isSelected = [false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _Q4State extends State<Q4> {
                   height: screenHeight * 0.3,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/stress.png'),
+                      image: AssetImage('assets/images/food.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -46,7 +47,7 @@ class _Q4State extends State<Q4> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    "Are you suffering from\nstress?",
+                    "Are you on a diet?",
                     style: GoogleFonts.inriaSerif(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -59,15 +60,17 @@ class _Q4State extends State<Q4> {
                 // Options
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.03),
+                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildOptionButton(0, "Yes"),
+                        _buildOptionButton(0, "Follow a diet to lose weight"),
                         SizedBox(height: screenHeight * 0.02),
-                        _buildOptionButton(1, "No"),
+                        _buildOptionButton(1, "Follow a diet to gain weight"),
                         SizedBox(height: screenHeight * 0.02),
-                        _buildOptionButton(2, "sometimes"),
+                        _buildOptionButton(2, "I started doing some\nexercise recently."),
+                        SizedBox(height: screenHeight * 0.02),
+                        _buildOptionButton(3, "I don't have a specific diet.."),
                       ],
                     ),
                   ),
@@ -129,6 +132,8 @@ class _Q4State extends State<Q4> {
   }
 
   Widget _buildOptionButton(int index, String text) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -142,7 +147,8 @@ class _Q4State extends State<Q4> {
         borderRadius: BorderRadius.circular(25), // Matches the button's border radius
       ),
       child: SizedBox(
-        width: 370,
+        width: screenWidth*0.87,
+        height: screenHeight*0.07,
         child: ElevatedButton(
           onPressed: () {
             setState(() {
@@ -154,21 +160,18 @@ class _Q4State extends State<Q4> {
               isSelected[index] = true;
             });
           },
-
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
+
             ),
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 30,
-            ),
+            minimumSize: Size(screenWidth * 0.9, screenHeight * 0.06),
           ),
           child: Text(
             text,
             style: GoogleFonts.inriaSerif(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),

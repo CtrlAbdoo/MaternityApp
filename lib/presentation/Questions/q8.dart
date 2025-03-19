@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:maternity_app/presentation/Questions/q4.dart';
+import 'package:maternity_app/presentation/Questions/q5.dart';
 import 'package:maternity_app/presentation/Questions/q9.dart';
 
 class Q8 extends StatefulWidget {
@@ -60,7 +60,7 @@ class _Q8State extends State<Q8> {
                 // Options
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.03),
+                    padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -132,6 +132,8 @@ class _Q8State extends State<Q8> {
   }
 
   Widget _buildOptionButton(int index, String text) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -145,7 +147,8 @@ class _Q8State extends State<Q8> {
         borderRadius: BorderRadius.circular(25), // Matches the button's border radius
       ),
       child: SizedBox(
-        width: 370,
+        width: screenWidth*0.87,
+        height: screenHeight*0.07,
         child: ElevatedButton(
           onPressed: () {
             setState(() {
@@ -161,16 +164,14 @@ class _Q8State extends State<Q8> {
             backgroundColor: Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
+
             ),
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 30,
-            ),
+            minimumSize: Size(screenWidth * 0.9, screenHeight * 0.06),
           ),
           child: Text(
             text,
             style: GoogleFonts.inriaSerif(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
-import 'package:maternity_app/presentation/Questions/q1.dart';
+import 'package:maternity_app/presentation/Questions/q2.dart';
 import 'package:maternity_app/validation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,7 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
 
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Q1()),
+            MaterialPageRoute(builder: (context) => Q2()),
           );
 
           print('User registered and data saved successfully!');

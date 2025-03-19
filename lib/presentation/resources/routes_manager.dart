@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:maternity_app/presentation/Questions/q1.dart';
+import 'package:maternity_app/presentation/Questions/q2.dart';
 import 'package:maternity_app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:maternity_app/presentation/forgot_password/reset_password_view.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
@@ -31,7 +31,7 @@ class RouteGenerator {
       case Routes.ResetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ResetPasswordView());
       case Routes.Q1:
-        return MaterialPageRoute(builder: (_) =>  Q1());
+        return MaterialPageRoute(builder: (_) =>  Q2());
       default:
         return unDefinedRoute();
     }

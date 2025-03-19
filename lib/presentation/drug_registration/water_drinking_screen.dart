@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/common/CustomButton.dart';
 import 'package:maternity_app/presentation/common/CustomDropdown.dart';
+import 'package:maternity_app/presentation/drug_registration/exercise_logScreen.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class WaterDrinkingScreen extends StatefulWidget {
@@ -57,14 +58,21 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),
               SizedBox(height: screenHeight * 0.03),
 
               // Daily Intake
-              Text("How much water do you usually drink daily"),
+              Text(
+                textAlign: TextAlign.center,
+                "How much water do you usually drink daily",
+                style: GoogleFonts.inriaSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
               CustomDropdown(
                 title: "Add option",
                 options: ["Less than 1 liter", "Between 1 - 2 liters", "More than 2 liters"],
@@ -73,7 +81,15 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
               SizedBox(height: screenHeight * 0.02),
 
               // Water Goal
-              Text("What is the limit you want to reach daily"),
+              Text(
+                textAlign: TextAlign.center,
+                "What is the limit you want to reach daily",
+                style: GoogleFonts.inriaSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
               CustomDropdown(
                 title: "Add option",
                 options: ["1.5 liters", "2 liters", "3 liters"],
@@ -82,7 +98,15 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
               SizedBox(height: screenHeight * 0.02),
 
               // Reminder Notifications
-              Text("Would you like to receive water reminder notifications?"),
+              Text(
+                textAlign: TextAlign.center,
+                "Would you like to receive water reminder notifications?",
+                style: GoogleFonts.inriaSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
               CustomDropdown(
                 title: "Add option",
                 options: ["Every hour", "Every two hours", "Without notifications"],
@@ -105,7 +129,9 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
                     height: screenHeight * 0.05,
                   ),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExerciseLogScreen()));
+                    },
                     text: "Save and continue",
                     backgroundColor: ColorManager.BG2_Gradient, // Adjust as needed
                     textColor: Colors.black,

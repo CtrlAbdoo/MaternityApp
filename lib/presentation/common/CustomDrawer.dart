@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/drawer/maternity_bag.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -54,12 +55,19 @@ class CustomDrawer extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildDrawerItem(Icons.person, 'Profile'),
-                  _buildDrawerItem(Icons.shopping_bag, 'Maternity bag'),
-                  _buildDrawerItem(Icons.health_and_safety, 'Pregnancy problems'),
-                  _buildDrawerItem(Icons.child_care, 'Children and newborns'),
-                  _buildDrawerItem(Icons.note_alt, 'Send your suggestions'),
-                  _buildDrawerItem(Icons.settings, 'Settings'),
+                  _buildDrawerItem(Icons.person, 'Profile', () {
+                    // Add navigation for Profile if needed
+                  }),
+                  _buildDrawerItem(Icons.shopping_bag, 'Maternity bag', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MaternityBagScreen()),
+                    );
+                  }),
+                  _buildDrawerItem(Icons.health_and_safety, 'Pregnancy problems', () {}),
+                  _buildDrawerItem(Icons.child_care, 'Children and newborns', () {}),
+                  _buildDrawerItem(Icons.note_alt, 'Send your suggestions', () {}),
+                  _buildDrawerItem(Icons.settings, 'Settings', () {}),
                 ],
               ),
             ),
@@ -69,7 +77,7 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title) {
+  Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.black54),
       title: Text(
@@ -79,7 +87,7 @@ class CustomDrawer extends StatelessWidget {
           color: Colors.black87,
         ),
       ),
-      onTap: () {},
+      onTap: onTap, // Calls the passed function when tapped
     );
   }
 }

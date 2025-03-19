@@ -9,21 +9,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment=" edits on Questions Screens">
-      <change afterPath="$PROJECT_DIR$/assets/images/exercise_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/drawer/maternity_bag.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/presentation/drug_registration/exercise_logScreen.dart" afterDir="false" />
+    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment="+ exercise log Screen&#10;+ maternity bag screen&#10;+ some updates on ui">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/common/CustomDrawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/common/CustomDrawer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/drug_registration/drug_registration_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/drug_registration/drug_registration_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/drug_registration/water_drinking_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/drug_registration/water_drinking_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -386,7 +385,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742353007676</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="+ exercise log Screen&#10;+ maternity bag screen&#10;+ some updates on ui">
+      <option name="closed" value="true" />
+      <created>1742356203083</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1742356203083</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -417,6 +424,7 @@
     <MESSAGE value="+ Drug Registration Screen&#10;+ Custom Buttons &#10;+ Custom Timer &#10;+ Custom TextField&#10;edits on Home Screen" />
     <MESSAGE value=" edit on Login logic" />
     <MESSAGE value=" edits on Questions Screens" />
-    <option name="LAST_COMMIT_MESSAGE" value=" edits on Questions Screens" />
+    <MESSAGE value="+ exercise log Screen&#10;+ maternity bag screen&#10;+ some updates on ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="+ exercise log Screen&#10;+ maternity bag screen&#10;+ some updates on ui" />
   </component>
 </project>

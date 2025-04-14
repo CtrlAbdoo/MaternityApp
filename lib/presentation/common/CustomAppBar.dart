@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget {
             onTap: _onNotificationTap,
             child: Stack(
               children: [
-                const Icon(Icons.notifications_active, size: 28, color: Colors.black87),
+                const Icon(Icons.notifications_none_rounded, size: 28, color: Colors.black87),
                 Positioned(
                   right: 2,
                   top: 2,

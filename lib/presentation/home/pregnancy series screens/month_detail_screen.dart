@@ -5,6 +5,12 @@ import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_1.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_2.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_3.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_4.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_5.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_6.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_7.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_8.dart';
+import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/months%20text/month_9.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class MonthDetailScreen extends StatelessWidget {
@@ -25,6 +31,18 @@ class MonthDetailScreen extends StatelessWidget {
         return Month2();
       case 'the third month':
         return Month3();
+      case 'the fourth month':
+        return Month4();
+      case 'the fifth month':
+        return Month5();
+      case 'the sixth month':
+        return Month6();
+      case 'the seventh month':
+        return Month7();
+      case 'the eighth month':
+        return Month8();
+      case 'the ninth month':
+        return Month9();
       default:
         return const Center(
           child: Text(

@@ -4,6 +4,7 @@ import 'package:maternity_app/presentation/drug_registration/drug_registration_s
 import 'package:maternity_app/presentation/home/home_page/home_page.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/pregnancy_series_screen.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
+import 'package:maternity_app/presentation/vaccination/VaccinationScheduleScreen.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 2;
   final List<Widget> _pages = [
-    Center(child: Text('Add Page')),
+    VaccinationScheduleScreen(),
     PregnancySeriesScreen(),
     HomePage(),
     Center(child: Text('Add Page')),

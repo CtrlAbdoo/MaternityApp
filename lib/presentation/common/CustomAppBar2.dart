@@ -29,7 +29,7 @@ class CustomAppBarWithLogo extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () => _onMenuTap(context),
-                child: const Icon(Icons.menu, size: 28, color: Colors.black87),
+                child: const Icon(Icons.menu_sharp, size: 28, color: Colors.black87),
               ),
               const SizedBox(width: 10),
               GestureDetector(
@@ -41,15 +41,15 @@ class CustomAppBarWithLogo extends StatelessWidget {
                 onTap: _onNotificationTap,
                 child: Stack(
                   children: [
-                    const Icon(Icons.notifications_active, size: 28, color: Colors.black87),
+                    Icon(Icons.notifications_none_rounded, size: 28, color: Colors.grey.shade900),
                     Positioned(
-                      right: 2,
-                      top: 2,
+                      right: 5,
+                      top: 4.5,
                       child: Container(
-                        width: 8,
-                        height: 8,
+                        width: 6,
+                        height: 6,
                         decoration: const BoxDecoration(
-                          color: Colors.red,
+                          color: Color(0xFFFF0D0D),
                           shape: BoxShape.circle,
                         ),
                       ),

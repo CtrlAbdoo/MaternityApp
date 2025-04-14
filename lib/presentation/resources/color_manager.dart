@@ -49,4 +49,13 @@ class ColorManager {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static LinearGradient BG4_Gradient = LinearGradient(
+    colors: [
+      Color(0x50CBF3FF),
+      Color(0x50FFCFFA)
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }

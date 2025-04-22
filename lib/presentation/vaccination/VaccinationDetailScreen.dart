@@ -12,7 +12,7 @@ class VaccinationDetailScreen extends StatelessWidget {
   final String howToGive;
   final String sideEffects;
   final String availability;
-  final String doseSize; // ✅ Add doseSize
+  final String doseSize;
 
   const VaccinationDetailScreen({
     required this.name,
@@ -23,7 +23,7 @@ class VaccinationDetailScreen extends StatelessWidget {
     required this.howToGive,
     required this.sideEffects,
     required this.availability,
-    required this.doseSize, // ✅ Add to constructor
+    required this.doseSize,
     Key? key,
   }) : super(key: key);
 
@@ -72,11 +72,7 @@ class VaccinationDetailScreen extends StatelessWidget {
                       // Title with Checkbox
                       Row(
                         children: [
-                          Checkbox(
-                            value: false,
-                            onChanged: (val) {},
-                            side: BorderSide(color: Colors.black),
-                          ),
+
                           Expanded(
                             child: Text(
                               name,

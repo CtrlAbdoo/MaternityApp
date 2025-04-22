@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/common/Full-ScreenImageViewerPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Month9 extends StatefulWidget {
@@ -13,7 +14,7 @@ class Month9 extends StatefulWidget {
 class _Month9State extends State<Month9> {
   Map<String, List<String>> sectionImages = {
     'exercise': [],
-    'nutrition': [],
+    'diet': [], // Changed from 'nutrition' to 'diet'
     'vitamins': [],
   };
 
@@ -22,6 +23,8 @@ class _Month9State extends State<Month9> {
   };
 
   Map<String, String> firestoreTexts = {};
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -30,56 +33,64 @@ class _Month9State extends State<Month9> {
   }
 
   Future<void> fetchFirestoreData() async {
-    final imageSnapshot = await FirebaseFirestore.instance
-        .collection('months')
-        .doc('ninth')
-        .collection('image')
-        .get();
+    try {
+      final imageSnapshot = await FirebaseFirestore.instance
+          .collection('months')
+          .doc('ninth')
+          .collection('image')
+          .get();
 
-    final linkSnapshot = await FirebaseFirestore.instance
-        .collection('months')
-        .doc('ninth')
-        .collection('link')
-        .get();
+      final linkSnapshot = await FirebaseFirestore.instance
+          .collection('months')
+          .doc('ninth')
+          .collection('link')
+          .get();
 
-    final textSnapshot = await FirebaseFirestore.instance
-        .collection('months')
-        .doc('ninth')
-        .collection('text')
-        .get();
+      final textSnapshot = await FirebaseFirestore.instance
+          .collection('months')
+          .doc('ninth')
+          .collection('text')
+          .get();
 
-    for (var doc in imageSnapshot.docs) {
-      final data = doc.data();
-      final url = data['image'] as String?;
-      final section = doc.id.toLowerCase();
-
-      if (url != null) {
-        if (section.contains('exercise')) {
-          sectionImages['exercise']!.add(url);
-        } else if (section.contains('nutrition')) {
-          sectionImages['nutrition']!.add(url);
-        } else if (section.contains('vitamin')) {
-          sectionImages['vitamins']!.add(url);
+      for (var doc in imageSnapshot.docs) {
+        final data = doc.data();
+        final url = data['image'] as String?;
+        final section = doc.id.toLowerCase();
+        print('Image URL for $section: $url');
+        if (url != null) {
+          if (section.contains('exercise')) {
+            sectionImages['exercise']!.add(url);
+          } else if (section.contains('nutrition')) {
+            sectionImages['diet']!.add(url);
+          } else if (section.contains('vitamin')) {
+            sectionImages['vitamins']!.add(url);
+          }
         }
       }
-    }
 
-    for (var doc in linkSnapshot.docs) {
-      final data = doc.data();
-      final url = data['url'] as String?;
-      final section = doc.id.toLowerCase();
-
-      if (url != null && section.contains('exercise')) {
-        sectionLinks['exercise']!.add(url);
+      for (var doc in linkSnapshot.docs) {
+        final data = doc.data();
+        final url = data['url'] as String?;
+        final section = doc.id.toLowerCase();
+        if (url != null && section.contains('exercise')) {
+          sectionLinks['exercise']!.add(url);
+        }
       }
-    }
 
-    for (var doc in textSnapshot.docs) {
-      final data = doc.data();
-      firestoreTexts[doc.id.trim()] = data['text'] ?? '';
+      setState(() {
+        firestoreTexts = {
+          for (var doc in textSnapshot.docs)
+            doc.id.trim(): doc.data()['text'] as String? ?? ''
+        };
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching Firestore data: $e');
+      setState(() {
+        _errorMessage = 'Failed to load data: $e';
+        _isLoading = false;
+      });
     }
-
-    setState(() {});
   }
 
   Future<void> _launchURL(String url) async {
@@ -93,65 +104,153 @@ class _Month9State extends State<Month9> {
 
   @override
   Widget build(BuildContext context) {
-    return sectionImages.values.every((list) => list.isEmpty) &&
-        sectionLinks.values.every((list) => list.isEmpty) &&
-        firestoreTexts.isEmpty
-        ? const Center(child: CircularProgressIndicator())
-        : SingleChildScrollView(
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_errorMessage != null) {
+      return Center(
+        child: Text(
+          _errorMessage!,
+          style: GoogleFonts.inriaSerif(
+            textStyle: const TextStyle(color: Colors.red, fontSize: 16),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildTitle("1. Exercise"),
-          buildText(firestoreTexts["1. Exercise"]),
-          buildSubtitle("Exercise Images"),
-          ...buildImageWidgets(sectionImages['exercise']),
-          buildSubtitle("Exercise Links"),
-          ...buildLinks(sectionLinks['exercise']),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Text(
+              "In the ninth month of pregnancy, the mother should prepare for labor by staying active, eating well, and following medical advice.",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inriaSerif(
+                textStyle: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
 
-          sectionDivider(),
-          buildTitle("2. Proper Nutrition"),
-          buildText(firestoreTexts["2. Proper Nutrition"]),
-          buildSubtitle("Nutrition Images"),
-          ...buildImageWidgets(sectionImages['nutrition']),
+          buildSection(
+            icon: Icons.directions_run,
+            title: "1. Exercise:",
+            content: firestoreTexts["1. Exercise"],
+            images: sectionImages['exercise'],
+            links: sectionLinks['exercise'],
+            subtitle: "Exercise Images",
+            linkTitle: "Exercise Links",
+          ),
 
-          sectionDivider(),
-          buildTitle("3. Important vitamins and minerals:"),
-          buildText(firestoreTexts["3. Important vitamins and minerals:"]),
-          buildSubtitle("Vitamin Images"),
-          ...buildImageWidgets(sectionImages['vitamins']),
+          buildSection(
+            icon: Icons.food_bank,
+            title: "2. Proper Nutrition:",
+            content: firestoreTexts["2. Proper Nutrition"],
+            images: sectionImages['diet'],
+            links: [],
+            subtitle: "Diet Images",
+          ),
 
-          sectionDivider(),
-          buildTitle("4. Additional Tips"),
-          buildText(firestoreTexts["4. Additional Tips"]),
-          const SizedBox(height: 10),
+          buildSection(
+            icon: Icons.medical_services,
+            title: "3. Important Vitamins and Minerals:",
+            content: firestoreTexts["3. Important vitamins and minerals:"],
+            images: sectionImages['vitamins'],
+            links: [],
+            subtitle: "Vitamin Images",
+          ),
+
+          buildSection(
+            icon: Icons.lightbulb_outline,
+            title: "4. Additional Tips:",
+            content: firestoreTexts["4. Additional Tips"],
+            images: [],
+            links: [],
+          ),
+
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget buildTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Text(
-        title,
-        style: GoogleFonts.inriaSerif(
-          textStyle: const TextStyle(fontSize: 20),
-        ),
-        textAlign: TextAlign.start,
-      ),
-    );
-  }
-
-  Widget buildSubtitle(String text) {
-    return Center(
-      child: Text(
-        text,
-        style: GoogleFonts.inriaSerif(
-          textStyle: const TextStyle(
-            fontSize: 18,
-            decoration: TextDecoration.underline,
+  Widget buildSection({
+    required IconData icon,
+    required String title,
+    required String? content,
+    required List<String>? images,
+    required List<String>? links,
+    String? subtitle,
+    String? linkTitle,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
+        ],
+        border: const Border(
+          left: BorderSide(color: Colors.pinkAccent, width: 4),
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: Colors.pinkAccent, size: 24),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.inriaSerif(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          buildText(content),
+          if (images != null && images.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            buildSubtitle(subtitle ?? "Images:"),
+            ...buildImageWidgets(images),
+          ],
+          if (links != null && links.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            buildSubtitle(linkTitle ?? "Links:"),
+            ...buildLinkWidgets(links),
+          ],
+        ],
       ),
     );
   }
@@ -162,42 +261,91 @@ class _Month9State extends State<Month9> {
       child: Text(
         content ?? "Loading...",
         style: GoogleFonts.inriaSerif(
-          textStyle: const TextStyle(fontSize: 14),
+          textStyle: const TextStyle(fontSize: 14, color: Colors.black87),
         ),
         textAlign: TextAlign.start,
       ),
     );
   }
 
+  Widget buildSubtitle(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        text,
+        style: GoogleFonts.inriaSerif(
+          textStyle: const TextStyle(
+            fontSize: 16,
+            decoration: TextDecoration.underline,
+            color: Colors.black54,
+          ),
+        ),
+      ),
+    );
+  }
+
   List<Widget> buildImageWidgets(List<String>? imageList) {
-    if (imageList == null || imageList.isEmpty) return [];
+    if (imageList == null || imageList.isEmpty) {
+      return [
+        const Center(
+          child: Text(
+            'No images available',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      ];
+    }
     return imageList.map((url) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
         child: GestureDetector(
-          onTap: () => _launchURL(url),
-          child: Image.network(url),
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> buildLinks(List<String>? urls) {
-    if (urls == null || urls.isEmpty) return [];
-    return urls.map((link) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: TextButton(
-          onPressed: () => _launchURL(link),
-          child: Text(
-            link,
-            style: GoogleFonts.inriaSerif(
-              fontWeight: FontWeight.bold,
-              textStyle: const TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
-                fontSize: 14,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => FullScreenImageViewer(url: url),
               ),
+            );
+          },
+          child: Hero(
+            tag: url,
+            child: Image.network(
+              url,
+              fit: BoxFit.contain,
+              height: 300,
+              width: double.infinity,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const SizedBox(
+                  height: 300,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                print('Error loading image $url: $error');
+                return SizedBox(
+                  height: 300,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.error, color: Colors.red, size: 40),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Failed to load image: $error',
+                          style: GoogleFonts.inriaSerif(
+                            textStyle: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                            ),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -205,18 +353,23 @@ class _Month9State extends State<Month9> {
     }).toList();
   }
 
-  Widget sectionDivider() {
-    return Column(
-      children: const [
-        SizedBox(height: 10),
-        Divider(
-          color: Color(0x50000000),
-          thickness: 1,
-          indent: 20,
-          endIndent: 20,
+  List<Widget> buildLinkWidgets(List<String>? links) {
+    if (links == null || links.isEmpty) return [];
+    return links.map((link) {
+      return TextButton(
+        onPressed: () => _launchURL(link),
+        child: Text(
+          link,
+          style: GoogleFonts.inriaSerif(
+            fontWeight: FontWeight.bold,
+            textStyle: const TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+              fontSize: 14,
+            ),
+          ),
         ),
-        SizedBox(height: 10),
-      ],
-    );
+      );
+    }).toList();
   }
 }

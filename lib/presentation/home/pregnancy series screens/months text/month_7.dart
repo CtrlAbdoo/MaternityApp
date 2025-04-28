@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -309,7 +310,7 @@ class _Month7State extends State<Month7> {
     }
     return imageList.map((url) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+        padding: const EdgeInsets.symmetric(vertical: 2),
         child: GestureDetector(
           onTap: () {
             Navigator.push(
@@ -321,43 +322,15 @@ class _Month7State extends State<Month7> {
           },
           child: Hero(
             tag: url,
-            child: Image.network(
-              url,
+            child: CachedNetworkImage(
+              imageUrl: url,
               fit: BoxFit.contain,
               height: 300,
               width: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const SizedBox(
-                  height: 300,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                print('Error loading image $url: $error');
-                return SizedBox(
-                  height: 300,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.error, color: Colors.red, size: 40),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Failed to load image: $error',
-                          style: GoogleFonts.inriaSerif(
-                            textStyle: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+              memCacheHeight: 1080,
+              memCacheWidth: 1920,
+              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
             ),
           ),
         ),

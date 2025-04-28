@@ -9,8 +9,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment="edited months ui">
-      <change afterPath="$PROJECT_DIR$/lib/presentation/common/Full-ScreenImageViewerPage.dart" afterDir="false" />
+    <list default="true" id="930599df-78ee-4acf-934b-97ab01be970b" name="Changes" comment="+ mother's health tab&#10;+ breast feeding tab &#10;+ shared preference for the checkboxes">
+      <change afterPath="$PROJECT_DIR$/assets/images/after_childbirth.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/before_pregnancy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/breastfeeding_intro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/breastfeeding_natural.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/during_pregnancy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/formula_feeding.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/general_health.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/Breastfeeding/breast_feeding_natural_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/Breastfeeding/breast_feeding_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/Breastfeeding/formula_feeding_artificial_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/MotherHealth/general_womens_health_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/MotherHealth/mothers_health_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/MotherHealth/womens_health_after_childbirth_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/MotherHealth/womens_health_before_pregnancy_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/presentation/MotherHealth/womens_health_during_pregnancy_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/dart_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/dart_plugin_registrant.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
@@ -30,10 +44,15 @@
       <change beforePath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/drawer/maternity_bag.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/drawer/maternity_bag.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/home/navi_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/navi_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_1.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_1.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_2.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_3.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_3.dart" afterDir="false" />
@@ -43,16 +62,11 @@
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_7.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_7.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_8.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_8.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_9.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/home/pregnancy series screens/months text/month_9.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationDetailScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationDetailScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationScheduleScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/vaccination/VaccinationScheduleScreen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +100,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/CtrlAbdoo/MaternityApp.git&quot;,
-    &quot;accountId&quot;: &quot;7888db46-4e04-4201-8a25-cf8b1c70b940&quot;
+    &quot;accountId&quot;: &quot;17195a6f-ceed-450a-99fc-ed265fa034e2&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -113,10 +127,10 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "last-2-navi-bar-tabs",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/theno/AndroidStudioProjects/MaternityApp",
+    "last_opened_file_path": "C:/Users/theno/StudioProjects/MaternityApp/assets/images",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -126,11 +140,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\theno\StudioProjects\MaternityApp\assets\images" />
       <recent name="C:\Users\theno\AndroidStudioProjects\maternity_app\assets\images" />
       <recent name="C:\Users\theno\AndroidStudioProjects\maternity_app\android\app\src\main\res\mipmap-xxxhdpi" />
       <recent name="C:\Users\theno\AndroidStudioProjects\maternity_app\android\app\src\main\res\mipmap-xxhdpi" />
       <recent name="C:\Users\theno\AndroidStudioProjects\maternity_app\android\app\src\main\res\mipmap-xhdpi" />
-      <recent name="C:\Users\theno\AndroidStudioProjects\maternity_app\android\app\src\main\res\mipmap-mdpi" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\theno\AndroidStudioProjects\MaternityApp\assets\images" />
@@ -433,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742360586356</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="edited months ui">
+      <option name="closed" value="true" />
+      <created>1745347378291</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1745347378291</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -468,6 +490,7 @@
     <MESSAGE value="fixes sign up navigation page" />
     <MESSAGE value="+ VaccinationScheduleScreen&#10;+ VaccinationCard&#10;+ VaccinationDetailScreen&#10;+ Months impl from firestore &#10;some edits on ui" />
     <MESSAGE value="edited months ui" />
-    <option name="LAST_COMMIT_MESSAGE" value="edited months ui" />
+    <MESSAGE value="+ mother's health tab&#10;+ breast feeding tab &#10;+ shared preference for the checkboxes" />
+    <option name="LAST_COMMIT_MESSAGE" value="+ mother's health tab&#10;+ breast feeding tab &#10;+ shared preference for the checkboxes" />
   </component>
 </project>

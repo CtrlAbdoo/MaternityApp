@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -296,57 +297,26 @@ class _Month9State extends State<Month9> {
       ];
     }
     return imageList.map((url) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => FullScreenImageViewer(url: url),
-              ),
-            );
-          },
-          child: Hero(
-            tag: url,
-            child: Image.network(
-              url,
-              fit: BoxFit.contain,
-              height: 300,
-              width: double.infinity,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const SizedBox(
-                  height: 300,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                print('Error loading image $url: $error');
-                return SizedBox(
-                  height: 300,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.error, color: Colors.red, size: 40),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Failed to load image: $error',
-                          style: GoogleFonts.inriaSerif(
-                            textStyle: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => FullScreenImageViewer(url: url),
             ),
+          );
+        },
+        child: Hero(
+          tag: url,
+          child: CachedNetworkImage(
+            imageUrl: url,
+            fit: BoxFit.contain,
+            height: 400,
+            width: double.infinity,
+            memCacheHeight: 1080,
+            memCacheWidth: 1920,
+            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
           ),
         ),
       );

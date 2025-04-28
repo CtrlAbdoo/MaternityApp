@@ -59,7 +59,7 @@ class VaccinationScheduleScreen extends StatelessWidget {
                           age: data['age'] ?? '',
                           name: docs[index].id,
                           description: data['disease'] ?? '',
-                          status: data['isDeleted'] == 'true' ? 'deleted' : 'compulsory',
+                          status: data['isDeleted'] == 'true' ? 'optional' : 'compulsory',
                           howToGive: data['method'] ?? '',
                           doseSize: data['doseSize'] ?? 'Not specified',
                           sideEffects: 'Not specified',

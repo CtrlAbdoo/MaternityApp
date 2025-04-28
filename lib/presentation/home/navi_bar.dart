@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maternity_app/CurvedNavigationBar.dart';
+import 'package:maternity_app/presentation/Breastfeeding/breast_feeding_screen.dart';
+import 'package:maternity_app/presentation/MotherHealth/mothers_health_screen.dart';
 import 'package:maternity_app/presentation/drug_registration/drug_registration_screen.dart';
 import 'package:maternity_app/presentation/home/home_page/home_page.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/pregnancy_series_screen.dart';
@@ -17,8 +19,8 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     VaccinationScheduleScreen(),
     PregnancySeriesScreen(),
     HomePage(),
-    Center(child: Text('Add Page')),
-    Center(child: Text('Add Page')),
+    MothersHealthScreen(),
+    BreastFeedingScreen(),
   ];
 
   void _onTap(int index) {

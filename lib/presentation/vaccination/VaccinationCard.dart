@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/presentation/vaccination/VaccinationDetailScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VaccinationCard extends StatefulWidget {
   final String date;
@@ -33,6 +34,27 @@ class VaccinationCard extends StatefulWidget {
 
 class _VaccinationCardState extends State<VaccinationCard> {
   bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCheckboxState();
+  }
+
+  // Load the checkbox state from SharedPreferences
+  Future<void> _loadCheckboxState() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool('checkbox_${widget.name}') ?? false;
+    });
+  }
+
+  // Save the checkbox state to SharedPreferences
+  Future<void> _saveCheckboxState(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('checkbox_${widget.name}', value);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +124,7 @@ class _VaccinationCardState extends State<VaccinationCard> {
                       ),
                     ),
                   ),
-                 SizedBox(width: 20),
+                  SizedBox(width: 20),
                   Flexible(
                     child: Text(
                       'the age: ${widget.age}',
@@ -137,6 +159,7 @@ class _VaccinationCardState extends State<VaccinationCard> {
                     onChanged: (val) {
                       setState(() {
                         isChecked = val ?? false;
+                        _saveCheckboxState(isChecked);
                       });
                     },
                     side: BorderSide(color: Colors.black),

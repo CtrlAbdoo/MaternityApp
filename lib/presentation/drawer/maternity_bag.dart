@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MaternityBagScreen extends StatefulWidget {
   @override
   _MaternityBagScreenState createState() => _MaternityBagScreenState();
 }
+
+
 
 class _MaternityBagScreenState extends State<MaternityBagScreen> {
   bool isForBaby = true;
@@ -54,19 +57,38 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
   Map<String, bool> checkedItems = {};
 
   @override
+  void initState() {
+    super.initState();
+    _loadCheckedItems();
+  }
+
+  Future<void> _loadCheckedItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      for (var item in babyItems + motherItems) {
+        checkedItems[item] = prefs.getBool('checked_$item') ?? false;
+      }
+    });
+  }
+
+  Future<void> _saveCheckedItem(String item, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('checked_$item', value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     List<String> displayedItems = isForBaby ? babyItems : motherItems;
 
     return Scaffold(
-      drawer: CustomDrawer(), // Adding the custom drawer
+      drawer: CustomDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Replacing AppBar with CustomAppBarWithLogo
               Builder(
                 builder: (context) => CustomAppBarWithLogo(),
               ),
@@ -80,8 +102,6 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-        
-              // Toggle buttons
               Center(
                 child: Container(
                   width: screenWidth * 0.7,
@@ -140,8 +160,6 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-        
-              // Item list
               Expanded(
                 child: ListView.builder(
                   itemCount: displayedItems.length,
@@ -166,7 +184,6 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                           leading: Stack(
                             alignment: Alignment.center,
                             children: [
-                              // Circular gradient border
                               Container(
                                 width: 26,
                                 height: 26,
@@ -182,13 +199,12 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                                   ),
                                 ),
                               ),
-                              // Inner checkbox (custom)
                               Container(
                                 width: 22,
                                 height: 22,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: checkedItems[item] ?? false
+                                  color: isChecked
                                       ? Color(0xFFFFB7F8)
                                       : Colors.white,
                                   border: Border.all(
@@ -196,9 +212,9 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                                     width: 2,
                                   ),
                                 ),
-                                child: checkedItems[item] ?? false
+                                child: isChecked
                                     ? const Icon(Icons.check,
-                                    color: Colors.white, size: 16)
+                                        color: Colors.white, size: 16)
                                     : null,
                               ),
                             ],
@@ -213,7 +229,8 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                           ),
                           onTap: () {
                             setState(() {
-                              checkedItems[item] = !(checkedItems[item] ?? false);
+                              checkedItems[item] = !isChecked;
+                              _saveCheckedItem(item, !isChecked);
                             });
                           },
                         ),

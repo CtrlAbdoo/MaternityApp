@@ -1,0 +1,2 @@
+C:/Users/theno/StudioProjects/MaternityApp/android/app/.cxx/Debug/5i3k1q66/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/theno/StudioProjects/MaternityApp/android/app/.cxx/Debug/5i3k1q66/arm64-v8a/CMakeFiles/rebuild_cache.dir

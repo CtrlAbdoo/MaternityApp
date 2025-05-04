@@ -1,0 +1,35 @@
+// android/build.gradle
+
+buildscript {
+    ext.kotlin_version = '1.8.10' // Specify the Kotlin version here
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.1' // Update to the latest version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Add the Kotlin Gradle plugin
+        // Other classpath dependencies can go here
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Change the root project build directory
+rootProject.buildDir = "../build"
+
+// Change each subproject build directory
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(":app")
+}
+
+// Define a clean task to delete the build directory
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

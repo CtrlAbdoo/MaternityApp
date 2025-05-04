@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         onGenerateRoute: RouteGenerator.getRoute,
         initialRoute: Routes.naviBar,
+
       ),
     );
   }

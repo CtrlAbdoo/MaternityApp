@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/drawer/maternity_bag.dart';
+import 'package:maternity_app/presentation/resources/routes_manager.dart';
+import 'package:maternity_app/presentation/screens/children_newborns/children_newborns_screen.dart';
 import 'package:maternity_app/presentation/screens/pregnancy_problems/pregnancy_problems_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -10,7 +12,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: 224,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -32,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
           children: [
             const SizedBox(height: 40),
             // Profile Image
-            CircleAvatar(
+           const CircleAvatar(
               radius: 40,
               backgroundImage: AssetImage('assets/images/profile.png'), // Replace with actual image path
             ),
@@ -71,8 +73,13 @@ class CustomDrawer extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => const PregnancyProblemsScreen()),
                     );
                   }),
-                  _buildDrawerItem(Icons.child_care, 'Children and newborns', () {}),
-                  _buildDrawerItem(Icons.note_alt, 'Send your suggestions', () {}),
+                  _buildDrawerItem(Icons.child_care, 'Children and newborns', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ChildrenNewbornsScreen()),
+                    );
+                  }),
+                
                   _buildDrawerItem(Icons.settings, 'Settings', () {}),
                 ],
               ),

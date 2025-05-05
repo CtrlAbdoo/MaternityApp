@@ -138,11 +138,10 @@ class BreastFeedingScreen extends StatelessWidget {
       },
       child: Center(
         child: Container(
-          width: 281,
-          height: 160,
+          padding: const EdgeInsets.all(5), // Gradient border thickness
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            gradient: ColorManager.BG2_Gradient,
+            gradient: ColorManager.BG3_Gradient,
+            borderRadius: BorderRadius.circular(53),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -151,45 +150,61 @@ class BreastFeedingScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 35,
-                    decoration: BoxDecoration(
-                      gradient: ColorManager.BG2_Gradient.withOpacity(0.8),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+          child: Container(
+            width: double.infinity,
+            height: 160,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              gradient: ColorManager.BG2_Gradient,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                        color: Colors.grey.withOpacity(0.5),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        gradient: ColorManager.BG2_Gradient.withOpacity(0.8),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.only(bottom: 7),
-                  child: Text(
-                    title,
-                    style: GoogleFonts.inriaSerif(
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.only(bottom: 7),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -99,8 +99,4 @@ coverage/
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages 
 # Assets - keep these local only
-assets/images/*.png
-assets/images/**/*.png
-assets/images/*.jpg
-assets/images/**/*.jpg
 

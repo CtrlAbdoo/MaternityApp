@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => di.sl<UserViewModel>()),
         ChangeNotifierProvider(create: (_) => di.sl<PregnancyViewModel>()),
         ChangeNotifierProvider(create: (_) => di.sl<MedicationViewModel>()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

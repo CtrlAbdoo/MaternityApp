@@ -6,6 +6,7 @@ import 'package:maternity_app/presentation/forgot_password/reset_password_view.d
 import 'package:maternity_app/presentation/home/navi_bar.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
 import 'package:maternity_app/presentation/register/register_view.dart';
+import 'package:maternity_app/presentation/screens/children_newborns/children_newborns_screen.dart';
 import 'package:maternity_app/presentation/splash/splash_view.dart';
 
 class Routes {
@@ -16,7 +17,7 @@ class Routes {
   static const String resetPasswordRoute = "/ResetPassword";
   static const String naviBar = "/NaviBar";
   static const String q1 = "/Q1";
-
+  static const String childrenNewborns = "/children-newborns";
 }
 
 class RouteGenerator {
@@ -36,6 +37,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => CustomNavigationBar(),);
       case Routes.q1:
         return MaterialPageRoute(builder: (_) =>  Q2());
+      case Routes.childrenNewborns:
+        return MaterialPageRoute(builder: (_) => const ChildrenNewbornsScreen());
       default:
         return unDefinedRoute();
     }

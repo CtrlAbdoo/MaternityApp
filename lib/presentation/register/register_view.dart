@@ -197,7 +197,7 @@ class _RegisterViewState extends State<RegisterView> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => const LoginView()));

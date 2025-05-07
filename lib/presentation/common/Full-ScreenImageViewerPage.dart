@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-class FullScreenImageViewer extends StatelessWidget {
-  final String url;
+class FullScreenImageViewerPage extends StatelessWidget {
+  final String imageUrl;
 
-  const FullScreenImageViewer({super.key, required this.url});
+  const FullScreenImageViewerPage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class FullScreenImageViewer extends StatelessWidget {
       ),
       body: Center(
         child: PhotoView(
-          imageProvider: NetworkImage(url),
+          imageProvider: NetworkImage(imageUrl),
           minScale: PhotoViewComputedScale.contained,
           maxScale: PhotoViewComputedScale.covered * 3,
           backgroundDecoration: const BoxDecoration(color: Colors.black),

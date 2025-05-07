@@ -407,7 +407,7 @@ class _MonthProblemsScreenState extends State<MonthProblemsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => FullScreenImageViewer(url: imageUrl),
+                      builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
                     ),
                   );
                 },

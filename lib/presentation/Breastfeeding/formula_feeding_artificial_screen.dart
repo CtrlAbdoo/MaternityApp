@@ -16,63 +16,64 @@ class FormulaFeedingArtificialScreen extends StatefulWidget {
 }
 
 class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificialScreen> {
-  Map<String, Map<String, dynamic>> sectionData = {};
   bool _isLoading = true;
   String? _errorMessage;
-
-  get logo => null;
+  List<Map<String, dynamic>> articlesData = [];
 
   @override
   void initState() {
     super.initState();
-    // Uncomment the line below to add sample data to Firestore for testing, then comment it out after running once
-    // addSampleDataToFirestore().then((_) {
-    //   fetchFirestoreData();
-    // });
     fetchFirestoreData();
   }
 
   Future<void> fetchFirestoreData() async {
     try {
-      List<String> subCollections = [
-        '1. common problems and solutions',
-        '2. constipation',
-        '3. nutrition and fluids with formula feeding',
-        '4. correct bottle feeding technique',
-        '5. weaning from formula feeding',
-      ];
-
-      for (var section in subCollections) {
-        final subCollection = await FirebaseFirestore.instance
-            .collection('breastfeeding')
-            .doc('formula feeding (artificial)')
-            .collection(section)
-            .doc('content')
-            .get();
-
-        print('Fetching data for section: $section');
-        print('Document exists: ${subCollection.exists}');
-
-        if (subCollection.exists) {
-          final subData = subCollection.data()!;
-          sectionData[section] = {
-            'content': subData['content'] ?? '',
-            'images': List<String>.from(subData['images'] ?? []),
-            'links': List<String>.from(subData['links'] ?? []),
-          };
-          print('Data for $section: ${sectionData[section]}');
-        } else {
-          print('No data found for $section');
+      print('⚠️ Fetching data for topic: Formula Feeding (Artificial)');
+      
+      // Get data from "articles" collection filtered by category
+      final articlesRef = FirebaseFirestore.instance.collection('articles');
+      print('📄 Fetching articles with category: Breastfeeding');
+      
+      final querySnapshot = await articlesRef
+          .where('category', isEqualTo: 'Breastfeeding')
+          .get();
+      
+      print('📄 Found ${querySnapshot.docs.length} articles with category "Breastfeeding"');
+      
+      List<Map<String, dynamic>> tempArticles = [];
+      
+      // Categorize articles to ensure they go to the right topic
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        final title = (data['title'] ?? '').toLowerCase();
+        
+        // Check if article is relevant to formula feeding
+        if (title.contains('formula') || title.contains('artificial') || title.contains('bottle')) {
+          tempArticles.add(_extractArticleData(doc));
+          print('✅ Categorized for Formula Feeding (Artificial): ${data['title']}');
         }
       }
-
-      print('Final sectionData: $sectionData');
-
+      
+      // If we still don't have any articles, use placeholder content
+      if (tempArticles.isEmpty) {
+        print('⚠️ No matching articles found, adding placeholder content');
+        tempArticles.add({
+          'id': 'placeholder',
+          'title': 'Formula Feeding (Artificial)',
+          'subtitle': 'Important information',
+          'content': _getPlaceholderContent(),
+          'images': <String>[],
+          'publicationDate': DateTime.now().toString().substring(0, 10),
+        });
+      }
+      
       setState(() {
+        articlesData = tempArticles;
         _isLoading = false;
       });
+      
     } catch (e) {
-      print('Error fetching Firestore data: $e');
+      print('❌ Error fetching Firestore data: $e');
       setState(() {
         _errorMessage = 'Failed to load data: $e';
         _isLoading = false;
@@ -80,80 +81,21 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
     }
   }
 
-  // Future<void> addSampleDataToFirestore() async {
-  //   try {
-  //     Map<String, Map<String, dynamic>> sampleData = {
-  //       '1. common problems and solutions': {
-  //         'content':
-  //         '• Gas and Fussiness\nCause: Air swallowed during feeding.\nSolution:\nBurp the baby halfway through and after feeding.\nHold the bottle at an angle to reduce air intake.\nConsider anti-colic bottles.',
-  //         'images': [],
-  //         'links': [],
-  //         'createdAt': '2025-04-25T18:29:45.042Z',
-  //         'originalCategory': 'Breastfeeding',
-  //         'originalSubtitle': '1. Common Problems and Solutions',
-  //         'originalTitle': 'Formula Feeding (Artificial)',
-  //         'publicationDate': '2025-04-24',
-  //       },
-  //       '2. constipation': {
-  //         'content':
-  //         'Cause: Formula may be harder to digest than breast milk.\nSolution:\nEnsure proper formula mixing (follow instructions exactly).\nOffer small amounts of water between feeds (if baby is over 6 months).\nGently massage the baby’s tummy.',
-  //         'images': [],
-  //         'links': [],
-  //         'createdAt': '2025-04-25T18:29:45.042Z',
-  //         'originalCategory': 'Breastfeeding',
-  //         'originalSubtitle': '2. Constipation',
-  //         'originalTitle': 'Formula Feeding (Artificial)',
-  //         'publicationDate': '2025-04-24',
-  //       },
-  //       '3. nutrition and fluids with formula feeding': {
-  //         'content':
-  //         'Nutrition:\nFormula provides balanced nutrients for growth.\nChoose iron-fortified formula.\nAvoid cow’s milk until 12 months.\nFluids:\nFormula-fed babies may need extra water in hot weather.\nAvoid sugary drinks.\nConsult a pediatrician for additional supplements.',
-  //         'images': [],
-  //         'links': [],
-  //         'createdAt': '2025-04-25T18:29:45.042Z',
-  //         'originalCategory': 'Breastfeeding',
-  //         'originalSubtitle': '3. Nutrition and Fluids with Formula Feeding',
-  //         'originalTitle': 'Formula Feeding (Artificial)',
-  //         'publicationDate': '2025-04-24',
-  //       },
-  //       '4. correct bottle feeding technique': {
-  //         'content':
-  //         'Hold the baby in a semi-upright position.\nTilt the bottle so the nipple is always filled with formula.\nLet the baby take breaks to avoid overfeeding.\nNever prop the bottle—it can cause choking.\nhttps://www.youtube.com/watch?v=example4',
-  //         'images': [],
-  //         'links': ['https://www.youtube.com/watch?v=example4'],
-  //         'createdAt': '2025-04-25T18:29:45.042Z',
-  //         'originalCategory': 'Breastfeeding',
-  //         'originalSubtitle': '4. Correct Bottle Feeding Technique',
-  //         'originalTitle': 'Formula Feeding (Artificial)',
-  //         'publicationDate': '2025-04-24',
-  //       },
-  //       '5. weaning from formula feeding': {
-  //         'content':
-  //         'Recommended Age:\nStart transitioning to cow’s milk at 12 months.\nHow to Wean:\nGradually mix formula with cow’s milk over a few weeks.\nIntroduce a sippy cup early to ease the transition.\nMonitor for any allergic reactions to cow’s milk.',
-  //         'images': [],
-  //         'links': [],
-  //         'createdAt': '2025-04-25T18:29:45.042Z',
-  //         'originalCategory': 'Breastfeeding',
-  //         'originalSubtitle': '5. Weaning from Formula Feeding',
-  //         'originalTitle': 'Formula Feeding (Artificial)',
-  //         'publicationDate': '2025-04-24',
-  //       },
-  //     };
-  //
-  //     for (var section in sampleData.keys) {
-  //       await FirebaseFirestore.instance
-  //           .collection('breastfeeding')
-  //           .doc('formula feeding (artificial)')
-  //           .collection(section)
-  //           .doc('content')
-  //           .set(sampleData[section]!);
-  //     }
-  //
-  //     print('Sample data added to Firestore for Formula Feeding (Artificial)');
-  //   } catch (e) {
-  //     print('Error adding sample data: $e');
-  //   }
-  // }
+  Map<String, dynamic> _extractArticleData(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return {
+      'id': doc.id,
+      'title': data['title'] ?? 'No Title',
+      'subtitle': data['subtitle'] ?? '',
+      'content': data['content'] ?? 'No content available',
+      'images': data['images'] ?? <String>[],
+      'publicationDate': data['publicationDate'] ?? '',
+    };
+  }
+
+  String _getPlaceholderContent() {
+    return "Formula feeding is a safe and nutritious alternative to breastfeeding. It allows other family members to participate in feeding and provides a consistent feeding schedule. Proper preparation, storage, and feeding techniques are important for your baby's health and safety.";
+  }
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
@@ -164,39 +106,24 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
     }
   }
 
+  IconData _getIconForArticle(String title) {
+    final titleLower = title.toLowerCase();
+    
+    if (titleLower.contains('formula') || titleLower.contains('bottle')) {
+      return Icons.local_drink;
+    } else if (titleLower.contains('position') || titleLower.contains('technique')) {
+      return Icons.accessibility_new;
+    } else if (titleLower.contains('problem') || titleLower.contains('solution')) {
+      return Icons.help_outline;
+    } else if (titleLower.contains('nutrition') || titleLower.contains('diet')) {
+      return Icons.restaurant;
+    } else {
+      return Icons.info_outline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_errorMessage != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _errorMessage!,
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(color: Colors.red, fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _isLoading = true;
-                  _errorMessage = null;
-                });
-                fetchFirestoreData();
-              },
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
@@ -206,54 +133,80 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
           children: [
             const CustomAppBarWithLogo(),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Formula Feeding (Artificial)',
-                      style: GoogleFonts.inriaSerif(
-                        textStyle: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
+              child: _isLoading 
+                ? const Center(child: CircularProgressIndicator())
+                : _errorMessage != null
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _errorMessage!,
+                            style: GoogleFonts.inriaSerif(
+                              textStyle: const TextStyle(color: Colors.red, fontSize: 16),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isLoading = true;
+                                _errorMessage = null;
+                              });
+                              fetchFirestoreData();
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Formula Feeding (Artificial)',
+                            style: GoogleFonts.inriaSerif(
+                              textStyle: const TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          
+                          // Topic Image
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              width: double.infinity,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blue.shade200,
+                                    Colors.blue.shade100,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.local_drink,
+                                size: 50,
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          
+                          // Articles
+                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    buildSection(
-                      title: '1. Common Problems and Solutions',
-                      content: sectionData['1. common problems and solutions']?['content'],
-                      images: sectionData['1. common problems and solutions']?['images'],
-                      links: sectionData['1. common problems and solutions']?['links'],
-                    ),
-                    buildSection(
-                      title: '2. Constipation',
-                      content: sectionData['2. constipation']?['content'],
-                      images: sectionData['2. constipation']?['images'],
-                      links: sectionData['2. constipation']?['links'],
-                    ),
-                    buildSection(
-                      title: '3. Nutrition and Fluids with Formula Feeding',
-                      content: sectionData['3. nutrition and fluids with formula feeding']?['content'],
-                      images: sectionData['3. nutrition and fluids with formula feeding']?['images'],
-                      links: sectionData['3. nutrition and fluids with formula feeding']?['links'],
-                    ),
-                    buildSection(
-                      title: '4. Correct Bottle Feeding Technique',
-                      content: sectionData['4. correct bottle feeding technique']?['content'],
-                      images: sectionData['4. correct bottle feeding technique']?['images'],
-                      links: sectionData['4. correct bottle feeding technique']?['links'],
-                    ),
-                    buildSection(
-                      title: '5. Weaning from Formula Feeding',
-                      content: sectionData['5. weaning from formula feeding']?['content'],
-                      images: sectionData['5. weaning from formula feeding']?['images'],
-                      links: sectionData['5. weaning from formula feeding']?['links'],
-                    ),
-                  ],
-                ),
-              ),
             ),
           ],
         ),
@@ -261,12 +214,7 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
     );
   }
 
-  Widget buildSection({
-    required String title,
-    required String? content,
-    required List<String>? images,
-    required List<String>? links,
-  }) {
+  Widget _buildArticleCard(Map<String, dynamic> article) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16.0),
@@ -282,239 +230,93 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
           ),
         ],
         border: const Border(
-          left: BorderSide(color: Colors.pinkAccent, width: 4),
+          left: BorderSide(color: Colors.blueAccent, width: 4),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (article['subtitle'] != null && article['subtitle'].isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(
+                  _getIconForArticle(article['title']), 
+                  color: Colors.blueAccent, 
+                  size: 24
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    article['subtitle'],
+                    style: GoogleFonts.inriaSerif(
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+          
+          // Article Content
           Text(
-            title,
+            article['content'],
             style: GoogleFonts.inriaSerif(
-              textStyle: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
+              textStyle: const TextStyle(fontSize: 16, color: Colors.black87),
             ),
           ),
-          const SizedBox(height: 10),
-          if (content != null && content.isNotEmpty)
-            buildFormattedContent(content)
-          else
+          
+          // Images
+          if (article['images'] != null && article['images'].isNotEmpty) ...[
+            const SizedBox(height: 16),
+            ...List<String>.from(article['images']).map((imageUrl) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
+                    ),
+                  );
+                },
+                child: Hero(
+                  tag: imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    height: 220,
+                    width: double.infinity,
+                    placeholder: (context, url) => 
+                      const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => 
+                      const Icon(Icons.error, color: Colors.red),
+                  ),
+                ),
+              ),
+            )).toList(),
+          ],
+          
+          // Publication Date
+          if (article['publicationDate'] != null && article['publicationDate'].isNotEmpty) ...[
+            const SizedBox(height: 12),
             Text(
-              'No content available for this section.',
+              "Published: ${article['publicationDate']}",
               style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(fontSize: 16, color: Colors.grey),
+                textStyle: const TextStyle(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          if (images != null && images.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            buildSubtitle("Images:"),
-            ...buildImageWidgets(images),
-          ],
-          if (links != null && links.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            buildSubtitle("Links:"),
-            ...buildLinkWidgets(links),
           ],
         ],
       ),
     );
-  }
-
-  Widget buildFormattedContent(String content) {
-    List<String> lines = content.split('\n');
-    List<Widget> contentWidgets = [];
-    List<String> currentGroup = [];
-
-    void addGroupToWidgets() {
-      if (currentGroup.isEmpty) return;
-
-      bool isBulletList = currentGroup.every((line) => line.trim().startsWith('•'));
-      bool isLink = currentGroup.length == 1 && currentGroup[0].trim().startsWith('https://');
-
-      if (isLink) {
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: RichText(
-              text: TextSpan(
-                text: currentGroup[0].trim(),
-                style: GoogleFonts.inriaSerif(
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => _launchURL(currentGroup[0].trim()),
-              ),
-            ),
-          ),
-        );
-      } else if (isBulletList) {
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: currentGroup.map((line) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• ', style: TextStyle(fontSize: 16)),
-                    Expanded(
-                      child: Text(
-                        line.replaceFirst('•', '').trim(),
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: const TextStyle(fontSize: 16, height: 1.3),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-        );
-      } else {
-        String paragraph = currentGroup.join('\n');
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              paragraph.trim(),
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  height: 1.3,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-      currentGroup.clear();
-    }
-
-    for (var line in lines) {
-      if (line.trim().endsWith(':')) {
-        addGroupToWidgets();
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-            child: Text(
-              line.trim(),
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  height: 1.3,
-                ),
-              ),
-            ),
-          ),
-        );
-      } else if (line.trim().startsWith('https://')) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-        addGroupToWidgets();
-      } else if (line.trim().startsWith('•') && !currentGroup.every((l) => l.trim().startsWith('•'))) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-      } else if (!line.trim().startsWith('•') && currentGroup.any((l) => l.trim().startsWith('•'))) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-      } else {
-        currentGroup.add(line);
-      }
-    }
-
-    addGroupToWidgets();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: contentWidgets,
-    );
-  }
-
-  Widget buildSubtitle(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(
-        text,
-        style: GoogleFonts.inriaSerif(
-          textStyle: const TextStyle(
-            fontSize: 16,
-            decoration: TextDecoration.underline,
-            color: Colors.black54,
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> buildImageWidgets(List<String> imageList) {
-    if (imageList.isEmpty) {
-      return [
-        const Center(
-          child: Text(
-            'No images available',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      ];
-    }
-    return imageList.map((url) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => FullScreenImageViewer(url: url),
-              ),
-            );
-          },
-          child: Hero(
-            tag: url,
-            child: CachedNetworkImage(
-              imageUrl: url,
-              fit: BoxFit.contain,
-              height: 400,
-              width: double.infinity,
-              memCacheHeight: 1080,
-              memCacheWidth: 1920,
-              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-            ),
-          ),
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> buildLinkWidgets(List<String> links) {
-    if (links.isEmpty) return [];
-    return links.map((link) {
-      return TextButton(
-        onPressed: () => _launchURL(link),
-        child: Text(
-          link,
-          style: GoogleFonts.inriaSerif(
-            fontWeight: FontWeight.bold,
-            textStyle: const TextStyle(
-              color: Colors.blue,
-              decoration: TextDecoration.underline,
-              fontSize: 14,
-            ),
-          ),
-        ),
-      );
-    }).toList();
   }
 }

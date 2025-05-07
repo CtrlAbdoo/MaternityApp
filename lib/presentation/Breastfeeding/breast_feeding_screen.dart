@@ -180,7 +180,14 @@ class BreastFeedingScreen extends StatelessWidget {
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        gradient: ColorManager.BG2_Gradient.withOpacity(0.8),
+                        gradient: LinearGradient(
+                          colors: [
+                            ColorManager.BG2_Gradient.colors[0].withOpacity(0.8),
+                            ColorManager.BG2_Gradient.colors[1].withOpacity(0.8),
+                          ],
+                          begin: ColorManager.BG2_Gradient.begin,
+                          end: ColorManager.BG2_Gradient.end,
+                        ),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50),

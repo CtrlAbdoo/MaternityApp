@@ -16,73 +16,66 @@ class WomensHealthBeforePregnancyScreen extends StatefulWidget {
 }
 
 class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePregnancyScreen> {
-  Map<String, Map<String, dynamic>> sectionData = {};
   bool _isLoading = true;
   String? _errorMessage;
-  String? _greetingMessage;
+  List<Map<String, dynamic>> articlesData = [];
 
   @override
   void initState() {
     super.initState();
-    // Uncomment the line below to add sample data to Firestore for testing, then comment it out after running once
-    // addSampleDataToFirestore().then((_) {
-    //   fetchFirestoreData();
-    // });
     fetchFirestoreData();
   }
 
   Future<void> fetchFirestoreData() async {
     try {
-      // Fetch the document to get the greeting message
-      final docSnapshot = await FirebaseFirestore.instance
-          .collection('mothers health')
-          .doc('women\'s health before pregnancy')
+      print('⚠️ Fetching data for topic: Women\'s Health Before Pregnancy');
+      
+      // Get data from "articles" collection filtered by category
+      final articlesRef = FirebaseFirestore.instance.collection('articles');
+      print('📄 Fetching articles with category: Mothers health');
+      
+      final querySnapshot = await articlesRef
+          .where('category', isEqualTo: 'Mothers health')
           .get();
-
-      if (docSnapshot.exists) {
-        _greetingMessage = docSnapshot.data()?['welcome, super mama!'] ?? '';
-      }
-
-      List<String> subCollections = [
-        '1. essential medical tests',
-        '2. nutrition & supplements',
-        '3. fertility & cycle awareness',
-        '4. healthy lifestyle',
-        '5. doctor consultation',
-        '6. mental readiness',
-      ];
-
-      for (var section in subCollections) {
-        final subCollection = await FirebaseFirestore.instance
-            .collection('mothers health')
-            .doc('women\'s health before pregnancy')
-            .collection(section)
-            .doc('content')
-            .get();
-
-        print('Fetching data for section: $section');
-        print('Document exists: ${subCollection.exists}');
-
-        if (subCollection.exists) {
-          final subData = subCollection.data()!;
-          sectionData[section] = {
-            'content': subData['content'] ?? '',
-            'images': List<String>.from(subData['images'] ?? []),
-            'links': List<String>.from(subData['links'] ?? []),
-          };
-          print('Data for $section: ${sectionData[section]}');
-        } else {
-          print('No data found for $section');
+      
+      print('📄 Found ${querySnapshot.docs.length} articles with category "Mothers health"');
+      
+      List<Map<String, dynamic>> tempArticles = [];
+      
+      // Categorize articles to ensure they go to the right topic
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        final title = (data['title'] ?? '').toLowerCase();
+        
+        // Check if article is relevant to health before pregnancy
+        if (title.contains('before pregnancy') || 
+            title.contains('preconception') || 
+            title.contains('pre-pregnancy')) {
+          tempArticles.add(_extractArticleData(doc));
+          print('✅ Categorized for Women\'s Health Before Pregnancy: ${data['title']}');
         }
       }
-
-      print('Final sectionData: $sectionData');
-
+      
+      // If we still don't have any articles, use placeholder content
+      if (tempArticles.isEmpty) {
+        print('⚠️ No matching articles found, adding placeholder content');
+        tempArticles.add({
+          'id': 'placeholder',
+          'title': 'Women\'s Health Before Pregnancy',
+          'subtitle': 'Preconception Health',
+          'content': _getPlaceholderContent(),
+          'images': <String>[],
+          'publicationDate': DateTime.now().toString().substring(0, 10),
+        });
+      }
+      
       setState(() {
+        articlesData = tempArticles;
         _isLoading = false;
       });
+      
     } catch (e) {
-      print('Error fetching Firestore data: $e');
+      print('❌ Error fetching Firestore data: $e');
       setState(() {
         _errorMessage = 'Failed to load data: $e';
         _isLoading = false;
@@ -90,96 +83,20 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
     }
   }
 
-  Future<void> addSampleDataToFirestore() async {
-    try {
-      // Add greeting message to the document
-      await FirebaseFirestore.instance
-          .collection('mothers health')
-          .doc('women\'s health before pregnancy')
-          .set({'welcome, super mama!': 'welcome, super mama!'});
+  Map<String, dynamic> _extractArticleData(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return {
+      'id': doc.id,
+      'title': data['title'] ?? 'No Title',
+      'subtitle': data['subtitle'] ?? '',
+      'content': data['content'] ?? 'No content available',
+      'images': data['images'] ?? <String>[],
+      'publicationDate': data['publicationDate'] ?? '',
+    };
+  }
 
-      Map<String, Map<String, dynamic>> sampleData = {
-        '1. essential medical tests': {
-          'content':
-          'Get these tests before planning pregnancy.\n• Blood tests for anemia and infections\n• Screen for STDs\n• Check thyroid function',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '1. Essential Medical Tests',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-        '2. nutrition & supplements': {
-          'content':
-          'Prepare your body with proper nutrition.\n• Start taking folic acid supplements (400-800 mcg daily)\n• Eat a balanced diet rich in iron and calcium\n• Avoid processed foods',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '2. Nutrition & Supplements',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-        '3. fertility & cycle awareness': {
-          'content':
-          'Understand your fertility window.\n• Track your menstrual cycle using an app\n• Note ovulation signs like basal body temperature\n• Plan intercourse during fertile days',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '3. Fertility & Cycle Awareness',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-        '4. healthy lifestyle': {
-          'content':
-          'Adopt a healthy lifestyle for conception.\n• Exercise regularly but avoid overexertion\n• Quit smoking and limit caffeine\n• Maintain a healthy weight',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '4. Healthy Lifestyle',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-        '5. doctor consultation': {
-          'content':
-          'Consult your doctor before trying to conceive.\n• Discuss any existing medical conditions\n• Review medications for safety\n• Get vaccinated if needed',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '5. Doctor Consultation',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-        '6. mental readiness': {
-          'content':
-          'Prepare mentally for pregnancy.\n• Reduce stress through mindfulness practices\n• Discuss expectations with your partner\n• Build a support network',
-          'images': [],
-          'links': [],
-          'createdAt': '2025-04-25T18:29:45.042Z',
-          'originalCategory': 'Mothers Health',
-          'originalSubtitle': '6. Mental Readiness',
-          'originalTitle': 'Women\'s Health Before Pregnancy',
-          'publicationDate': '2025-04-24',
-        },
-      };
-
-      for (var section in sampleData.keys) {
-        await FirebaseFirestore.instance
-            .collection('mothers health')
-            .doc('women\'s health before pregnancy')
-            .collection(section)
-            .doc('content')
-            .set(sampleData[section]!);
-      }
-
-      print('Sample data added to Firestore for Women\'s Health Before Pregnancy');
-    } catch (e) {
-      print('Error adding sample data: $e');
-    }
+  String _getPlaceholderContent() {
+    return "Preconception health is crucial for a healthy pregnancy. This includes maintaining a healthy weight, taking folic acid supplements, managing chronic conditions, and avoiding harmful substances. Regular check-ups and a balanced diet are essential for preparing your body for pregnancy.";
   }
 
   Future<void> _launchURL(String url) async {
@@ -191,39 +108,26 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
     }
   }
 
+  IconData _getIconForArticle(String title) {
+    final titleLower = title.toLowerCase();
+    
+    if (titleLower.contains('checkup') || titleLower.contains('medical')) {
+      return Icons.medical_services;
+    } else if (titleLower.contains('nutrition') || titleLower.contains('diet')) {
+      return Icons.restaurant;
+    } else if (titleLower.contains('exercise') || titleLower.contains('activity')) {
+      return Icons.fitness_center;
+    } else if (titleLower.contains('mental') || titleLower.contains('emotional')) {
+      return Icons.psychology;
+    } else if (titleLower.contains('supplement') || titleLower.contains('vitamin')) {
+      return Icons.medication;
+    } else {
+      return Icons.info_outline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_errorMessage != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _errorMessage!,
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(color: Colors.red, fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _isLoading = true;
-                  _errorMessage = null;
-                });
-                fetchFirestoreData();
-              },
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
@@ -233,73 +137,80 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
           children: [
             const CustomAppBarWithLogo(),
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Women’s Health Before Pregnancy',
-                      style: GoogleFonts.inriaSerif(
-                        textStyle: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    if (_greetingMessage != null && _greetingMessage!.isNotEmpty) ...[
-                      const SizedBox(height: 10),
-                      Text(
-                        _greetingMessage!,
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.pinkAccent,
+              child: _isLoading 
+                ? const Center(child: CircularProgressIndicator())
+                : _errorMessage != null
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _errorMessage!,
+                            style: GoogleFonts.inriaSerif(
+                              textStyle: const TextStyle(color: Colors.red, fontSize: 16),
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isLoading = true;
+                                _errorMessage = null;
+                              });
+                              fetchFirestoreData();
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
                       ),
-                    ],
-                    const SizedBox(height: 20),
-                    buildSection(
-                      title: '1. Essential Medical Tests',
-                      content: sectionData['1. essential medical tests']?['content'],
-                      images: sectionData['1. essential medical tests']?['images'],
-                      links: sectionData['1. essential medical tests']?['links'],
+                    )
+                  : SingleChildScrollView(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Women\'s Health Before Pregnancy',
+                            style: GoogleFonts.inriaSerif(
+                              textStyle: const TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          
+                          // Topic Image
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              width: double.infinity,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blue.shade200,
+                                    Colors.blue.shade100,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.health_and_safety,
+                                size: 50,
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          
+                          // Articles
+                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                        ],
+                      ),
                     ),
-                    buildSection(
-                      title: '2. Nutrition & Supplements',
-                      content: sectionData['2. nutrition & supplements']?['content'],
-                      images: sectionData['2. nutrition & supplements']?['images'],
-                      links: sectionData['2. nutrition & supplements']?['links'],
-                    ),
-                    buildSection(
-                      title: '3. Fertility & Cycle Awareness',
-                      content: sectionData['3. fertility & cycle awareness']?['content'],
-                      images: sectionData['3. fertility & cycle awareness']?['images'],
-                      links: sectionData['3. fertility & cycle awareness']?['links'],
-                    ),
-                    buildSection(
-                      title: '4. Healthy Lifestyle',
-                      content: sectionData['4. healthy lifestyle']?['content'],
-                      images: sectionData['4. healthy lifestyle']?['images'],
-                      links: sectionData['4. healthy lifestyle']?['links'],
-                    ),
-                    buildSection(
-                      title: '5. Doctor Consultation',
-                      content: sectionData['5. doctor consultation']?['content'],
-                      images: sectionData['5. doctor consultation']?['images'],
-                      links: sectionData['5. doctor consultation']?['links'],
-                    ),
-                    buildSection(
-                      title: '6. Mental Readiness',
-                      content: sectionData['6. mental readiness']?['content'],
-                      images: sectionData['6. mental readiness']?['images'],
-                      links: sectionData['6. mental readiness']?['links'],
-                    ),
-                  ],
-                ),
-              ),
             ),
           ],
         ),
@@ -307,12 +218,7 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
     );
   }
 
-  Widget buildSection({
-    required String title,
-    required String? content,
-    required List<String>? images,
-    required List<String>? links,
-  }) {
+  Widget _buildArticleCard(Map<String, dynamic> article) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16.0),
@@ -328,239 +234,93 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
           ),
         ],
         border: const Border(
-          left: BorderSide(color: Colors.pinkAccent, width: 4),
+          left: BorderSide(color: Colors.blueAccent, width: 4),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (article['subtitle'] != null && article['subtitle'].isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(
+                  _getIconForArticle(article['title']), 
+                  color: Colors.blueAccent, 
+                  size: 24
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    article['subtitle'],
+                    style: GoogleFonts.inriaSerif(
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+          
+          // Article Content
           Text(
-            title,
+            article['content'],
             style: GoogleFonts.inriaSerif(
-              textStyle: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
+              textStyle: const TextStyle(fontSize: 16, color: Colors.black87),
             ),
           ),
-          const SizedBox(height: 10),
-          if (content != null && content.isNotEmpty)
-            buildFormattedContent(content)
-          else
+          
+          // Images
+          if (article['images'] != null && article['images'].isNotEmpty) ...[
+            const SizedBox(height: 16),
+            ...List<String>.from(article['images']).map((imageUrl) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
+                    ),
+                  );
+                },
+                child: Hero(
+                  tag: imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    height: 220,
+                    width: double.infinity,
+                    placeholder: (context, url) => 
+                      const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => 
+                      const Icon(Icons.error, color: Colors.red),
+                  ),
+                ),
+              ),
+            )).toList(),
+          ],
+          
+          // Publication Date
+          if (article['publicationDate'] != null && article['publicationDate'].isNotEmpty) ...[
+            const SizedBox(height: 12),
             Text(
-              'No content available for this section.',
+              "Published: ${article['publicationDate']}",
               style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(fontSize: 16, color: Colors.grey),
+                textStyle: const TextStyle(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          if (images != null && images.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            buildSubtitle("Images:"),
-            ...buildImageWidgets(images),
-          ],
-          if (links != null && links.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            buildSubtitle("Links:"),
-            ...buildLinkWidgets(links),
           ],
         ],
       ),
     );
-  }
-
-  Widget buildFormattedContent(String content) {
-    List<String> lines = content.split('\n');
-    List<Widget> contentWidgets = [];
-    List<String> currentGroup = [];
-
-    void addGroupToWidgets() {
-      if (currentGroup.isEmpty) return;
-
-      bool isBulletList = currentGroup.every((line) => line.trim().startsWith('•'));
-      bool isLink = currentGroup.length == 1 && currentGroup[0].trim().startsWith('https://');
-
-      if (isLink) {
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: RichText(
-              text: TextSpan(
-                text: currentGroup[0].trim(),
-                style: GoogleFonts.inriaSerif(
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => _launchURL(currentGroup[0].trim()),
-              ),
-            ),
-          ),
-        );
-      } else if (isBulletList) {
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: currentGroup.map((line) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• ', style: TextStyle(fontSize: 16)),
-                    Expanded(
-                      child: Text(
-                        line.replaceFirst('•', '').trim(),
-                        style: GoogleFonts.inriaSerif(
-                          textStyle: const TextStyle(fontSize: 16, height: 1.3),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
-          ),
-        );
-      } else {
-        String paragraph = currentGroup.join('\n');
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              paragraph.trim(),
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  height: 1.3,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-      currentGroup.clear();
-    }
-
-    for (var line in lines) {
-      if (line.trim().endsWith(':')) {
-        addGroupToWidgets();
-        contentWidgets.add(
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-            child: Text(
-              line.trim(),
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  height: 1.3,
-                ),
-              ),
-            ),
-          ),
-        );
-      } else if (line.trim().startsWith('https://')) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-        addGroupToWidgets();
-      } else if (line.trim().startsWith('•') && !currentGroup.every((l) => l.trim().startsWith('•'))) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-      } else if (!line.trim().startsWith('•') && currentGroup.any((l) => l.trim().startsWith('•'))) {
-        addGroupToWidgets();
-        currentGroup.add(line);
-      } else {
-        currentGroup.add(line);
-      }
-    }
-
-    addGroupToWidgets();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: contentWidgets,
-    );
-  }
-
-  Widget buildSubtitle(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(
-        text,
-        style: GoogleFonts.inriaSerif(
-          textStyle: const TextStyle(
-            fontSize: 16,
-            decoration: TextDecoration.underline,
-            color: Colors.black54,
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> buildImageWidgets(List<String> imageList) {
-    if (imageList.isEmpty) {
-      return [
-        const Center(
-          child: Text(
-            'No images available',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      ];
-    }
-    return imageList.map((url) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => FullScreenImageViewer(url: url),
-              ),
-            );
-          },
-          child: Hero(
-            tag: url,
-            child: CachedNetworkImage(
-              imageUrl: url,
-              fit: BoxFit.contain,
-              height: 400,
-              width: double.infinity,
-              memCacheHeight: 1080,
-              memCacheWidth: 1920,
-              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
-            ),
-          ),
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> buildLinkWidgets(List<String> links) {
-    if (links.isEmpty) return [];
-    return links.map((link) {
-      return TextButton(
-        onPressed: () => _launchURL(link),
-        child: Text(
-          link,
-          style: GoogleFonts.inriaSerif(
-            fontWeight: FontWeight.bold,
-            textStyle: const TextStyle(
-              color: Colors.blue,
-              decoration: TextDecoration.underline,
-              fontSize: 14,
-            ),
-          ),
-        ),
-      );
-    }).toList();
   }
 }

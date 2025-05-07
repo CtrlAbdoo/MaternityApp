@@ -45,10 +45,10 @@ class InputValidator {
     if (phoneNumber == null || phoneNumber.isEmpty) {
       return 'Phone number is required';
     }
-    const phonePattern = r'^\+?[0-9]{10,15}$';
-    final regex = RegExp(phonePattern);
-    if (!regex.hasMatch(phoneNumber)) {
-      return 'Enter a valid phone number';
+    // Remove any non-digit characters for validation
+    final digitsOnly = phoneNumber.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digitsOnly.length != 11) {
+      return 'Phone number must be exactly 11 digits';
     }
     return null; // Valid phone number
   }

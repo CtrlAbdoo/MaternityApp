@@ -91,7 +91,7 @@ class _Q5State extends State<Q5> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => CustomNavigationBar(),

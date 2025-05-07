@@ -90,7 +90,7 @@ class _Q9State extends State<Q9> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => CustomNavigationBar()),
                         );

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         navigatorKey: NavigationService.navigatorKey,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.naviBar,
+        initialRoute: Routes.splashRoute,
       ),
     );
   }

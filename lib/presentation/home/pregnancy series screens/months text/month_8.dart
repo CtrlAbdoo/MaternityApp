@@ -308,7 +308,7 @@ class _Month8State extends State<Month8> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => FullScreenImageViewer(url: url),
+                builder: (_) => FullScreenImageViewerPage(imageUrl: url),
               ),
             );
           },

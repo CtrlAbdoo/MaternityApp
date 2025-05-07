@@ -727,7 +727,7 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => FullScreenImageViewer(url: imageUrl),
+                      builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
                     ),
                   );
                 },

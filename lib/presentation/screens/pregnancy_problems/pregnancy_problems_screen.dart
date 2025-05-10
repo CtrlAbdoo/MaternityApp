@@ -9,7 +9,7 @@ import 'package:maternity_app/presentation/screens/pregnancy_problems/month_prob
 class PregnancyProblemsScreen extends StatelessWidget {
   static const routeName = '/pregnancy-problems';
 
-  const PregnancyProblemsScreen({Key? key}) : super(key: key);
+  const PregnancyProblemsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

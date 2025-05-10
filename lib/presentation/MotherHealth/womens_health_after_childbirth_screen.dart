@@ -206,7 +206,7 @@ class _WomensHealthAfterChildbirthScreenState extends State<WomensHealthAfterChi
                           const SizedBox(height: 20),
                           
                           // Articles
-                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                          ...articlesData.map((article) => _buildArticleCard(article)),
                         ],
                       ),
                     ),
@@ -301,7 +301,7 @@ class _WomensHealthAfterChildbirthScreenState extends State<WomensHealthAfterChi
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
           
           // Publication Date

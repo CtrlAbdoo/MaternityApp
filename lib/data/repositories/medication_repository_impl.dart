@@ -30,7 +30,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -62,7 +62,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -98,7 +98,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -120,7 +120,7 @@ class MedicationRepositoryImpl implements MedicationRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 } 

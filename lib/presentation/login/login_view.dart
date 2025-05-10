@@ -73,7 +73,7 @@ class _LoginViewState extends State<LoginView> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/Sign_In.png'),
             fit: BoxFit.cover,
@@ -138,7 +138,7 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           TextFormField(
                             controller: _emailController,
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: const InputDecoration(labelText: 'Email'),
                             validator: (value) =>
                                 InputValidator.validateEmail(value),
                           ),
@@ -206,7 +206,7 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               GestureDetector(
                                 onTap: _login,
                                 child: Container(

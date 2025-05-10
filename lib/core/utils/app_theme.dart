@@ -35,17 +35,15 @@ class AppTheme {
   /// Light theme configuration
   static final ThemeData lightTheme = ThemeData(
     // Color scheme
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: primaryColor,
       primaryContainer: primaryLightColor,
       secondary: secondaryColor,
       secondaryContainer: secondaryLightColor,
-      background: backgroundColor,
       surface: surfaceColor,
       error: errorColor,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onBackground: textPrimaryColor,
       onSurface: textPrimaryColor,
       onError: Colors.white,
     ),

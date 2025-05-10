@@ -14,10 +14,10 @@ class MonthProblemsScreen extends StatefulWidget {
   final String title;
 
   const MonthProblemsScreen({
-    Key? key,
+    super.key,
     required this.month,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<MonthProblemsScreen> createState() => _MonthProblemsScreenState();
@@ -291,7 +291,7 @@ class _MonthProblemsScreenState extends State<MonthProblemsScreen> {
                                 images: images,
                                 links: links,
                               );
-                            }).toList(),
+                            }),
                           ],
                         ],
                       ),
@@ -425,7 +425,7 @@ class _MonthProblemsScreenState extends State<MonthProblemsScreen> {
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
           if (links != null && links.isNotEmpty) ...[
             const SizedBox(height: 16),
@@ -446,7 +446,7 @@ class _MonthProblemsScreenState extends State<MonthProblemsScreen> {
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
         ],
       ),

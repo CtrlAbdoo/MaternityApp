@@ -5,6 +5,8 @@ import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MaternityBagScreen extends StatefulWidget {
+  const MaternityBagScreen({super.key});
+
   @override
   _MaternityBagScreenState createState() => _MaternityBagScreenState();
 }
@@ -82,7 +84,7 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
     List<String> displayedItems = isForBaby ? babyItems : motherItems;
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -90,7 +92,7 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(
-                builder: (context) => CustomAppBarWithLogo(),
+                builder: (context) => const CustomAppBarWithLogo(),
               ),
               const SizedBox(height: 10),
               Text(
@@ -107,11 +109,11 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                   width: screenWidth * 0.7,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [Color(0xFFCBF3FF), Color(0xFFFFB7F8)],
                     ),
                     border: Border.all(
-                      color: Color(0xFFFFB7F8),
+                      color: const Color(0xFFFFB7F8),
                       width: 1,
                     ),
                   ),
@@ -187,7 +189,7 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                               Container(
                                 width: 26,
                                 height: 26,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
@@ -205,7 +207,7 @@ class _MaternityBagScreenState extends State<MaternityBagScreen> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: isChecked
-                                      ? Color(0xFFFFB7F8)
+                                      ? const Color(0xFFFFB7F8)
                                       : Colors.white,
                                   border: Border.all(
                                     color: Colors.white,

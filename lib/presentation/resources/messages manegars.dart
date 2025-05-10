@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SuccessMessage extends StatelessWidget {
-  const SuccessMessage({Key? key}) : super(key: key);
+  const SuccessMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SuccessMessage extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
                 blurRadius: 10,

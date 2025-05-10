@@ -9,7 +9,7 @@ import 'package:maternity_app/presentation/screens/children_newborns/topic_detai
 class ChildrenNewbornsScreen extends StatelessWidget {
   static const routeName = '/children-newborns';
 
-  const ChildrenNewbornsScreen({Key? key}) : super(key: key);
+  const ChildrenNewbornsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class ChildrenNewbornsScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                       ],
-                    )).toList(),
+                    )),
                   ],
                 ),
               ),

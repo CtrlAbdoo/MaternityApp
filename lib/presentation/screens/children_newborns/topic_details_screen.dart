@@ -13,10 +13,10 @@ class TopicDetailsScreen extends StatefulWidget {
   final String category;
 
   const TopicDetailsScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.category,
-  }) : super(key: key);
+  });
 
   @override
   State<TopicDetailsScreen> createState() => _TopicDetailsScreenState();
@@ -650,7 +650,7 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
                           const SizedBox(height: 20),
                           
                           // Articles
-                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                          ...articlesData.map((article) => _buildArticleCard(article)),
                         ],
                       ),
                     ),
@@ -745,7 +745,7 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
           
           // Publication Date

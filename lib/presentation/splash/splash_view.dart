@@ -3,6 +3,8 @@ import 'package:maternity_app/presentation/onboarding/onboarding_screen.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class SplashView extends StatefulWidget {
+  const SplashView({super.key});
+
   @override
   _SplashViewState createState() => _SplashViewState();
 }
@@ -12,10 +14,10 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     // Navigate to OnboardingScreen after 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => OnboardingScreen()),
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
       );
     });
   }

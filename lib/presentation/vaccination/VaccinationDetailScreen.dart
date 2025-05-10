@@ -24,8 +24,8 @@ class VaccinationDetailScreen extends StatelessWidget {
     required this.sideEffects,
     required this.availability,
     required this.doseSize,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,14 @@ class VaccinationDetailScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        drawer: CustomDrawer(),
+        drawer: const CustomDrawer(),
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(
-                builder: (context) => CustomAppBarWithLogo(),
+                builder: (context) => const CustomAppBarWithLogo(),
               ),
               const SizedBox(height: 10),
               Text(
@@ -59,7 +59,7 @@ class VaccinationDetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [Color(0xFFDBF3FE), Color(0xFFF8D4F6)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -118,7 +118,7 @@ class VaccinationDetailScreen extends StatelessWidget {
                           ),
                           child: Text(
                             status,
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            style: const TextStyle(color: Colors.white, fontSize: 10),
                           ),
                         ),
                       ),

@@ -7,6 +7,8 @@ import 'package:maternity_app/presentation/drug_registration/water_drinking_scre
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class DrugRegistrationScreen extends StatefulWidget {
+  const DrugRegistrationScreen({super.key});
+
   @override
   _DrugRegistrationScreenState createState() => _DrugRegistrationScreenState();
 }
@@ -16,7 +18,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
   String? selectedRepetition;
   String? selectedRecipient;
   List<TimeOfDay> selectedTimes = [
-    TimeOfDay(hour: 4, minute: 30)
+    const TimeOfDay(hour: 4, minute: 30)
   ]; // Start with one default time
 
   Future<void> _selectTime(BuildContext context, int? index) async {
@@ -70,7 +72,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
                                 fontSize: screenWidth * 0.06,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
-                                color: Color(0xFF0C4993),
+                                color: const Color(0xFF0C4993),
                               ),
                             ),
                             Image.asset(
@@ -95,7 +97,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
                                 fontSize: screenWidth * 0.05)),
                         CustomDropdown(
                           title: "Potion",
-                          options: ["1 tablet / 5 ml", "2 tablets / 10 ml"],
+                          options: const ["1 tablet / 5 ml", "2 tablets / 10 ml"],
                           onSelected: (value) =>
                               setState(() => selectedPotion = value),
                         ),
@@ -107,7 +109,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
                                 fontSize: screenWidth * 0.05)),
                         CustomDropdown(
                           title: "Repetition",
-                          options: ["Once daily", "Twice daily"],
+                          options: const ["Once daily", "Twice daily"],
                           onSelected: (value) =>
                               setState(() => selectedRepetition = value),
                         ),
@@ -148,7 +150,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
                                 fontSize: screenWidth * 0.05)),
                         CustomDropdown(
                           title: "Add option",
-                          options: ["for my son", "for me"],
+                          options: const ["for my son", "for me"],
                           onSelected: (value) =>
                               setState(() => selectedRecipient = value),
                         ),
@@ -253,7 +255,7 @@ class _DrugRegistrationScreenState extends State<DrugRegistrationScreen> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
                 setState(() {
                   selectedTimes.removeAt(index);

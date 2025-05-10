@@ -5,6 +5,8 @@ import 'package:maternity_app/presentation/common/CustomDropdown.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class ExerciseLogScreen extends StatefulWidget {
+  const ExerciseLogScreen({super.key});
+
   @override
   _ExerciseLogScreenState createState() => _ExerciseLogScreenState();
 }
@@ -49,7 +51,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,
-                              color: Color(0xFF0C4993),
+                              color: const Color(0xFF0C4993),
                             ),
                           ),
                         ),
@@ -77,7 +79,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["5 minutes", "10 minutes", "20 minutes or more"],
+                options: const ["5 minutes", "10 minutes", "20 minutes or more"],
                 onSelected: (value) => setState(() => selectedExerciseTime = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -94,7 +96,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["During pregnancy", "After pregnancy"],
+                options: const ["During pregnancy", "After pregnancy"],
                 onSelected: (value) => setState(() => selectedPregnancyExercise = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -111,7 +113,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["Lazy", "Average activity", "Very active"],
+                options: const ["Lazy", "Average activity", "Very active"],
                 onSelected: (value) => setState(() => selectedActivityLevel = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -128,7 +130,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["Yes", "No"],
+                options: const ["Yes", "No"],
                 onSelected: (value) => setState(() => selectedExerciseReminder = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -145,7 +147,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["Yes", "No"],
+                options: const ["Yes", "No"],
                 onSelected: (value) => setState(() => selectedSpecificExercises = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -160,7 +162,7 @@ class _ExerciseLogScreenState extends State<ExerciseLogScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextField(
                 textAlign: TextAlign.center,
                 controller: notesController,

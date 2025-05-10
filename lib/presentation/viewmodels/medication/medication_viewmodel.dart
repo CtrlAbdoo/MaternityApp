@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maternity_app/core/error/failures.dart';
 import 'package:maternity_app/domain/entities/medication.dart';
 import 'package:maternity_app/domain/usecases/medication/add_medication.dart';
 import 'package:maternity_app/domain/usecases/medication/get_medications.dart';

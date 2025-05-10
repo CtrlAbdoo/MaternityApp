@@ -4,7 +4,7 @@ import 'package:maternity_app/presentation/register/register_view.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class OnboardingScreen extends StatelessWidget {
               onButtonPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterView()),
+                  MaterialPageRoute(builder: (context) => const RegisterView()),
                 );
               },
             ),

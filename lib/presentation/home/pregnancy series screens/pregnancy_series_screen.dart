@@ -30,7 +30,7 @@ class PregnancySeriesScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Builder(
-              builder: (context) => CustomAppBarWithLogo(),
+              builder: (context) => const CustomAppBarWithLogo(),
             ),
             const SizedBox(height: 10),
             Text(

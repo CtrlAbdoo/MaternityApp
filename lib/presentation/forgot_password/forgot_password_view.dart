@@ -7,7 +7,7 @@ import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/validation.dart';
 
 class ForgotPasswordView extends StatefulWidget {
-  const ForgotPasswordView({Key? key}) : super(key: key);
+  const ForgotPasswordView({super.key});
 
   @override
   _ForgotPasswordViewState createState() => _ForgotPasswordViewState();
@@ -37,12 +37,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       //           Text('Password reset link sent to $email. Check your inbox.')),
       // );
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessMessage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessMessage()));
     } catch (error) {
       debugPrint('Error sending reset email: $error');
       if (!mounted) return;
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => OopsMessage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const OopsMessage()));
       // ScaffoldMessenger.of(context).showSnackBar(
       //   SnackBar(
       //       content:

@@ -6,7 +6,7 @@ import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/validation.dart';
 
 class ResetPasswordView extends StatefulWidget {
-  const ResetPasswordView({Key? key}) : super(key: key);
+  const ResetPasswordView({super.key});
 
   @override
   State<ResetPasswordView> createState() => _ResetPasswordViewState();
@@ -194,12 +194,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                   if ((_formKey.currentState?.validate() ?? false )&& _newPasswordController != _confirmPasswordController) {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => SuccessMessage(),
+                                      builder: (context) => const SuccessMessage(),
                                     );
                                   }else{
                                     showDialog(
                                       context: context,
-                                      builder: (context) => OopsMessage(),
+                                      builder: (context) => const OopsMessage(),
                                     );
                                   }
                                 },

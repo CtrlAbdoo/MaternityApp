@@ -15,7 +15,7 @@ class Routes {
   static const String registerRoute = "/register";
   static const String forgotPasswordRoute = "/forgotPassword";
   static const String resetPasswordRoute = "/ResetPassword";
-  static const String naviBar = "/NaviBar";
+  static const String naviBarRoute = "/NaviBar";
   static const String q1 = "/Q1";
   static const String childrenNewborns = "/children-newborns";
 }
@@ -26,14 +26,14 @@ class RouteGenerator {
       case Routes.splashRoute:
         return MaterialPageRoute(builder: (_) => SplashView());
        case Routes.loginRoute:
-        return MaterialPageRoute(builder: (_) => LoginView());
+        return MaterialPageRoute(builder: (_) => const LoginView());
        case Routes.registerRoute:
-         return MaterialPageRoute(builder: (_) => RegisterView());
+         return MaterialPageRoute(builder: (_) => const RegisterView());
        case Routes.forgotPasswordRoute:
-         return MaterialPageRoute(builder: (_) =>  ForgotPasswordView());
+         return MaterialPageRoute(builder: (_) =>  const ForgotPasswordView());
       case Routes.resetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ResetPasswordView());
-      case Routes.naviBar:
+      case Routes.naviBarRoute:
         return MaterialPageRoute(builder: (context) => CustomNavigationBar(),);
       case Routes.q1:
         return MaterialPageRoute(builder: (_) =>  Q2());

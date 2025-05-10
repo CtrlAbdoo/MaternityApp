@@ -9,6 +9,8 @@ import 'package:maternity_app/presentation/resources/color_manager.dart';
 import 'package:maternity_app/presentation/vaccination/VaccinationScheduleScreen.dart';
 
 class CustomNavigationBar extends StatefulWidget {
+  const CustomNavigationBar({super.key});
+
   @override
   _CustomNavigationBarState createState() => _CustomNavigationBarState();
 }
@@ -17,10 +19,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 2;
   final List<Widget> _pages = [
     VaccinationScheduleScreen(),
-    PregnancySeriesScreen(),
-    HomePage(),
-    MothersHealthScreen(),
-    BreastFeedingScreen(),
+    const PregnancySeriesScreen(),
+    const HomePage(),
+    const MothersHealthScreen(),
+    const BreastFeedingScreen(),
   ];
 
   void _onTap(int index) {
@@ -46,7 +48,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: ColorManager.BG3_Gradient,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
@@ -80,7 +82,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         buttonBackgroundColor: Colors.white,
         height: 64,
         index: _selectedIndex,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         items: [
           _buildNavItem('assets/images/Vaccination.png', 0),
           _buildNavItem('assets/images/add.png', 1),

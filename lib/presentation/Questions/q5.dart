@@ -4,6 +4,8 @@ import 'package:maternity_app/presentation/Questions/q1.dart';
 import 'package:maternity_app/presentation/home/navi_bar.dart';
 
 class Q5 extends StatefulWidget {
+  const Q5({super.key});
+
   @override
   _Q5State createState() => _Q5State();
 }
@@ -79,7 +81,7 @@ class _Q5State extends State<Q5> {
                   padding: EdgeInsets.only(bottom: screenHeight * 0.05),
                   child: Container(
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Color(0xFF87CEEB),
                           offset: Offset(6, 6),
@@ -99,7 +101,7 @@ class _Q5State extends State<Q5> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFBBE2F4),
+                        backgroundColor: const Color(0xFFBBE2F4),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
@@ -111,7 +113,7 @@ class _Q5State extends State<Q5> {
                       child: Text(
                         "Continue",
                         style: GoogleFonts.inriaSerif(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -132,7 +134,7 @@ class _Q5State extends State<Q5> {
   Widget _buildOptionButton(int index, String text) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0xFF87CEEB), // Sky-blue shadow
             offset: Offset(6, 6), // Downward-right direction
@@ -157,11 +159,11 @@ class _Q5State extends State<Q5> {
           },
 
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
+            backgroundColor: const Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 30,
             ),

@@ -4,6 +4,8 @@ import 'package:maternity_app/presentation/Questions/q3.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class Q2 extends StatefulWidget {
+  const Q2({super.key});
+
   @override
   _Q2State createState() => _Q2State();
 }
@@ -47,7 +49,7 @@ class _Q2State extends State<Q2> {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 16),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
@@ -56,11 +58,11 @@ class _Q2State extends State<Q2> {
             gradient: ColorManager.BG1_Gradient,
             borderRadius: BorderRadius.circular(25),
           ),
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'Child history',
                 style: GoogleFonts.inriaSerif(
@@ -69,7 +71,7 @@ class _Q2State extends State<Q2> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 '${_getDayOfWeek(selectedDate)} ${selectedDate.day} - ${_getMonthName(selectedDate.month)}',
                 style: GoogleFonts.inriaSerif(
@@ -79,7 +81,7 @@ class _Q2State extends State<Q2> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -93,17 +95,17 @@ class _Q2State extends State<Q2> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0x35FFFFFF),
+                      backgroundColor: const Color(0x35FFFFFF),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                     ),
                     child: Text(
                       "Sure",
                       style: GoogleFonts.inriaSerif(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -116,17 +118,17 @@ class _Q2State extends State<Q2> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0x35FFFFFF),
+                      backgroundColor: const Color(0x35FFFFFF),
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                     ),
                     child: Text(
                       "Change",
                       style: GoogleFonts.inriaSerif(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -198,25 +200,25 @@ class _Q2State extends State<Q2> {
                   child: Container(
                     margin: EdgeInsets.only(top: screenHeight * 0.13),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Color(0x8889DDF7), Color(0x88FC8CF4)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25),
                       ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.3),
-                          offset: Offset(-4, -4),
+                          offset: const Offset(-4, -4),
                           blurRadius: 8,
                           spreadRadius: -4,
                         ),
                         BoxShadow(
                           color: Colors.white.withOpacity(0.4),
-                          offset: Offset(4, 4),
+                          offset: const Offset(4, 4),
                           blurRadius: 8,
                           spreadRadius: -4,
                         ),
@@ -244,7 +246,7 @@ class _Q2State extends State<Q2> {
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _monthController,
                                     itemExtent: 40,
-                                    physics: FixedExtentScrollPhysics(),
+                                    physics: const FixedExtentScrollPhysics(),
                                     onSelectedItemChanged: (index) {
                                       setState(() {
                                         selectedMonth = (index % 12) + 1;
@@ -282,7 +284,7 @@ class _Q2State extends State<Q2> {
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _dayController,
                                     itemExtent: 40,
-                                    physics: FixedExtentScrollPhysics(),
+                                    physics: const FixedExtentScrollPhysics(),
                                     onSelectedItemChanged: (index) {
                                       setState(() {
                                         selectedDay = (index % 31) + 1;
@@ -316,7 +318,7 @@ class _Q2State extends State<Q2> {
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _yearController,
                                     itemExtent: 40,
-                                    physics: FixedExtentScrollPhysics(),
+                                    physics: const FixedExtentScrollPhysics(),
                                     onSelectedItemChanged: (index) {
                                       setState(() {
                                         selectedYear = DateTime.now().year - (index % 100);
@@ -350,7 +352,7 @@ class _Q2State extends State<Q2> {
                             child: Container(
                               margin: EdgeInsets.only(top: screenHeight * 0.05, bottom: screenHeight * 0.01),
                               decoration: BoxDecoration(
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Color(0x5087CEEB),
                                     offset: Offset(6, 6),
@@ -363,7 +365,7 @@ class _Q2State extends State<Q2> {
                               child: ElevatedButton(
                                 onPressed: _showConfirmationDialog,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0x35FFFFFF),
+                                  backgroundColor: const Color(0x35FFFFFF),
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25),
@@ -376,7 +378,7 @@ class _Q2State extends State<Q2> {
                                 child: Text(
                                   "Start",
                                   style: GoogleFonts.inriaSerif(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,

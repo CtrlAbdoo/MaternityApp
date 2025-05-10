@@ -4,6 +4,8 @@ import 'package:maternity_app/presentation/Questions/q4.dart';
 import 'package:maternity_app/presentation/Questions/q8.dart';
 
 class Q7 extends StatefulWidget {
+  const Q7({super.key});
+
   @override
   _Q7State createState() => _Q7State();
 }
@@ -44,7 +46,7 @@ class _Q7State extends State<Q7> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -62,7 +64,7 @@ class _Q7State extends State<Q7> {
             SizedBox(height: screenHeight * 0.02),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: selections.keys.map((gender) {
                   return GestureDetector(
                     onTap: () {
@@ -122,7 +124,7 @@ class _Q7State extends State<Q7> {
                       style: GoogleFonts.inriaSerif(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0x51000000),
+                        color: const Color(0x51000000),
                       ),
                     ),
                   ),
@@ -134,7 +136,7 @@ class _Q7State extends State<Q7> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFBBE2F4),
+                      backgroundColor: const Color(0xFFBBE2F4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),

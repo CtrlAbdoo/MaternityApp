@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({Key? key}) : super(key: key);
+  const RegisterView({super.key});
 
   @override
   _RegisterViewState createState() => _RegisterViewState();
@@ -70,7 +70,7 @@ class _RegisterViewState extends State<RegisterView> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/Sign_Up.png'),
             fit: BoxFit.cover,
@@ -139,7 +139,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: TextFormField(
                                   controller: _firstNameController,
                                   decoration:
-                                  InputDecoration(labelText: 'First Name'),
+                                  const InputDecoration(labelText: 'First Name'),
                                   validator: (value) =>
                                       InputValidator.validateName(value),
                                 ),
@@ -149,7 +149,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: TextFormField(
                                   controller: _lastNameController,
                                   decoration:
-                                  InputDecoration(labelText: 'Last Name'),
+                                  const InputDecoration(labelText: 'Last Name'),
                                   validator: (value) =>
                                       InputValidator.validateName(value),
                                 ),
@@ -159,7 +159,7 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: screenHeight * 0.02),
                           TextFormField(
                             controller: _emailController,
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: const InputDecoration(labelText: 'Email'),
                             validator: (value) =>
                                 InputValidator.validateEmail(value),
                           ),
@@ -186,7 +186,7 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: screenHeight * 0.02),
                           TextFormField(
                             controller: _phoneController,
-                            decoration: InputDecoration(labelText: 'Phone'),
+                            decoration: const InputDecoration(labelText: 'Phone'),
                             validator: (value) =>
                                 InputValidator.validatePhoneNumber(value),
                           ),
@@ -214,7 +214,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   ),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               GestureDetector(
                                 onTap: _registerUser,
                                 child: Container(

@@ -45,7 +45,7 @@ class Pregnancy extends Equatable {
   /// Get the current trimester based on due date
   int get trimester {
     final now = DateTime.now();
-    final totalDaysOfPregnancy = 280; // 40 weeks
+    const totalDaysOfPregnancy = 280; // 40 weeks
     final daysRemaining = dueDate.difference(now).inDays;
     final daysPassed = totalDaysOfPregnancy - daysRemaining;
     

@@ -7,8 +7,8 @@ class SuccessMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: const EdgeInsets.all(24),
+    return const AlertDialog(
+      contentPadding: EdgeInsets.all(24),
       content: StatusMessage(
         backgroundColor: Color(0xFFFEF7FF),
         buttonBorderColor: Color(0xff22CB0F),
@@ -18,7 +18,7 @@ class SuccessMessage extends StatelessWidget {
         mainTextColor: Color(0xff22CB0F),
         secondaryText: 'Everything is working\nnormally.',
         secondaryTextColor: Colors.black54,
-        nextPage: const LoginView(),
+        nextPage: LoginView(),
       ),
     );
   }

@@ -6,6 +6,8 @@ import 'package:maternity_app/presentation/drug_registration/exercise_logScreen.
 import 'package:maternity_app/presentation/resources/color_manager.dart';
 
 class WaterDrinkingScreen extends StatefulWidget {
+  const WaterDrinkingScreen({super.key});
+
   @override
   _WaterDrinkingScreenState createState() => _WaterDrinkingScreenState();
 }
@@ -47,7 +49,7 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic,
-                              color: Color(0xFF0C4993),
+                              color: const Color(0xFF0C4993),
                             ),
                           ),
                         ),
@@ -75,7 +77,7 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["Less than 1 liter", "Between 1 - 2 liters", "More than 2 liters"],
+                options: const ["Less than 1 liter", "Between 1 - 2 liters", "More than 2 liters"],
                 onSelected: (value) => setState(() => selectedDailyIntake = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -92,7 +94,7 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["1.5 liters", "2 liters", "3 liters"],
+                options: const ["1.5 liters", "2 liters", "3 liters"],
                 onSelected: (value) => setState(() => selectedGoal = value),
               ),
               SizedBox(height: screenHeight * 0.02),
@@ -109,7 +111,7 @@ class _WaterDrinkingScreenState extends State<WaterDrinkingScreen> {
               ),
               CustomDropdown(
                 title: "Add option",
-                options: ["Every hour", "Every two hours", "Without notifications"],
+                options: const ["Every hour", "Every two hours", "Without notifications"],
                 onSelected: (value) => setState(() => selectedReminder = value),
               ),
               SizedBox(height: screenHeight * 0.04),

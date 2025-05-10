@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maternity_app/core/error/failures.dart';
 import 'package:maternity_app/domain/entities/user.dart';
 import 'package:maternity_app/domain/usecases/user/get_user_profile.dart';
 import 'package:maternity_app/domain/usecases/user/update_user_profile.dart';

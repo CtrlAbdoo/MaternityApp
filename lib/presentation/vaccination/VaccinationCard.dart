@@ -25,8 +25,8 @@ class VaccinationCard extends StatefulWidget {
     required this.sideEffects,
     required this.availability,
     required this.doseSize,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<VaccinationCard> createState() => _VaccinationCardState();
@@ -97,8 +97,8 @@ class _VaccinationCardState extends State<VaccinationCard> {
               // Header row
               Row(
                 children: [
-                  Icon(Icons.brightness_1, color: Color(0xFFDE1313), size: 10),
-                  SizedBox(width: 8),
+                  const Icon(Icons.brightness_1, color: Color(0xFFDE1313), size: 10),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -108,7 +108,7 @@ class _VaccinationCardState extends State<VaccinationCard> {
                             'Vaccination appointment',
                             style: GoogleFonts.inriaSerif(
                               fontSize: 12,
-                              color: Color(0x50000000),
+                              color: const Color(0x50000000),
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -124,7 +124,7 @@ class _VaccinationCardState extends State<VaccinationCard> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Flexible(
                     child: Text(
                       'the age: ${widget.age}',
@@ -162,14 +162,14 @@ class _VaccinationCardState extends State<VaccinationCard> {
                         _saveCheckboxState(isChecked);
                       });
                     },
-                    side: BorderSide(color: Colors.black),
+                    side: const BorderSide(color: Colors.black),
                   ),
 
                   // Compulsory Badge
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                     decoration: BoxDecoration(
-                      color: isCompulsory ? Color(0xFFB90C0C) : Colors.purple,
+                      color: isCompulsory ? const Color(0xFFB90C0C) : Colors.purple,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(

@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(
-                builder: (context) => CustomAppBar(),
+                builder: (context) => const CustomAppBar(),
               ),
               const SizedBox(height: 10),
               Container(
@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              DaysoftheWeek(),
+              const DaysoftheWeek(),
               const SizedBox(height: 7),
               Text(
                 'Advice for you, mom',
@@ -102,10 +102,10 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              Expanded(
+              const Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: const [
+                    children: [
                       NutritionStack(
                         imagePath: 'assets/images/healthy_food.png',
                         text: 'Healthy nutrition',

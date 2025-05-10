@@ -203,7 +203,7 @@ class _BreastfeedingNaturalScreenState extends State<BreastfeedingNaturalScreen>
                           const SizedBox(height: 20),
                           
                           // Articles
-                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                          ...articlesData.map((article) => _buildArticleCard(article)),
                         ],
                       ),
                     ),
@@ -298,7 +298,7 @@ class _BreastfeedingNaturalScreenState extends State<BreastfeedingNaturalScreen>
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
           
           // Publication Date

@@ -14,7 +14,7 @@ class ColorManager {
     end: Alignment.bottomLeft,
   );
 
-  static LinearGradient BG_Gradient = LinearGradient(
+  static LinearGradient BG_Gradient = const LinearGradient(
     colors: [
       Color(0xFFFFCFFA),
       Color(0xFFCBF3FF)
@@ -23,7 +23,7 @@ class ColorManager {
     end: Alignment.bottomCenter,
   );
 
-  static LinearGradient BG1_Gradient = LinearGradient(
+  static LinearGradient BG1_Gradient = const LinearGradient(
     colors: [
       Color(0xFFFFB7F8),
       Color(0xFF89DDF7)
@@ -32,7 +32,7 @@ class ColorManager {
     end: Alignment.bottomCenter,
   );
 
-  static LinearGradient BG2_Gradient = LinearGradient(
+  static LinearGradient BG2_Gradient = const LinearGradient(
     colors: [
       Color(0xFFFFCFFA),
       Color(0xFFCBF3FF)
@@ -41,7 +41,7 @@ class ColorManager {
     end: Alignment.centerRight,
   );
 
-  static LinearGradient BG3_Gradient = LinearGradient(
+  static LinearGradient BG3_Gradient = const LinearGradient(
     colors: [
       Color(0xFFCBF3FF),
       Color(0xFFFFCFFA)
@@ -50,7 +50,7 @@ class ColorManager {
     end: Alignment.bottomCenter,
   );
 
-  static LinearGradient BG4_Gradient = LinearGradient(
+  static LinearGradient BG4_Gradient = const LinearGradient(
     colors: [
       Color(0x50CBF3FF),
       Color(0x50FFCFFA)

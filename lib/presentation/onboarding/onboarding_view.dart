@@ -15,7 +15,7 @@ class OnboardingPage extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
   const OnboardingPage({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.imagePath,
@@ -23,7 +23,7 @@ class OnboardingPage extends StatelessWidget {
     required this.currentIndex,
     required this.totalPages,
     required this.onButtonPressed,
-  }) : super(key: key);
+  });
 
   // Inside the OnboardingPage class
   @override
@@ -51,7 +51,7 @@ class OnboardingPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
                       color: currentIndex == index
-                          ? Color(0xFF89DDF7)
+                          ? const Color(0xFF89DDF7)
                           : Colors.white,
                       borderRadius: BorderRadius.circular(2),
                     ),
@@ -113,7 +113,7 @@ class OnboardingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterView()));// Example: Go back
+                        MaterialPageRoute(builder: (context) => const RegisterView()));// Example: Go back
                   },
                   child: Text(
                     'Skip',

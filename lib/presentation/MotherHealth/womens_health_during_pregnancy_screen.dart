@@ -207,7 +207,7 @@ class _WomensHealthDuringPregnancyScreenState extends State<WomensHealthDuringPr
                           const SizedBox(height: 20),
                           
                           // Articles
-                          ...articlesData.map((article) => _buildArticleCard(article)).toList(),
+                          ...articlesData.map((article) => _buildArticleCard(article)),
                         ],
                       ),
                     ),
@@ -302,7 +302,7 @@ class _WomensHealthDuringPregnancyScreenState extends State<WomensHealthDuringPr
                   ),
                 ),
               ),
-            )).toList(),
+            )),
           ],
           
           // Publication Date

@@ -5,6 +5,8 @@ import 'package:maternity_app/presentation/Questions/q2.dart';
 import 'package:maternity_app/presentation/Questions/q9.dart';
 
 class Q1 extends StatefulWidget {
+  const Q1({super.key});
+
   @override
   _Q1State createState() => _Q1State();
 }
@@ -80,7 +82,7 @@ class _Q1State extends State<Q1> {
   Widget _buildOptionButton(int index, String text, Widget page) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0xFF87CEEB),
             offset: Offset(6, 6),
@@ -106,11 +108,11 @@ class _Q1State extends State<Q1> {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
+            backgroundColor: const Color(0xFF965391).withOpacity(isSelected[index] ? 1.0 : 0.59),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 30,
             ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maternity_app/core/error/failures.dart';
 import 'package:maternity_app/domain/entities/pregnancy.dart';
-import 'package:maternity_app/domain/entities/user.dart';
 import 'package:maternity_app/domain/usecases/pregnancy/get_current_pregnancy.dart';
 import 'package:maternity_app/domain/usecases/pregnancy/update_pregnancy.dart';
 

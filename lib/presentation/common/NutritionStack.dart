@@ -6,10 +6,10 @@ class NutritionStack extends StatelessWidget {
   final String text;
 
   const NutritionStack({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class NutritionStack extends StatelessWidget {
               height: 35, // Height of the semi-transparent overlay
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.4), // Black with opacity
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
@@ -48,7 +48,7 @@ class NutritionStack extends StatelessWidget {
             child: Text(
               text,
               style: GoogleFonts.inriaSerif(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

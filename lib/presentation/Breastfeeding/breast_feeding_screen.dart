@@ -12,7 +12,7 @@ class BreastFeedingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(

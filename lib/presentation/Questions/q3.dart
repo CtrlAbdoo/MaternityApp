@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/Questions/q4.dart';
 
 class Q3 extends StatefulWidget {
+  const Q3({super.key});
+
   @override
   _Q3State createState() => _Q3State();
 }
@@ -43,7 +45,7 @@ class _Q3State extends State<Q3> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -61,7 +63,7 @@ class _Q3State extends State<Q3> {
             SizedBox(height: screenHeight * 0.02),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: selections.keys.map((gender) {
                   return GestureDetector(
                     onTap: () {
@@ -121,7 +123,7 @@ class _Q3State extends State<Q3> {
                       style: GoogleFonts.inriaSerif(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0x51000000),
+                        color: const Color(0x51000000),
                       ),
                     ),
                   ),
@@ -133,7 +135,7 @@ class _Q3State extends State<Q3> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFBBE2F4),
+                      backgroundColor: const Color(0xFFBBE2F4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),

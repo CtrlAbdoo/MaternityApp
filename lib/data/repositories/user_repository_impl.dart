@@ -66,7 +66,7 @@ class UserRepositoryImpl implements UserRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -83,7 +83,7 @@ class UserRepositoryImpl implements UserRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -122,7 +122,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -141,7 +141,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -162,7 +162,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -175,7 +175,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -189,7 +189,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -207,7 +207,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -217,7 +217,7 @@ class UserRepositoryImpl implements UserRepository {
       final isAuth = await remoteDataSource.isAuthenticated();
       return Right(isAuth);
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -232,7 +232,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -244,7 +244,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -256,7 +256,7 @@ class UserRepositoryImpl implements UserRepository {
     } on AuthException catch (e) {
       return Left(AuthFailure(message: e.message));
     } catch (e) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 } 

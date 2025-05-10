@@ -32,31 +32,31 @@ class CustomAppBarWithLogo extends StatelessWidget {
                 child: const Icon(Icons.menu_sharp, size: 28, color: Colors.black87),
               ),
               const SizedBox(width: 10),
-              GestureDetector(
-                onTap: _onSearchTap,
-                child: const Icon(Icons.search, size: 28, color: Colors.black87),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: _onNotificationTap,
-                child: Stack(
-                  children: [
-                    Icon(Icons.notifications_none_rounded, size: 28, color: Colors.grey.shade900),
-                    Positioned(
-                      right: 5,
-                      top: 4.5,
-                      child: Container(
-                        width: 6,
-                        height: 6,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFF0D0D),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: _onSearchTap,
+              //   child: const Icon(Icons.search, size: 28, color: Colors.black87),
+              // ),
+              // const SizedBox(width: 10),
+              // GestureDetector(
+              //   onTap: _onNotificationTap,
+              //   child: Stack(
+              //     children: [
+              //       Icon(Icons.notifications_none_rounded, size: 28, color: Colors.grey.shade900),
+              //       Positioned(
+              //         right: 5,
+              //         top: 4.5,
+              //         child: Container(
+              //           width: 6,
+              //           height: 6,
+              //           decoration: const BoxDecoration(
+              //             color: Color(0xFFFF0D0D),
+              //             shape: BoxShape.circle,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

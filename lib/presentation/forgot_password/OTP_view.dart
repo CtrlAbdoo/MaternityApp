@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:maternity_app/presentation/forgot_password/reset_password_view.dart';
 
 class VerificationCodeView extends StatefulWidget {
-  const VerificationCodeView({Key? key}) : super(key: key);
+  const VerificationCodeView({super.key});
 
   @override
   State<VerificationCodeView> createState() => _VerificationCodeViewState();

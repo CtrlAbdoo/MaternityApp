@@ -6,17 +6,19 @@ import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
 
 class VaccinationScheduleScreen extends StatelessWidget {
+  const VaccinationScheduleScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: CustomDrawer(),
+        drawer: const CustomDrawer(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Builder(
-                builder: (context) => CustomAppBarWithLogo(),
+                builder: (context) => const CustomAppBarWithLogo(),
               ),
               const SizedBox(height: 10),
               Align(

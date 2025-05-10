@@ -7,8 +7,8 @@ class OopsMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: const EdgeInsets.all(24),
+    return const AlertDialog(
+      contentPadding: EdgeInsets.all(24),
       content: StatusMessage(
         backgroundColor: Color(0xFFFEF7FF),
         buttonBorderColor: Color(0xffFE0404),
@@ -18,7 +18,7 @@ class OopsMessage extends StatelessWidget {
         mainTextColor: Color(0xffFE0404),
         secondaryText: 'Something went wrong!\nPlease try again.',
         secondaryTextColor: Colors.black54,
-        nextPage: const ResetPasswordView(),
+        nextPage: ResetPasswordView(),
       ),
     );
   }

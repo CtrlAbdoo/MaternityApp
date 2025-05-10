@@ -30,7 +30,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -54,7 +54,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -82,7 +82,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
 
@@ -106,7 +106,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
         return Left(ServerFailure(message: e.toString()));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure());
     }
   }
   
@@ -114,14 +114,14 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
   Future<Either<Failure, List<Pregnancy>>> getPregnancies({
     required String userId,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
   Future<Either<Failure, Pregnancy>> getPregnancy({
     required String pregnancyId,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
@@ -131,14 +131,14 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
     String? outcome,
     String? notes,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
   Future<Either<Failure, void>> deletePregnancy({
     required String pregnancyId,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
@@ -146,7 +146,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
     required String pregnancyId,
     required HealthCheck healthCheck,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
@@ -154,7 +154,7 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
     required String pregnancyId,
     required HealthCheck healthCheck,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
   
   @override
@@ -162,6 +162,6 @@ class PregnancyRepositoryImpl implements PregnancyRepository {
     required String pregnancyId,
     required String healthCheckId,
   }) async {
-    return Left(ServerFailure(message: 'Not implemented'));
+    return const Left(ServerFailure(message: 'Not implemented'));
   }
 } 

@@ -26,23 +26,23 @@ class MonthDetailScreen extends StatelessWidget {
   Widget _getMonthWidget() {
     switch (monthTitle.toLowerCase()) {
       case 'the first month':
-        return Month1();
+        return const Month1();
       case 'the second month':
-        return Month2();
+        return const Month2();
       case 'the third month':
-        return Month3();
+        return const Month3();
       case 'the fourth month':
-        return Month4();
+        return const Month4();
       case 'the fifth month':
-        return Month5();
+        return const Month5();
       case 'the sixth month':
-        return Month6();
+        return const Month6();
       case 'the seventh month':
-        return Month7();
+        return const Month7();
       case 'the eighth month':
-        return Month8();
+        return const Month8();
       case 'the ninth month':
-        return Month9();
+        return const Month9();
       default:
         return const Center(
           child: Text(
@@ -57,7 +57,7 @@ class MonthDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(

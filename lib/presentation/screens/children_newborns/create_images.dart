@@ -1,11 +1,5 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 /// This is a utility class to generate placeholder images
 /// for the children and newborns screens.

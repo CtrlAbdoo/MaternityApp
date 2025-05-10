@@ -14,7 +14,7 @@ class StatusMessage extends StatefulWidget {
   final Widget nextPage;
 
   const StatusMessage({
-    Key? key,
+    super.key,
     required this.imageAsset,
     required this.mainText,
     required this.secondaryText,
@@ -24,7 +24,7 @@ class StatusMessage extends StatefulWidget {
     required this.buttonIconColor,
     required this.backgroundColor,
     required this.nextPage,
-  }) : super(key: key);
+  });
 
   @override
   _StatusMessageState createState() => _StatusMessageState();
@@ -100,7 +100,7 @@ class _StatusMessageState extends State<StatusMessage> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
-                      offset: Offset(4, 4), // Offset to simulate light coming from top-left (shadow on bottom-right)
+                      offset: const Offset(4, 4), // Offset to simulate light coming from top-left (shadow on bottom-right)
                       blurRadius: 6, // How blurry the shadow is
                       spreadRadius: 1, // How much the shadow spreads
                     ),

@@ -128,7 +128,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Profile updated successfully', 
+            'Profile updated successfully',
             style: GoogleFonts.inriaSerif(
               textStyle: const TextStyle(
                 fontSize: 16,
@@ -144,7 +144,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
         _errorMessage = 'Error updating profile: $e';
         _isLoading = false;
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -198,12 +198,11 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                           fontSize: 16,
                           color: Colors.white,
                         ),
-                      )
-                  ),
+                      )),
                   backgroundColor: Colors.orange,
                 ),
               );
-              
+
               // Navigate to login screen
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginView()),
@@ -216,10 +215,10 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
         // Rethrow other errors to be caught by the outer try-catch
         throw authError;
       }
-      
+
       // Sign out
       await firebase_auth.FirebaseAuth.instance.signOut();
-      
+
       // Navigate to login screen
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -236,7 +235,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        
+
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginView()),
           (route) => false,
@@ -247,7 +246,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
         _errorMessage = 'Error deleting account: $e';
         _isLoading = false;
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -319,12 +318,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: const CustomAppBarWithBackArrow(),
-          ),
+          const CustomAppBarWithBackArrow(),
 
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25),
@@ -335,6 +329,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
             ),
@@ -381,13 +376,15 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                 ),
                 minimumSize: const Size(80, 36),
               ),
-              child:  Text('Edit',
-              style: GoogleFonts.inriaSerif(textStyle:const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              ),
+              child: Text(
+                'Edit',
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
           ),
@@ -422,10 +419,11 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
                   ),
                   child: Text(
                     'Delete my account',
-                    style: GoogleFonts.inriaSerif(textStyle: TextStyle(
-                      fontSize: 22,
-                      color: Colors.red.shade400,
-                    ),
+                    style: GoogleFonts.inriaSerif(
+                      textStyle: TextStyle(
+                        fontSize: 22,
+                        color: Colors.red.shade400,
+                      ),
                     ),
                   ),
                 ),
@@ -440,118 +438,122 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
   Widget _buildEditProfileView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _isEditMode = false;
-              });
-            },
-            child: const CustomAppBarWithBackArrow(),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25),
-            child: Text(
-              'Profile',
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                  fontStyle: FontStyle.italic,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomAppBarWithBackArrow(
+              onBackPressed: () {
+                setState(() {
+                  firstName = _firstNameController.text;
+                  lastName = _lastNameController.text;
+                  phoneNumber = _phoneController.text;
+                  _isEditMode = false;
+                  _isLoading = false;
+                });
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: Text(
+                'Profile',
+                style: GoogleFonts.inriaSerif(
+                  textStyle: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
             ),
-          ),
 
-          const SizedBox(height: 30),
+            const SizedBox(height: 30),
 
-         
-
-          // First name and Last name fields in a row
-          Row(
-            children: [
-              // First name
-              Expanded(
-                child: _buildEditField(
-                  label: 'First name',
-                  controller: _firstNameController,
+            // First name and Last name fields in a row
+            Row(
+              children: [
+                // First name
+                Expanded(
+                  child: _buildEditField(
+                    label: 'First name',
+                    controller: _firstNameController,
+                  ),
                 ),
-              ),
 
-              const SizedBox(width: 16),
+                const SizedBox(width: 16),
 
-              // Last name
-              Expanded(
-                child: _buildEditField(
-                  label: 'Last name',
-                  controller: _lastNameController,
+                // Last name
+                Expanded(
+                  child: _buildEditField(
+                    label: 'Last name',
+                    controller: _lastNameController,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          // Email field
-          _buildEditField(
-            label: 'Email',
-            controller: _emailController,
-            enabled: false,
-          ),
+            // Email field
+            _buildEditField(
+              label: 'Email',
+              controller: _emailController,
+              enabled: false,
+            ),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          // Phone number field
-          _buildEditField(
-            label: 'Phone number',
-            controller: _phoneController,
-          ),
+            // Phone number field
+            _buildEditField(
+              label: 'Phone number',
+              controller: _phoneController,
+            ),
 
-          const Spacer(),
+            const SizedBox(height: 50),
 
-          // Save button (using gradient border like delete button)
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26),
-                gradient: LinearGradient(
-                  colors: [Colors.blue.shade100, Colors.pink.shade100],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-              ),
-              margin: const EdgeInsets.only(bottom: 20),
+            // Save button (using gradient border like delete button)
+            Center(
               child: Container(
-                margin: const EdgeInsets.all(2), // Border thickness
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(26),
+                  gradient: LinearGradient(
+                    colors: [Colors.blue.shade100, Colors.pink.shade100],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
                 ),
-                child: MaterialButton(
-                  onPressed: _updateUserData,
-                  minWidth: double.infinity,
-                  height: 50,
-                  shape: RoundedRectangleBorder(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  margin: const EdgeInsets.all(2), // Border thickness
+                  decoration: BoxDecoration(
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Text(
-                    'Update',
-                    style: GoogleFonts.inriaSerif(textStyle:const TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
+                  child: MaterialButton(
+                    onPressed: _updateUserData,
+                    minWidth: double.infinity,
+                    height: 50,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
+                    child: Text(
+                      'Update',
+                      style: GoogleFonts.inriaSerif(
+                        textStyle: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -606,7 +608,7 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
           label,
           style: GoogleFonts.inriaSerif(
             textStyle: TextStyle(
-              fontSize: 16, 
+              fontSize: 16,
               color: Colors.grey.shade700,
               fontWeight: FontWeight.w500,
             ),

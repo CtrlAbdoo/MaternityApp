@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:maternity_app/presentation/forgot_password/reset_password_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
@@ -105,7 +106,7 @@ class SettingsDialog extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ResetPasswordView()),
+                            builder: (context) => const ForgotPasswordView()),
                       );
                     },
                   ),
@@ -117,11 +118,8 @@ class SettingsDialog extends StatelessWidget {
                   _buildSettingOption(
                     context,
                     'Sign out',
-                    () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.pop(context); // Close dialog
-                      Navigator.pushReplacementNamed(
-                          context, Routes.loginRoute);
+                    () {
+                      _showSignOutConfirmationDialog(context);
                     },
                   ),
                   const Padding(
@@ -136,6 +134,132 @@ class SettingsDialog extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showSignOutConfirmationDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          elevation: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Sign out",
+                  style: GoogleFonts.inriaSerif(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Are you sure you want to log out?",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inriaSerif(
+                    fontSize: 18,
+                    color: Colors.black87,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Cancel button
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.lightBlue.shade100, Colors.pink.shade100],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(dialogContext);
+                            },
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                            ),
+                            child: Text(
+                              "cancel",
+                              style: GoogleFonts.inriaSerif(
+                                fontSize: 18,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+                    // Sign out button
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.lightBlue.shade100, Colors.pink.shade100],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: TextButton(
+                          onPressed: () async {
+                            await FirebaseAuth.instance.signOut();
+                            // Close both dialogs
+                            Navigator.pop(dialogContext);
+                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(
+                                context, Routes.loginRoute);
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                          ),
+                          child: Text(
+                            "Sign out",
+                            style: GoogleFonts.inriaSerif(
+                              fontSize: 18,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

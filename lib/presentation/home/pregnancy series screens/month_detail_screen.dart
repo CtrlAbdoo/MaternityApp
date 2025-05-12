@@ -64,7 +64,7 @@ class MonthDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Custom App Bar with Logo
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
 
             Expanded(
               child: Padding(

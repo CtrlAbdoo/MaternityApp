@@ -211,7 +211,7 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             
             Expanded(
               child: _isLoading

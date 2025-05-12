@@ -594,7 +594,7 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Custom App Bar with Logo
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
 
             Expanded(
               child: _isLoading 

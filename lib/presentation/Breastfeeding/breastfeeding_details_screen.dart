@@ -165,7 +165,7 @@ class _BreastfeedingDetailsScreenState extends State<BreastfeedingDetailsScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             
             Expanded(
               child: _isLoading

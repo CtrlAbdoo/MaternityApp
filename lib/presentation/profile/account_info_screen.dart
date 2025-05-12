@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
-import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maternity_app/presentation/login/login_view.dart';
@@ -269,7 +268,6 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: _isLoading
@@ -321,7 +319,12 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppBarWithLogo(),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: const CustomAppBarWithBackArrow(),
+          ),
 
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25),
@@ -440,7 +443,14 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppBarWithLogo(),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isEditMode = false;
+              });
+            },
+            child: const CustomAppBarWithBackArrow(),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25),
             child: Text(

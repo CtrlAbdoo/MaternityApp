@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maternity_app/presentation/common/CustomAppBar3.dart';
 import 'package:maternity_app/presentation/vaccination/VaccinationCard.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
@@ -13,15 +14,15 @@ class VaccinationScheduleScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         drawer: const CustomDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              Builder(
-                builder: (context) => const CustomAppBarWithLogo(),
-              ),
-              const SizedBox(height: 10),
-              Align(
+        body: Column(
+          children: [
+            Builder(
+              builder: (context) => const CustomAppBarWithLogo(),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Vaccination Schedule',
@@ -32,8 +33,11 @@ class VaccinationScheduleScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Expanded(
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Vaccinations')
@@ -42,18 +46,18 @@ class VaccinationScheduleScreen extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-      
+
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                       return const Center(child: Text('No data found.'));
                     }
-      
+
                     final docs = snapshot.data!.docs;
-      
+
                     return ListView.builder(
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map<String, dynamic>;
-      
+
                         return VaccinationCard(
                           date: data['createdAt'] != null
                               ? (data['createdAt'] as Timestamp).toDate().toString().split(' ')[0]
@@ -67,14 +71,14 @@ class VaccinationScheduleScreen extends StatelessWidget {
                           sideEffects: 'Not specified',
                           availability: 'Available in health units affiliated with the Ministry of Health',
                         );
-      
+
                       },
                     );
                   },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

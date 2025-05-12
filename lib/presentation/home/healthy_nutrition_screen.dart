@@ -97,7 +97,7 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             
             Expanded(
               child: _isLoading

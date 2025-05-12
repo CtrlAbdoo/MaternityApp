@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
+import 'package:maternity_app/presentation/common/CustomAppBar3.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/home/pregnancy%20series%20screens/month_detail_screen.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
@@ -24,16 +25,16 @@ class PregnancySeriesScreen extends StatelessWidget {
 
     return SafeArea(child: Scaffold(
       drawer: const CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Builder(
-              builder: (context) => const CustomAppBarWithLogo(),
-            ),
-            const SizedBox(height: 10),
-            Text(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Builder(
+            builder: (context) => const CustomAppBarWithLogo(),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
               'Weekly pregnancy series',
               style: GoogleFonts.inriaSerif(
                 textStyle: const TextStyle(
@@ -43,9 +44,12 @@ class PregnancySeriesScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: SingleChildScrollView(
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: pregnancyMonths.map((data) {
                     return GestureDetector(
@@ -114,8 +118,8 @@ class PregnancySeriesScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     )
   );

@@ -5,9 +5,75 @@ import 'package:maternity_app/presentation/profile/account_info_screen.dart';
 import 'package:maternity_app/presentation/screens/children_newborns/children_newborns_screen.dart';
 import 'package:maternity_app/presentation/screens/pregnancy_problems/pregnancy_problems_screen.dart';
 import 'package:maternity_app/presentation/settings/settings_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
+
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  String userName = 'Loading...';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Fetch user data from Firestore
+        final userData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        if (userData.exists) {
+          final firstName = userData.data()?['firstName'] as String? ?? '';
+          final lastName = userData.data()?['lastName'] as String? ?? '';
+          
+          if (mounted) {
+            setState(() {
+              userName = '$firstName $lastName'.trim();
+              if (userName.isEmpty) {
+                userName = user.email ?? 'User';
+              }
+              isLoading = false;
+            });
+          }
+        } else {
+          if (mounted) {
+            setState(() {
+              userName = user.email ?? 'User';
+              isLoading = false;
+            });
+          }
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            userName = 'Guest';
+            isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error loading user name: $e');
+      if (mounted) {
+        setState(() {
+          userName = 'User';
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +101,33 @@ class CustomDrawer extends StatelessWidget {
           children: [
             const SizedBox(height: 40),
             // Profile Image
-           const CircleAvatar(
-              radius: 40,
-              backgroundImage: AssetImage('assets/images/profile.png'), // Replace with actual image path
-            ),
-            const SizedBox(height: 10),
+            const Image(image: const AssetImage('assets/images/logo3.png'), height: 80),
+            
+            const SizedBox(height: 20),
             // Name
-            Text(
-              'Manar Ahmed',
-              style: GoogleFonts.inriaSerif(
-                textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+            isLoading 
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+                  ),
+                )
+              : Text(
+                  userName,
+                  style: GoogleFonts.inriaSerif(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
-            ),
             const SizedBox(height: 10),
             // Divider
             const Divider(color: Colors.black54, thickness: 1, indent: 40, endIndent: 40),
-            const SizedBox(height: 10),
+          
             // Menu Items
             Expanded(
               child: ListView(
@@ -63,7 +136,7 @@ class CustomDrawer extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const AccountInfoScreen()),
-                    );
+                    ).then((_) => _loadUserName()); // Reload name when returning from profile
                   }),
                   _buildDrawerItem(Icons.shopping_bag, 'Maternity bag', () {
                     Navigator.push(

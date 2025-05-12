@@ -58,7 +58,7 @@ class ChildrenNewbornsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

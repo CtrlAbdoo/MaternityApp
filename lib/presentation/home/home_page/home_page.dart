@@ -5,6 +5,10 @@ import 'package:maternity_app/presentation/common/CustomAppBar.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/DaysoftheWeek.dart';
 import 'package:maternity_app/presentation/common/NutritionStack.dart';
+import 'package:maternity_app/presentation/home/baby_care_tips_screen.dart';
+import 'package:maternity_app/presentation/home/healthy_nutrition_screen.dart';
+import 'package:maternity_app/presentation/home/physical_activity_screen.dart';
+import 'package:maternity_app/presentation/home/rest_and_sleep_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -106,24 +110,28 @@ class HomePage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      NutritionStack(
+                      _HomeAdviceItem(
                         imagePath: 'assets/images/healthy_food.png',
                         text: 'Healthy nutrition',
+                        navigateTo: HealthyNutritionScreen(),
                       ),
                       SizedBox(height: 20),
-                      NutritionStack(
+                      _HomeAdviceItem(
                         imagePath: 'assets/images/physical_activity.png',
                         text: 'Physical activity',
+                        navigateTo: PhysicalActivityScreen(),
                       ),
                       SizedBox(height: 20),
-                      NutritionStack(
+                      _HomeAdviceItem(
                         imagePath: 'assets/images/rest_and_sleep.png',
                         text: 'Rest and sleep',
+                        navigateTo: RestAndSleepScreen(),
                       ),
                       SizedBox(height: 20),
-                      NutritionStack(
+                      _HomeAdviceItem(
                         imagePath: 'assets/images/baby_care_tips.png',
                         text: 'Baby care tips',
+                        navigateTo: BabyCareScreen(),
                       ),
                     ],
                   ),
@@ -132,6 +140,36 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _HomeAdviceItem extends StatelessWidget {
+  final String imagePath;
+  final String text;
+  final Widget navigateTo;
+
+  const _HomeAdviceItem({
+    required this.imagePath,
+    required this.text,
+    required this.navigateTo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => navigateTo,
+          ),
+        );
+      },
+      child: NutritionStack(
+        imagePath: imagePath,
+        text: text,
       ),
     );
   }

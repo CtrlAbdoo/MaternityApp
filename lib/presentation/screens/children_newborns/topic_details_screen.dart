@@ -776,7 +776,7 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
     if (topic.contains('Growth')) {
       icon = Icons.child_care;
       colorSwatch = Colors.pink;
-      imagePath = 'assets/images/baby_icon.png';
+      //imagePath = 'assets/images/baby_icon.png';
     } else if (topic.contains('Feeding')) {
       icon = Icons.restaurant;
       colorSwatch = Colors.purple;

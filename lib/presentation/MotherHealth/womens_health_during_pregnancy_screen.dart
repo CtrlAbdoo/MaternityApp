@@ -135,7 +135,7 @@ class _WomensHealthDuringPregnancyScreenState extends State<WomensHealthDuringPr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             Expanded(
               child: _isLoading 
                 ? const Center(child: CircularProgressIndicator())

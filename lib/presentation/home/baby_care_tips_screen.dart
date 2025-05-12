@@ -121,7 +121,7 @@ class _BabyCareScreenState extends State<BabyCareScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             
             Expanded(
               child: _isLoading

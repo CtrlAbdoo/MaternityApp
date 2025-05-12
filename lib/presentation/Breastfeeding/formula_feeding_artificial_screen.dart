@@ -131,7 +131,7 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomAppBarWithLogo(),
+            const CustomAppBarWithBackArrow(),
             Expanded(
               child: _isLoading 
                 ? const Center(child: CircularProgressIndicator())

@@ -40,7 +40,7 @@ class VaccinationDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Builder(
-                builder: (context) => const CustomAppBarWithLogo(),
+                builder: (context) => const CustomAppBarWithBackArrow(),
               ),
               const SizedBox(height: 10),
               Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maternity_app/presentation/drawer/maternity_bag.dart';
+import 'package:maternity_app/presentation/profile/account_info_screen.dart';
 import 'package:maternity_app/presentation/screens/children_newborns/children_newborns_screen.dart';
 import 'package:maternity_app/presentation/screens/pregnancy_problems/pregnancy_problems_screen.dart';
 import 'package:maternity_app/presentation/settings/settings_dialog.dart';
@@ -59,7 +60,10 @@ class CustomDrawer extends StatelessWidget {
               child: ListView(
                 children: [
                   _buildDrawerItem(Icons.person, 'Profile', () {
-                    // Add navigation for Profile if needed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AccountInfoScreen()),
+                    );
                   }),
                   _buildDrawerItem(Icons.shopping_bag, 'Maternity bag', () {
                     Navigator.push(

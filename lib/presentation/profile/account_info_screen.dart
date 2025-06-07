@@ -101,6 +101,26 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
   }
 
   Future<void> _updateUserData() async {
+    // Validate phone number
+    final phoneNumberInput = _phoneController.text.trim();
+    if (phoneNumberInput.isNotEmpty && !RegExp(r'^\d{11}$').hasMatch(phoneNumberInput)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Phone number must be exactly 11 digits',
+            style: GoogleFonts.inriaSerif(
+              textStyle: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
@@ -267,10 +287,6 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Account Information'),
-        backgroundColor: Colors.pink[100],
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

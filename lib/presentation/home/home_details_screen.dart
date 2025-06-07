@@ -39,8 +39,8 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
       print('⚠️ Fetching data for topic: ${widget.title}');
       print('⚠️ Category: ${widget.category}');
       
-      // Get data from "articles" collection filtered by category
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
+      // Get data from "article" collection filtered by category
+      final articlesRef = FirebaseFirestore.instance.collection('article');
       print('📄 Fetching articles with category: ${widget.category}');
       
       final querySnapshot = await articlesRef
@@ -62,6 +62,25 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
           tempArticles.add(_extractArticleData(doc));
           print('✅ Categorized for ${widget.title}: ${data['title']}');
         }
+      }
+      
+      // Sort articles by createdAt
+      tempArticles.sort((a, b) {
+        try {
+          // Handle Firestore timestamp format
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB); // Ascending order
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
+        }
+      });
+      
+      // Log the sorted order
+      print('📅 Sorted articles for ${widget.title}:');
+      for (var article in tempArticles) {
+        print('  - ${article['title']} (${article['createdAt']})');
       }
       
       // If we still don't have any articles, use placeholder content
@@ -360,32 +379,57 @@ class _HomeDetailsScreenState extends State<HomeDetailsScreen> {
           // Images
           if (article['images'] != null && article['images'].isNotEmpty) ...[
             const SizedBox(height: 16),
-            ...List<String>.from(article['images']).map((imageUrl) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
+            SizedBox(
+              height: 220,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: List<String>.from(article['images']).length,
+                itemBuilder: (context, index) {
+                  final imageUrl = List<String>.from(article['images'])[index];
+                  return Padding(
+                    padding: EdgeInsets.only(right: index < List<String>.from(article['images']).length - 1 ? 8 : 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImageViewerPage(imageUrl: imageUrl),
+                          ),
+                        );
+                      },
+                      child: Hero(
+                        tag: imageUrl,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                            width: 300,
+                            placeholder: (context, url) => Container(
+                              width: 300,
+                              color: Colors.grey.shade200,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) {
+                              print('❌ Error loading image: $error');
+                              return Container(
+                                width: 300,
+                                color: Colors.grey.shade200,
+                                child: const Icon(Icons.error, color: Colors.red),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
-                child: Hero(
-                  tag: imageUrl,
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.contain,
-                    height: 220,
-                    width: double.infinity,
-                    placeholder: (context, url) => 
-                      const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => 
-                      const Icon(Icons.error, color: Colors.red),
-                  ),
-                ),
               ),
-            )),
+            ),
           ],
           
           // Publication Date

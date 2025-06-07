@@ -53,9 +53,9 @@ class _RegisterViewState extends State<RegisterView> {
           print('User registered and data saved successfully!');
         }
       } catch (e) {
-        print('Error registering user: $e');
+        print('Error registering user');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $e')),
+          SnackBar(content: Text('Registration failed')),
         );
       }
     } else {

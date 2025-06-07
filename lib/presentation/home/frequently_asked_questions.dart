@@ -6,14 +6,14 @@ import 'package:maternity_app/presentation/common/CustomAppBar2.dart';
 import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/Full-ScreenImageViewerPage.dart';
 
-class HealthyNutritionScreen extends StatefulWidget {
-  const HealthyNutritionScreen({Key? key}) : super(key: key);
+class FrequentlyAskedQuestions extends StatefulWidget {
+  const FrequentlyAskedQuestions({Key? key}) : super(key: key);
 
   @override
-  State<HealthyNutritionScreen> createState() => _HealthyNutritionScreenState();
+  State<FrequentlyAskedQuestions> createState() => _FrequentlyAskedQuestionsState();
 }
 
-class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
+class _FrequentlyAskedQuestionsState extends State<FrequentlyAskedQuestions> {
   bool _isLoading = true;
   String? _errorMessage;
   List<Map<String, dynamic>> faqsData = [];
@@ -26,40 +26,60 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
 
   Future<void> fetchFirestoreData() async {
     try {
-      print('⚠️ Fetching data for Healthy Nutrition');
+      print('⚠️ Fetching data for Frequently Asked Questions');
       
-      // Get data from "articles" collection filtered by category
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: Home');
+      // Get data from the frequently-asked-questions subcollection under Home
+      final articlesRef = FirebaseFirestore.instance
+          .collection('article')
+          .doc('Home')
+          .collection('frequently-asked-questions');
       
-      final querySnapshot = await articlesRef
-          .where('category', isEqualTo: 'Home')
-          .get();
+      print('📄 Fetching FAQ articles from subcollection');
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "Home"');
+      final querySnapshot = await articlesRef.get();
+      
+      print('📄 Found ${querySnapshot.docs.length} FAQ articles');
       
       List<Map<String, dynamic>> tempFaqs = [];
       
-      // Filter for nutrition-related articles
+      // Process FAQ articles
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final title = (data['title'] ?? '').toLowerCase();
-        final content = (data['content'] ?? '').toLowerCase();
-        final subtitle = (data['subtitle'] ?? '').toLowerCase();
+        print('📝 Processing FAQ article: ${doc.id}');
+        print('  - Title: ${data['title']}');
+        print('  - Subtitle: ${data['subtitle']}');
+        print('  - Content: ${data['content']}');
         
-        if (content.contains('nutrition') || 
-            content.contains('diet') || 
-            content.contains('food') || 
-            content.contains('eating') ||
-            title.contains('nutrition') ||
-            title.contains('diet') ||
-            title.contains('food') ||
-            subtitle.contains('nutrition') ||
-            subtitle.contains('food') ||
-            subtitle.contains('faq')) {
-          
-          tempFaqs.add(_extractArticleData(doc));
+        tempFaqs.add({
+          'id': doc.id,
+          'title': data['title'] ?? 'No Title',
+          'subtitle': data['subtitle'] ?? '',
+          'content': data['content'] ?? 'No content available',
+          'images': data['images'] ?? <String>[],
+          'publicationDate': data['publicationDate'] ?? '',
+          'createdAt': data['createdAt'] ?? '',
+        });
+      }
+      
+      print('📊 Processed ${tempFaqs.length} FAQ articles');
+      
+      // Sort articles by createdAt
+      tempFaqs.sort((a, b) {
+        try {
+          // Handle Firestore timestamp format
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB); // Ascending order
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
         }
+      });
+      
+      // Log the sorted order
+      print('📅 Sorted FAQ articles:');
+      for (var article in tempFaqs) {
+        print('  - ${article['subtitle']} (${article['createdAt']})');
       }
       
       setState(() {
@@ -74,18 +94,6 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
         _isLoading = false;
       });
     }
-  }
-  
-  Map<String, dynamic> _extractArticleData(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    return {
-      'id': doc.id,
-      'title': data['title'] ?? 'No Title',
-      'subtitle': data['subtitle'] ?? '',
-      'content': data['content'] ?? 'No content available',
-      'images': data['images'] ?? <String>[],
-      'publicationDate': data['publicationDate'] ?? '',
-    };
   }
 
   @override
@@ -187,11 +195,11 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                // Title
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8),
                                   child: Text(
-                                    faqsData.any((faq) => faq['subtitle'].toString().toLowerCase().contains('faq')) ?
-                                    'Nutrition FAQ' : 'Healthy Nutrition',
+                                    'Frequently Asked Questions',
                                     style: GoogleFonts.inriaSerif(
                                       textStyle: const TextStyle(
                                         fontSize: 28,
@@ -203,7 +211,7 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
                                 ),
                                 
                                 Text(
-                                  'Important nutritional information for pregnancy',
+                                  'Important information for moms',
                                   style: GoogleFonts.inriaSerif(
                                     textStyle: TextStyle(
                                       fontSize: 16,
@@ -215,94 +223,8 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
                                 
                                 const SizedBox(height: 24),
                                 
-                                // FAQ Header Card
-                                if (faqsData.any((faq) => faq['subtitle'].toString().toLowerCase().contains('faq')))
-                                  Container(
-                                    width: double.infinity,
-                                    margin: const EdgeInsets.only(bottom: 16),
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [Colors.pink.shade50, Colors.white],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                      borderRadius: BorderRadius.circular(18),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.pink.shade100.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 10,
-                                          offset: const Offset(0, 4),
-                                        ),
-                                      ],
-                                      border: Border.all(color: Colors.pink.shade100, width: 2),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.help_outline, 
-                                                 color: Colors.pink.shade300,
-                                                 size: 24),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text(
-                                                faqsData.firstWhere(
-                                                  (faq) => faq['subtitle'].toString().toLowerCase().contains('faq'),
-                                                  orElse: () => {'subtitle': 'Frequently Asked Questions'}
-                                                )['subtitle'],
-                                                style: GoogleFonts.inriaSerif(
-                                                  textStyle: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle: FontStyle.italic,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        
-                                        if (faqsData.isNotEmpty && 
-                                            faqsData[0]['images'] != null && 
-                                            faqsData[0]['images'].isNotEmpty && 
-                                            faqsData[0]['images'][0].toString().startsWith('http')) ...[
-                                          const SizedBox(height: 12),
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(12),
-                                            child: CachedNetworkImage(
-                                              imageUrl: faqsData[0]['images'][0],
-                                              height: 160,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) => Container(
-                                                height: 160,
-                                                color: Colors.grey.shade200,
-                                                child: const Center(
-                                                  child: CircularProgressIndicator(
-                                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
-                                                  ),
-                                                ),
-                                              ),
-                                              errorWidget: (context, url, error) => const SizedBox.shrink(),
-                                            ),
-                                          ),
-                                        ],
-                                      ],
-                                    ),
-                                  ),
-                                
                                 // FAQ Items
-                                ...faqsData.where((faq) => 
-                                   !faq['subtitle'].toString().toLowerCase().contains('faq') || 
-                                   faq != faqsData.firstWhere(
-                                     (f) => f['subtitle'].toString().toLowerCase().contains('faq'),
-                                     orElse: () => {'id': ''}
-                                   )
-                                ).map((faq) => _buildFaqCard(faq)),
+                                ...faqsData.map((faq) => _buildFaqCard(faq)),
                                 
                                 const SizedBox(height: 16),
                               ],
@@ -318,9 +240,15 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
   }
   
   Widget _buildFaqCard(Map<String, dynamic> faq) {
-    final List<String> images = faq['images'] != null 
-        ? List<String>.from(faq['images']) 
-        : [];
+    // Get images array from Firestore
+    final List<dynamic> imagesData = faq['images'] ?? [];
+    final List<String> images = imagesData
+        .where((img) => img != null && img.toString().isNotEmpty)
+        .map((img) => img.toString())
+        .toList();
+    
+    print('📸 Processing images for FAQ: ${faq['subtitle']}');
+    print('  - Images array: $images');
         
     return Container(
       width: double.infinity,
@@ -347,7 +275,7 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
         children: [
           // FAQ Question with Q icon
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -372,7 +300,7 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    faq['title'],
+                    faq['subtitle'] ?? 'No Question Available',
                     style: GoogleFonts.inriaSerif(
                       textStyle: const TextStyle(
                         fontSize: 17,
@@ -402,50 +330,62 @@ class _HealthyNutritionScreenState extends State<HealthyNutritionScreen> {
           ),
           
           // FAQ Images (if available)
-          if (images.isNotEmpty && images[0].toString().startsWith('http')) ...[
+          if (images.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => FullScreenImageViewerPage(imageUrl: images[0]),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: images[0],
-                      height: 140,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        height: 140,
-                        width: double.infinity,
-                        color: Colors.grey.shade200,
-                        child: const Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+              child: SizedBox(
+                height: 140,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: index < images.length - 1 ? 8 : 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => FullScreenImageViewerPage(imageUrl: images[index]),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: images[index],
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                color: Colors.grey.shade200,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) {
+                                print('❌ Error loading image: $error');
+                                return const SizedBox.shrink();
+                              },
+                            ),
                           ),
                         ),
                       ),
-                      errorWidget: (context, url, error) => const SizedBox.shrink(),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             ),

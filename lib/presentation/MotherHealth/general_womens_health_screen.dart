@@ -29,44 +29,49 @@ class _GeneralWomensHealthScreenState extends State<GeneralWomensHealthScreen> {
     try {
       print('⚠️ Fetching data for topic: General Women\'s Health');
       
-      // Get data from "articles" collection filtered by category
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: Mothers health');
+      final articlesRef = FirebaseFirestore.instance
+          .collection('article')
+          .doc('Mothers health')
+          .collection('general-women-s-health');
       
-      final querySnapshot = await articlesRef
-          .where('category', isEqualTo: 'Mothers health')
-          .get();
+      print('📄 Fetching general women\'s health articles');
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "Mothers health"');
+      final querySnapshot = await articlesRef.get();
+      
+      print('📄 Found ${querySnapshot.docs.length} general women\'s health articles');
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // Categorize articles to ensure they go to the right topic
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final title = (data['title'] ?? '').toLowerCase();
+        print('📝 Processing article: ${doc.id}');
+        print('  - Title: ${data['title']}');
+        print('  - Subtitle: ${data['subtitle']}');
+        print('  - Content: ${data['content']}');
         
-        // Check if article is relevant to general women's health
-        if (!title.contains('pregnancy') && 
-            !title.contains('childbirth') && 
-            !title.contains('postpartum')) {
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Categorized for General Women\'s Health: ${data['title']}');
-        }
-      }
-      
-      // If we still don't have any articles, use placeholder content
-      if (tempArticles.isEmpty) {
-        print('⚠️ No matching articles found, adding placeholder content');
         tempArticles.add({
-          'id': 'placeholder',
-          'title': 'General Women\'s Health',
-          'subtitle': 'Essential Health Information',
-          'content': _getPlaceholderContent(),
-          'images': <String>[],
-          'publicationDate': DateTime.now().toString().substring(0, 10),
+          'id': doc.id,
+          'title': data['title'] ?? 'No Title',
+          'subtitle': data['subtitle'] ?? '',
+          'content': data['content'] ?? 'No content available',
+          'images': data['images'] ?? <String>[],
+          'publicationDate': data['publicationDate'] ?? '',
+          'createdAt': data['createdAt'] ?? '',
         });
       }
+      
+      print('📊 Processed ${tempArticles.length} articles');
+      
+      tempArticles.sort((a, b) {
+        try {
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB);
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
+        }
+      });
       
       setState(() {
         articlesData = tempArticles;
@@ -80,22 +85,6 @@ class _GeneralWomensHealthScreenState extends State<GeneralWomensHealthScreen> {
         _isLoading = false;
       });
     }
-  }
-
-  Map<String, dynamic> _extractArticleData(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    return {
-      'id': doc.id,
-      'title': data['title'] ?? 'No Title',
-      'subtitle': data['subtitle'] ?? '',
-      'content': data['content'] ?? 'No content available',
-      'images': data['images'] ?? <String>[],
-      'publicationDate': data['publicationDate'] ?? '',
-    };
-  }
-
-  String _getPlaceholderContent() {
-    return "Women's health encompasses various aspects including physical, mental, and emotional well-being. Regular check-ups, preventive care, and maintaining a healthy lifestyle are essential. Understanding your body and being aware of common health concerns can help you make informed decisions about your health.";
   }
 
   Future<void> _launchURL(String url) async {

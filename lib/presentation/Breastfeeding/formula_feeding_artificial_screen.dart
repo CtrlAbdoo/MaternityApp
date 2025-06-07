@@ -30,29 +30,37 @@ class _FormulaFeedingArtificialScreenState extends State<FormulaFeedingArtificia
     try {
       print('⚠️ Fetching data for topic: Formula Feeding (Artificial)');
       
-      // Get data from "articles" collection filtered by category
+      // Get data from "articles" collection
       final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: Breastfeeding');
+      print('📄 Fetching articles for formula-feeding-artificial');
       
       final querySnapshot = await articlesRef
-          .where('category', isEqualTo: 'Breastfeeding')
+          .where('title', isEqualTo: 'Formula Feeding (Artificial)')
           .get();
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "Breastfeeding"');
+      print('📄 Found ${querySnapshot.docs.length} articles for formula-feeding-artificial');
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // Categorize articles to ensure they go to the right topic
+      // Process articles and sort them by createdAt
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final title = (data['title'] ?? '').toLowerCase();
-        
-        // Check if article is relevant to formula feeding
-        if (title.contains('formula') || title.contains('artificial') || title.contains('bottle')) {
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Categorized for Formula Feeding (Artificial): ${data['title']}');
-        }
+        tempArticles.add(_extractArticleData(doc));
+        print('✅ Added article: ${data['title']}');
       }
+      
+      // Sort articles by createdAt
+      tempArticles.sort((a, b) {
+        try {
+          // Handle Firestore timestamp format
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB);
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
+        }
+      });
       
       // If we still don't have any articles, use placeholder content
       if (tempArticles.isEmpty) {

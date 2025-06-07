@@ -56,135 +56,81 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
       print('⚠️ Fetching data for topic: ${widget.title}');
       print('⚠️ Category: ${widget.category}');
       
-      // First approach: Try to get data from "articles" collection filtered by category
+      // Get data from "articles" collection
       final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: ${widget.category}');
+      print('📄 Fetching articles for ${widget.title}');
       
-      final querySnapshot = await articlesRef
+      // First try exact match
+      var querySnapshot = await articlesRef
           .where('category', isEqualTo: widget.category)
           .get();
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "${widget.category}"');
+      print('📄 Found ${querySnapshot.docs.length} total articles in category');
       
-      // List all document IDs for debugging
-      print('📋 All documents:');
+      // List all found articles for debugging
+      print('📋 All found articles:');
       for (var doc in querySnapshot.docs) {
-        print('  - ID: ${doc.id}');
-        print('    Title: ${doc.data()['title'] ?? 'No title'}');
-        print('    Subtitle: ${doc.data()['subtitle'] ?? 'No subtitle'}');
+        final data = doc.data();
+        print('  - Title: ${data['title']}');
+        print('    Category: ${data['category']}');
+        print('    ID: ${doc.id}');
       }
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // First, categorize articles to ensure they go to the right topic
-      Map<String, List<Map<String, dynamic>>> categorizedArticles = {
-        "Child Growth Stages": [],
-        "Complementary Feeding (Introducing Solid Foods)": [],
-        "Daily Baby Care": [],
-        "Baby Health and Common Illnesses": [],
-        "Sensory and Motor Skills Development": [],
-      };
-      
-      // Pre-categorize all articles first
+      // Filter articles based on title similarity
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final title = (data['title'] ?? '').toLowerCase();
+        final articleTitle = (data['title'] ?? '').toLowerCase();
+        final targetTitle = widget.title.toLowerCase();
         
-        // Check specific keywords to pre-categorize
-        if ((title.contains('4 to 6 month') || 
-             title.contains('7 to 9 month') || 
-             title.contains('stimulating activities') ||
-             title.contains('sensory play') ||
-             title.contains('motor development') ||
-             title.contains('tummy time') ||
-             title.contains('activities for'))) {
-          // These should always go to Sensory and Motor Skills
-          if (widget.title == "Sensory and Motor Skills Development") {
-            categorizedArticles["Sensory and Motor Skills Development"]!.add(_extractArticleData(doc));
-            print('✅ Pre-categorized for Sensory: ${data['title']}');
-          }
-        } else if (doc.id.toLowerCase().contains(_getTopicKeyword().toLowerCase())) {
-          // Direct ID match
-          categorizedArticles[widget.title]!.add(_extractArticleData(doc));
-          print('✅ Pre-categorized by ID for ${widget.title}: ${data['title']}');
-        } else if (_isRelevantToTopic(data, widget.title)) {
-          // Content-based match
-          categorizedArticles[widget.title]!.add(_extractArticleData(doc));
-          print('✅ Pre-categorized by content for ${widget.title}: ${data['title']}');
+        // Normalize titles for comparison
+        String normalizeTitle(String title) {
+          return title
+              .replaceAll('-', ' ')
+              .replaceAll('(', '')
+              .replaceAll(')', '')
+              .replaceAll('\n', ' ')
+              .replaceAll(RegExp(r'\s+'), ' ')
+              .trim();
+        }
+        
+        final normalizedArticleTitle = normalizeTitle(articleTitle);
+        final normalizedTargetTitle = normalizeTitle(targetTitle);
+        
+        print('🔄 Comparing titles:');
+        print('   Article: "$normalizedArticleTitle"');
+        print('   Target: "$normalizedTargetTitle"');
+        
+        // Check if the normalized titles match
+        if (normalizedArticleTitle == normalizedTargetTitle || 
+            normalizedArticleTitle.contains(normalizedTargetTitle) || 
+            normalizedTargetTitle.contains(normalizedArticleTitle)) {
+          tempArticles.add(_extractArticleData(doc));
+          print('✅ Added matching article: ${data['title']}');
         }
       }
       
-      // Get articles for the current topic
-      tempArticles = categorizedArticles[widget.title] ?? [];
-      
-      // Double check the Child Growth Stages to make sure there's no overlap
-      if (widget.title == "Child Growth Stages") {
-        print('🧹 Extra filtering for Child Growth Stages');
-        
-        // Extended list of excluded patterns for Child Growth Stages
-        final List<String> excludedTitles = [
-          '4 to 6 months',
-          '7 to 9 months', 
-          '10 to 12 months',
-          'stimulating activities',
-          'sensory play',
-          'motor development',
-          'tummy time',
-          'activities for',
-          'crawling',
-          'walking',
-          'fine motor',
-          'gross motor'
-        ];
-        
-        tempArticles = tempArticles.where((article) {
-          final String title = (article['title'] ?? '').toLowerCase();
-          final String subtitle = (article['subtitle'] ?? '').toLowerCase();
-          final String content = (article['content'] ?? '').toLowerCase();
+      // Sort articles by createdAt
+      tempArticles.sort((a, b) {
+        try {
+          // Handle Firestore timestamp format
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
           
-          // Check if any excluded title is contained in this article
-          for (final excludedTitle in excludedTitles) {
-            if (title.contains(excludedTitle) || subtitle.contains(excludedTitle)) {
-              print('❌ Filtering out article from Child Growth Stages: ${article['title']}');
-              return false; // Remove this article
-            }
-          }
-          
-          // Also check for motor and sensory keywords in content if they're prominent
-          if ((content.contains('motor skill') || content.contains('sensory development')) && 
-              (content.indexOf('motor skill') < 100 || content.indexOf('sensory development') < 100)) {
-            print('❌ Filtering out article from Child Growth Stages based on content focus: ${article['title']}');
-            return false;
-          }
-          
-          return true; // Keep this article
-        }).toList();
-      }
-      
-      // Make sure sensory articles are in the right place
-      if (widget.title == "Sensory and Motor Skills Development") {
-        print('✅ Ensuring all sensory articles are included');
-        
-        // Include these specific topics in Sensory and Motor Skills Development
-        for (var doc in querySnapshot.docs) {
-          final data = doc.data();
-          final title = (data['title'] ?? '').toLowerCase();
-          final articleData = _extractArticleData(doc);
-          
-          bool alreadyIncluded = tempArticles.any((a) => a['id'] == articleData['id']);
-          
-          if (!alreadyIncluded && 
-              (title.contains('4 to 6 month') || 
-               title.contains('7 to 9 month') || 
-               title.contains('stimulating activities') ||
-               title.contains('sensory play') ||
-               title.contains('motor development') ||
-               title.contains('tummy time') ||
-               title.contains('activities for'))) {
-            tempArticles.add(articleData);
-            print('✅ Added special sensory article: ${articleData['title']}');
-          }
+          // For ascending order (oldest first), use dateA.compareTo(dateB)
+          // For descending order (newest first), use dateB.compareTo(dateA)
+          return dateA.compareTo(dateB); // Ascending order
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
         }
+      });
+      
+      // Log the sorted order
+      print('📅 Sorted articles by date:');
+      for (var article in tempArticles) {
+        print('  - ${article['title']} (${article['createdAt']})');
       }
       
       // If we still don't have any articles, use placeholder content
@@ -198,12 +144,6 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
           'images': <String>[],
           'publicationDate': DateTime.now().toString().substring(0, 10),
         });
-      }
-      
-      // Print final results to debug
-      print('📝 Final articles for ${widget.title}:');
-      for (var article in tempArticles) {
-        print('  - ${article['title']}');
       }
       
       setState(() {

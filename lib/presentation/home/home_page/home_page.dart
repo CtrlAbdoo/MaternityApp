@@ -6,7 +6,7 @@ import 'package:maternity_app/presentation/common/CustomDrawer.dart';
 import 'package:maternity_app/presentation/common/DaysoftheWeek.dart';
 import 'package:maternity_app/presentation/common/NutritionStack.dart';
 import 'package:maternity_app/presentation/home/baby_care_tips_screen.dart';
-import 'package:maternity_app/presentation/home/healthy_nutrition_screen.dart';
+import 'package:maternity_app/presentation/home/frequently_asked_questions.dart';
 import 'package:maternity_app/presentation/home/physical_activity_screen.dart';
 import 'package:maternity_app/presentation/home/rest_and_sleep_screen.dart';
 
@@ -112,8 +112,8 @@ class HomePage extends StatelessWidget {
                     children: [
                       _HomeAdviceItem(
                         imagePath: 'assets/images/healthy_food.png',
-                        text: 'Healthy nutrition',
-                        navigateTo: HealthyNutritionScreen(),
+                        text: 'Frequently Asked Questions',
+                        navigateTo: FrequentlyAskedQuestions(),
                       ),
                       SizedBox(height: 20),
                       _HomeAdviceItem(

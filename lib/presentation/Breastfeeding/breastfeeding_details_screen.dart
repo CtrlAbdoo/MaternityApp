@@ -79,32 +79,37 @@ class _BreastfeedingDetailsScreenState extends State<BreastfeedingDetailsScreen>
       print('⚠️ Fetching data for topic: ${widget.title}');
       print('⚠️ Category: ${widget.category}');
       
-      // Get data from "articles" collection filtered by category
+      // Get data from "articles" collection
       final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: ${widget.category}');
+      print('📄 Fetching articles for ${widget.title}');
       
       final querySnapshot = await articlesRef
-          .where('category', isEqualTo: widget.category)
+          .where('title', isEqualTo: widget.title)
           .get();
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "${widget.category}"');
+      print('📄 Found ${querySnapshot.docs.length} articles for ${widget.title}');
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // Categorize articles to ensure they go to the right topic
+      // Process articles and sort them by createdAt
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        
-        if (doc.id.toLowerCase().contains(_getTopicKeyword().toLowerCase())) {
-          // Direct ID match
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Categorized by ID for ${widget.title}: ${data['title']}');
-        } else if (_isRelevantToTopic(data, widget.title)) {
-          // Content-based match
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Categorized by content for ${widget.title}: ${data['title']}');
-        }
+        tempArticles.add(_extractArticleData(doc));
+        print('✅ Added article: ${data['title']}');
       }
+      
+      // Sort articles by createdAt
+      tempArticles.sort((a, b) {
+        try {
+          // Handle Firestore timestamp format
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB);
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
+        }
+      });
       
       // If we still don't have any articles, use placeholder content
       if (tempArticles.isEmpty) {

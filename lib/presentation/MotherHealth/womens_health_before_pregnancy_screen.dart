@@ -30,44 +30,49 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
     try {
       print('⚠️ Fetching data for topic: Women\'s Health Before Pregnancy');
       
-      // Get data from "articles" collection filtered by category
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles with category: Mothers health');
+      final articlesRef = FirebaseFirestore.instance
+          .collection('article')
+          .doc('Mothers health')
+          .collection('women-s-health-before-pregnancy');
       
-      final querySnapshot = await articlesRef
-          .where('category', isEqualTo: 'Mothers health')
-          .get();
+      print('📄 Fetching preconception health articles');
       
-      print('📄 Found ${querySnapshot.docs.length} articles with category "Mothers health"');
+      final querySnapshot = await articlesRef.get();
+      
+      print('📄 Found ${querySnapshot.docs.length} preconception health articles');
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // Categorize articles to ensure they go to the right topic
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final title = (data['title'] ?? '').toLowerCase();
+        print('📝 Processing article: ${doc.id}');
+        print('  - Title: ${data['title']}');
+        print('  - Subtitle: ${data['subtitle']}');
+        print('  - Content: ${data['content']}');
         
-        // Check if article is relevant to health before pregnancy
-        if (title.contains('before pregnancy') || 
-            title.contains('preconception') || 
-            title.contains('pre-pregnancy')) {
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Categorized for Women\'s Health Before Pregnancy: ${data['title']}');
-        }
-      }
-      
-      // If we still don't have any articles, use placeholder content
-      if (tempArticles.isEmpty) {
-        print('⚠️ No matching articles found, adding placeholder content');
         tempArticles.add({
-          'id': 'placeholder',
-          'title': 'Women\'s Health Before Pregnancy',
-          'subtitle': 'Preconception Health',
-          'content': _getPlaceholderContent(),
-          'images': <String>[],
-          'publicationDate': DateTime.now().toString().substring(0, 10),
+          'id': doc.id,
+          'title': data['title'] ?? 'No Title',
+          'subtitle': data['subtitle'] ?? '',
+          'content': data['content'] ?? 'No content available',
+          'images': data['images'] ?? <String>[],
+          'publicationDate': data['publicationDate'] ?? '',
+          'createdAt': data['createdAt'] ?? '',
         });
       }
+      
+      print('📊 Processed ${tempArticles.length} articles');
+      
+      tempArticles.sort((a, b) {
+        try {
+          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
+          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+          return dateA.compareTo(dateB);
+        } catch (e) {
+          print('⚠️ Error sorting dates: $e');
+          return 0;
+        }
+      });
       
       setState(() {
         articlesData = tempArticles;
@@ -81,22 +86,6 @@ class _WomensHealthBeforePregnancyScreenState extends State<WomensHealthBeforePr
         _isLoading = false;
       });
     }
-  }
-
-  Map<String, dynamic> _extractArticleData(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    return {
-      'id': doc.id,
-      'title': data['title'] ?? 'No Title',
-      'subtitle': data['subtitle'] ?? '',
-      'content': data['content'] ?? 'No content available',
-      'images': data['images'] ?? <String>[],
-      'publicationDate': data['publicationDate'] ?? '',
-    };
-  }
-
-  String _getPlaceholderContent() {
-    return "Preconception health is crucial for a healthy pregnancy. This includes maintaining a healthy weight, taking folic acid supplements, managing chronic conditions, and avoiding harmful substances. Regular check-ups and a balanced diet are essential for preparing your body for pregnancy.";
   }
 
   Future<void> _launchURL(String url) async {

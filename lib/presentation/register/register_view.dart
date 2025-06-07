@@ -55,7 +55,7 @@ class _RegisterViewState extends State<RegisterView> {
       } catch (e) {
         print('Error registering user');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed')),
+          SnackBar(content: Text('The Email exists already'),backgroundColor: Colors.red,),
         );
       }
     } else {

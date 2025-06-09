@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('✅ تسجيل الدخول ناجح!'),
+          content: Text('✅ Login successful!'),
           backgroundColor: Colors.green,
         ),
       );
@@ -47,13 +47,13 @@ class _LoginViewState extends State<LoginView> {
         MaterialPageRoute(builder: (context) => CustomNavigationBar()),
       );
     } on FirebaseAuthException catch (e) {
-      String errorMessage = "⚠️ خطأ في تسجيل الدخول!";
+      String errorMessage = "Login error!";
       if (e.code == 'wrong-password') {
-        errorMessage = "❌ كلمة المرور غير صحيحة.";
+        errorMessage = "Incorrect password.";
       } else if (e.code == 'user-not-found') {
-        errorMessage = "❌ البريد الإلكتروني غير مسجل.";
+        errorMessage = "Email not registered.";
       } else if (e.code == 'user-disabled') {
-        errorMessage = "⚠️ تم تعطيل هذا الحساب.";
+        errorMessage = "This account has been disabled.";
       }
 
       ScaffoldMessenger.of(context).showSnackBar(

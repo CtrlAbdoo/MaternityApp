@@ -212,13 +212,14 @@ class _AccountInfoScreenState extends State<AccountInfoScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      'For security reasons, please sign in again before deleting your account.',
-                      style: GoogleFonts.inriaSerif(
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      )),
+                    'For security reasons, please sign in again before deleting your account.',
+                    style: GoogleFonts.inriaSerif(
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   backgroundColor: Colors.orange,
                 ),
               );

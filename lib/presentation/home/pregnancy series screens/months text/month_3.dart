@@ -160,7 +160,7 @@ class _Month3State extends State<Month3> {
           buildSection(
             icon: Icons.directions_run,
             title: "1. Exercise:",
-            content: firestoreTexts["exercise :"],
+            content: firestoreTexts["exercise:"],
             images: sectionImages['exercise'],
             links: sectionLinks['exercise'],
             subtitle: "Exercise Images",

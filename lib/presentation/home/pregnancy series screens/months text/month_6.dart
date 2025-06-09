@@ -15,8 +15,8 @@ class Month6 extends StatefulWidget {
 class _Month6State extends State<Month6> {
   Map<String, List<String>> sectionImages = {
     'exercise': [],
-    'diet': [], // Changed from 'nutrition' to 'diet'
-    'vitamins': [],
+    'diet': [],
+    'essential': [],
   };
 
   Map<String, List<String>> sectionLinks = {
@@ -59,12 +59,12 @@ class _Month6State extends State<Month6> {
         final section = doc.id.toLowerCase();
         print('Image URL for $section: $url');
         if (url != null) {
-          if (section.contains('exercise')) {
+          if (section.contains('exercise') || section.contains('appropriate exercises')) {
             sectionImages['exercise']!.add(url);
-          } else if (section.contains('nutrition')) {
+          } else if (section.contains('diet')) {
             sectionImages['diet']!.add(url);
-          } else if (section.contains('vitamins')) {
-            sectionImages['vitamins']!.add(url);
+          } else if (section.contains('essential vitamins and minerals')) {
+            sectionImages['essential']!.add(url);
           }
         }
       }
@@ -152,7 +152,7 @@ class _Month6State extends State<Month6> {
           buildSection(
             icon: Icons.directions_run,
             title: "1. Exercise:",
-            content: firestoreTexts["1. Exercise:"],
+            content: firestoreTexts["exercise:"],
             images: sectionImages['exercise'],
             links: sectionLinks['exercise'],
             subtitle: "Exercise Images",
@@ -161,8 +161,8 @@ class _Month6State extends State<Month6> {
 
           buildSection(
             icon: Icons.food_bank,
-            title: "2. Proper Nutrition:",
-            content: firestoreTexts["2. Proper Nutrition:"],
+            title: "2. Diet:",
+            content: firestoreTexts["diet"],
             images: sectionImages['diet'],
             links: [],
             subtitle: "Diet Images",
@@ -170,17 +170,17 @@ class _Month6State extends State<Month6> {
 
           buildSection(
             icon: Icons.medical_services,
-            title: "3. Important Vitamins and Minerals:",
-            content: firestoreTexts["3.Important Vitamins and Minerals:"],
-            images: sectionImages['vitamins'],
+            title: "3. Essential Vitamins and Minerals:",
+            content: firestoreTexts["essential vitamins and minerals"],
+            images: sectionImages['essential'],
             links: [],
             subtitle: "Vitamin Images",
           ),
 
           buildSection(
-            icon: Icons.lightbulb_outline,
-            title: "4. Additional Tips:",
-            content: firestoreTexts["4.Additional Tips:"],
+            icon: Icons.water_drop,
+            title: "4. Drink Water:",
+            content: firestoreTexts["drink water"],
             images: [],
             links: [],
           ),

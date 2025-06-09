@@ -90,16 +90,23 @@ class VaccinationDetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Vaccination appointment\n$date',
-                            style: GoogleFonts.inriaSerif(
-                                fontSize: 12, color: Colors.grey[700]),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Vaccination appointment\n$date',
+                              style: GoogleFonts.inriaSerif(
+                                  fontSize: 12, color: Colors.grey[700]),
+                            ),
                           ),
-                          Text(
-                            'the age :\n$age',
-                            textAlign: TextAlign.end,
-                            style: GoogleFonts.inriaSerif(
-                                fontSize: 12, color: Colors.grey[700]),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'the age :\n$age',
+                              textAlign: TextAlign.end,
+                              style: GoogleFonts.inriaSerif(
+                                  fontSize: 12, color: Colors.grey[700]),
+                            ),
                           ),
                         ],
                       ),
@@ -118,7 +125,7 @@ class VaccinationDetailScreen extends StatelessWidget {
                           ),
                           child: Text(
                             status,
-                            style: const TextStyle(color: Colors.white, fontSize: 10),
+                            style: GoogleFonts.inriaSerif(color: Colors.white, fontSize: 10),
                           ),
                         ),
                       ),
@@ -131,8 +138,8 @@ class VaccinationDetailScreen extends StatelessWidget {
       
                       const SizedBox(height: 12),
       
-                      Text('Dose size', style: boldTitleStyle()), // ✅ Title
-                      Text(doseSize, style: bodyTextStyle()), // ✅ Content
+                      Text('Dose size', style: boldTitleStyle()),
+                      Text(doseSize, style: bodyTextStyle()), 
       
                       const SizedBox(height: 12),
       

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maternity_app/presentation/forgot_password/forgot_password_view.dart';
 import 'package:maternity_app/presentation/forgot_password/reset_password_view.dart';
 import 'package:maternity_app/presentation/forgot_password/status_message.dart';
 
@@ -18,7 +19,7 @@ class OopsMessage extends StatelessWidget {
         mainTextColor: Color(0xffFE0404),
         secondaryText: 'Something went wrong!\nPlease try again.',
         secondaryTextColor: Colors.black54,
-        nextPage: ResetPasswordView(),
+        nextPage: ForgotPasswordView(),
       ),
     );
   }

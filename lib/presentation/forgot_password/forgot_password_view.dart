@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:maternity_app/presentation/forgot_password/oops_message.dart';
 import 'package:maternity_app/presentation/forgot_password/success_message.dart';
 import 'package:maternity_app/presentation/resources/color_manager.dart';
@@ -28,14 +29,21 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     }
 
     try {
+      // First check if the email exists in Firestore
+      final QuerySnapshot userQuery = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (userQuery.docs.isEmpty) {
+        if (!mounted) return;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const OopsMessage()));
+        return;
+      }
+
+      // If email exists, send the reset email
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       if (!mounted) return;
-
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //       content:
-      //           Text('Password reset link sent to $email. Check your inbox.')),
-      // );
 
       Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessMessage()));
     } catch (error) {
@@ -43,11 +51,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       if (!mounted) return;
 
       Navigator.push(context, MaterialPageRoute(builder: (context) => const OopsMessage()));
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //       content:
-      //           Text('Failed to send password reset email. Try again later.')),
-      // );
     }
   }
 
@@ -154,65 +157,70 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget _buildForm(
       double screenHeight, double screenWidth, BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: GoogleFonts.inriaSerif(
-                      textStyle: TextStyle(
-                        fontSize: screenWidth * 0.04,
-                        color: ColorManager.txtEditor_font_color,
-                      ),
-                    ),
-                  ),
-                  validator: (value) => InputValidator.validateEmail(value),
-                ),
-                SizedBox(height: screenHeight * 0.3),
-                Row(
-                  children: [
-                    Text(
-                      'Next',
-                      style: GoogleFonts.inriaSerif(
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: 400, // Reduced max width for better mobile experience
+          ),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: GoogleFonts.inriaSerif(
                         textStyle: TextStyle(
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontSize: screenWidth * 0.04,
+                          color: ColorManager.txtEditor_font_color,
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _sendPasswordResetEmail(context);
-                        }
-                      },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [Color(0xFFB6E8F8), Color(0xFF90CAF9)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                    validator: (value) => InputValidator.validateEmail(value),
+                  ),
+                  SizedBox(height: screenHeight * 0.3),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Next',
+                        style: GoogleFonts.inriaSerif(
+                          textStyle: TextStyle(
+                            fontSize: screenWidth * 0.06,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
-                        padding: EdgeInsets.all(screenWidth * 0.06),
-                        child: Icon(Icons.arrow_forward,
-                            color: Colors.black,
-                            size: screenWidth * 0.06),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            _sendPasswordResetEmail(context);
+                          }
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFB6E8F8), Color(0xFF90CAF9)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(screenWidth * 0.06),
+                          child: Icon(Icons.arrow_forward,
+                              color: Colors.black,
+                              size: screenWidth * 0.06),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -159,7 +159,7 @@ class _Month2State extends State<Month2> {
           buildSection(
             icon: Icons.directions_run,
             title: "1. Exercise:",
-            content: firestoreTexts["1. Exercise :"],
+            content: firestoreTexts["exercise :"],
             images: sectionImages['exercise'],
             links: sectionLinks['exercise'],
             subtitle: "Exercise Images",
@@ -170,7 +170,7 @@ class _Month2State extends State<Month2> {
           buildSection(
             icon: Icons.food_bank,
             title: "2. Diet:",
-            content: firestoreTexts["2. Diet :"],
+            content: firestoreTexts["diet :"],
             images: sectionImages['diet'],
             links: [],
             subtitle: "Diet Images",
@@ -180,7 +180,7 @@ class _Month2State extends State<Month2> {
           buildSection(
             icon: Icons.medical_services,
             title: "3. Essential Vitamins and Minerals:",
-            content: firestoreTexts["3. Essential Vitamins and Minerals:"],
+            content: firestoreTexts["essential vitamins and minerals:"],
             images: sectionImages['essential'],
             links: sectionLinks['essential'],
             subtitle: "Images",
@@ -190,8 +190,8 @@ class _Month2State extends State<Month2> {
           // Tips Section
           buildSection(
             icon: Icons.lightbulb_outline,
-            title: "4. Additional Tips:",
-            content: firestoreTexts["4.Additional Tips:"],
+            title: "4. Drink Water:",
+            content: firestoreTexts["drink water"],
             images: [],
             links: [],
           ),

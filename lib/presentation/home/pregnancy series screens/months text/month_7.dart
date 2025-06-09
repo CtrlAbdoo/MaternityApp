@@ -15,9 +15,8 @@ class Month7 extends StatefulWidget {
 class _Month7State extends State<Month7> {
   Map<String, List<String>> sectionImages = {
     'exercise': [],
-    'diet': [], // Changed from 'nutrition' to 'diet'
-    'vitamins': [],
-    'hydration': [],
+    'diet': [],
+    'essential': [],
   };
 
   Map<String, List<String>> sectionLinks = {
@@ -60,14 +59,12 @@ class _Month7State extends State<Month7> {
         final section = doc.id.toLowerCase();
         print('Image URL for $section: $url');
         if (url != null) {
-          if (section.contains('exercise')) {
+          if (section.contains('exercise') || section.contains('appropriate exercises')) {
             sectionImages['exercise']!.add(url);
-          } else if (section.contains('nutrition')) {
+          } else if (section.contains('diet')) {
             sectionImages['diet']!.add(url);
-          } else if (section.contains('vitamin')) {
-            sectionImages['vitamins']!.add(url);
-          } else if (section.contains('hydration')) {
-            sectionImages['hydration']!.add(url);
+          } else if (section.contains('essential vitamins and minerals')) {
+            sectionImages['essential']!.add(url);
           }
         }
       }
@@ -155,7 +152,7 @@ class _Month7State extends State<Month7> {
           buildSection(
             icon: Icons.directions_run,
             title: "1. Exercise:",
-            content: firestoreTexts["1. Exercise:"],
+            content: firestoreTexts["exercise:"],
             images: sectionImages['exercise'],
             links: sectionLinks['exercise'],
             subtitle: "Exercise Images",
@@ -164,8 +161,8 @@ class _Month7State extends State<Month7> {
 
           buildSection(
             icon: Icons.food_bank,
-            title: "2. Proper Nutrition:",
-            content: firestoreTexts["2. Proper Nutrition:"],
+            title: "2. Diet:",
+            content: firestoreTexts["diet"],
             images: sectionImages['diet'],
             links: [],
             subtitle: "Diet Images",
@@ -173,26 +170,25 @@ class _Month7State extends State<Month7> {
 
           buildSection(
             icon: Icons.medical_services,
-            title: "3. Important Vitamins and Minerals:",
-            content: firestoreTexts["3. Important vitamins and minerals:"],
-            images: sectionImages['vitamins'],
+            title: "3. Essential Vitamins and Minerals:",
+            content: firestoreTexts["essential vitamins and minerals"],
+            images: sectionImages['essential'],
             links: [],
             subtitle: "Vitamin Images",
           ),
 
           buildSection(
-            icon: Icons.local_drink,
-            title: "4. Hydration:",
-            content: firestoreTexts["4. Hydration"],
-            images: sectionImages['hydration'],
+            icon: Icons.water_drop,
+            title: "4. Drink Water:",
+            content: firestoreTexts["drink water"],
+            images: [],
             links: [],
-            subtitle: "Hydration Images",
           ),
 
           buildSection(
-            icon: Icons.lightbulb_outline,
-            title: "5. Additional Tips:",
-            content: firestoreTexts["5.Additional Tips:"],
+            icon: Icons.local_cafe,
+            title: "5. Suggested Drinks:",
+            content: firestoreTexts["suggested drinks:"],
             images: [],
             links: [],
           ),

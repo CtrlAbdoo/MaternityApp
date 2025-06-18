@@ -1,19 +1,63 @@
 # Maternity App
 
-A comprehensive Flutter application designed to support mothers throughout pregnancy and early parenting. The app offers personalized guidance, health tracking, educational resources, and community support, all in one place.
+A modern, cross-platform Flutter application designed to support mothers throughout pregnancy and early parenting. The app delivers personalized onboarding, health and nutrition tracking, baby care resources, medication and vaccination management, and much more—all with a beautiful, responsive UI.
 
-## Features
+---
 
-- **Personalized Onboarding**: Custom experience tailored to user needs.
-- **Pregnancy Tracking**: Track pregnancy progress by week and trimester.
-- **Health & Nutrition Guidance**: Articles and tips for nutrition, rest, and physical activity during pregnancy and postpartum.
-- **Medication & Vaccination Management**: Log medications, track vaccination schedules, and receive reminders.
-- **Baby Care Tips**: Practical advice for newborn care, breastfeeding, and formula feeding.
-- **User Profile**: Manage and update user information securely.
-- **Firebase Integration**: Secure authentication and cloud data storage.
-- **Modern UI**: Beautiful, gradient-rich interface for a pleasant user experience.
+## ✨ Features
 
-## Getting Started
+- **Personalized Onboarding:** Custom questions and flows to tailor the experience for each user.
+- **Pregnancy Tracking:** Week-by-week and trimester tracking, with detailed articles and health tips.
+- **Mother’s Health:** Dedicated screens for health before, during, and after pregnancy.
+- **Baby Care:** Breastfeeding (natural and formula), newborn tips, and baby care articles.
+- **Medication & Vaccination:** Add, manage, and track medication and vaccination schedules, with reminders.
+- **Profile Management:** Secure profile management with Firebase authentication and Firestore data storage.
+- **Community & FAQ:** Frequently Asked Questions and educational resources.
+- **Modern UI:** Gradient-rich, responsive design with custom navigation and theming.
+- **Notifications:** (Extendable) for reminders and health tips.
+- **Multi-Platform:** Android, iOS, Web, Linux, macOS, and Windows support.
+
+---
+
+## 🏗️ Architecture & Tech Stack
+
+- **Flutter & Dart**: Main development stack
+- **Firebase**: Auth, Firestore, and backend
+- **Clean Architecture**: Separation into presentation, domain, and data layers
+- **Provider & Bloc**: State management
+- **get_it**: Dependency injection
+- **Freezed & JSON Serialization**: Immutable models and serialization
+- **Google Fonts & Custom Themes**: Consistent, beautiful typography and theming
+- **Rich Assets**: Images for onboarding, pregnancy, and baby care
+
+---
+
+## 📁 Project Structure
+
+```
+lib/
+ ├── app/                 # App entry and configuration
+ ├── core/                # Utilities, constants, themes, DI
+ ├── data/                # Models, repositories, remote/local datasources
+ ├── domain/              # Entities, repositories, use cases
+ ├── presentation/        # UI: screens, widgets, viewmodels
+ │    ├── onboarding/     # Onboarding screens and logic
+ │    ├── home/           # Home, navigation, and main features
+ │    ├── Questions/      # Personalized onboarding questions
+ │    ├── Breastfeeding/  # Breastfeeding and baby care
+ │    ├── MotherHealth/   # Mother’s health screens
+ │    ├── drug_registration/ # Medication, exercise, water tracking
+ │    ├── vaccination/    # Vaccination screens
+ │    ├── forgot_password/# Password reset flows
+ │    ├── profile/        # Account and profile management
+ │    └── ...
+ ├── assets/              # Images and static resources
+ └── main.dart            # App entrypoint
+```
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 - [Flutter SDK](https://docs.flutter.dev/get-started/install)
@@ -38,28 +82,23 @@ A comprehensive Flutter application designed to support mothers throughout pregn
    flutter run
    ```
 
-### Project Structure
-- `lib/` — Main Dart codebase (UI, logic, viewmodels)
-- `assets/` — Images and static resources
-- `android/`, `ios/`, `web/`, `linux/`, `macos/`, `windows/` — Platform-specific code
+---
 
-## Usage
+## 🧑‍💻 Usage
 - Register or log in to your account
+- Complete onboarding and personalize your experience
 - Set up your profile and pregnancy details
 - Explore articles, track health, and manage medications
-- Access baby care tips and community resources
-
-## Contributing
-Contributions are welcome! Please open issues or submit pull requests for improvements and bug fixes.
-
-## License
-[MIT](LICENSE)
+- Access baby care tips, FAQs, and community resources
+- Update your profile and settings at any time
 
 ---
 
-A few resources to get you started if this is your first Flutter project:
+## 🤝 Contributing
+Contributions are welcome! Please:
+- Fork the repository
+- Create a feature branch
+- Open a pull request with a clear description
+- Follow the existing code style and architecture
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the [online documentation](https://docs.flutter.dev/), which offers tutorials, samples, guidance on mobile development, and a full API reference.

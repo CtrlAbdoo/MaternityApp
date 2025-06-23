@@ -53,103 +53,167 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
   
   Future<void> fetchFirestoreData() async {
     try {
-      print('⚠️ Fetching data for topic: ${widget.title}');
-      print('⚠️ Category: ${widget.category}');
+      print('⚠️ Fetching data for topic: ${widget.title} in category: ${widget.category}');
       
-      // Get data from "articles" collection
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
-      print('📄 Fetching articles for ${widget.title}');
+      // Get data from "article" collection
+      final articleRef = FirebaseFirestore.instance.collection('article');
       
-      // First try exact match
-      var querySnapshot = await articlesRef
-          .where('category', isEqualTo: widget.category)
-          .get();
-      
-      print('📄 Found ${querySnapshot.docs.length} total articles in category');
-      
-      // List all found articles for debugging
-      print('📋 All found articles:');
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data();
-        print('  - Title: ${data['title']}');
-        print('    Category: ${data['category']}');
-        print('    ID: ${doc.id}');
-      }
-      
-      List<Map<String, dynamic>> tempArticles = [];
-      
-      // Filter articles based on title similarity
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data();
-        final articleTitle = (data['title'] ?? '').toLowerCase();
-        final targetTitle = widget.title.toLowerCase();
+      // For Children and newborns category, we need to use the specific structure
+      // Use case-insensitive comparison for the category name
+      if (widget.category.toLowerCase() == "children and newborns".toLowerCase()) {
+        print('📄 Using Children and Newborns specific structure');
         
-        // Normalize titles for comparison
-        String normalizeTitle(String title) {
-          return title
-              .replaceAll('-', ' ')
-              .replaceAll('(', '')
-              .replaceAll(')', '')
-              .replaceAll('\n', ' ')
-              .replaceAll(RegExp(r'\s+'), ' ')
-              .trim();
+        // Try to list all documents in the article collection to find the correct one
+        final articleDocs = await articleRef.get();
+        print('📄 Documents in article collection:');
+        for (var doc in articleDocs.docs) {
+          print('📄 - ${doc.id}');
         }
         
-        final normalizedArticleTitle = normalizeTitle(articleTitle);
-        final normalizedTargetTitle = normalizeTitle(targetTitle);
+        // Try different document name formats for Children and Newborns
+        DocumentReference childrenNewbornsRef;
         
-        print('🔄 Comparing titles:');
-        print('   Article: "$normalizedArticleTitle"');
-        print('   Target: "$normalizedTargetTitle"');
-        
-        // Check if the normalized titles match
-        if (normalizedArticleTitle == normalizedTargetTitle || 
-            normalizedArticleTitle.contains(normalizedTargetTitle) || 
-            normalizedTargetTitle.contains(normalizedArticleTitle)) {
-          tempArticles.add(_extractArticleData(doc));
-          print('✅ Added matching article: ${data['title']}');
+        // First check if any of the document IDs match our category (case insensitive)
+        String? matchingDocId;
+        for (var doc in articleDocs.docs) {
+          if (doc.id.toLowerCase().contains('children') && doc.id.toLowerCase().contains('newborn')) {
+            matchingDocId = doc.id;
+            print('📄 Found matching document ID: $matchingDocId');
+            break;
+          }
         }
-      }
-      
-      // Sort articles by createdAt
-      tempArticles.sort((a, b) {
-        try {
-          // Handle Firestore timestamp format
-          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
-          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
+        
+        if (matchingDocId != null) {
+          childrenNewbornsRef = articleRef.doc(matchingDocId);
+        } else {
+          // Try with different formats if no match found
+          print('📄 No matching document found, trying different formats');
+          childrenNewbornsRef = articleRef.doc('Children and newborns');
           
-          // For ascending order (oldest first), use dateA.compareTo(dateB)
-          // For descending order (newest first), use dateB.compareTo(dateA)
-          return dateA.compareTo(dateB); // Ascending order
-        } catch (e) {
-          print('⚠️ Error sorting dates: $e');
-          return 0;
+          // Check if the document exists
+          final docSnapshot = await childrenNewbornsRef.get();
+          print('📄 "Children and newborns" document exists: ${docSnapshot.exists}');
+          
+          // If not, try with ChildrenNewborns format
+          if (!docSnapshot.exists) {
+            childrenNewbornsRef = articleRef.doc('ChildrenNewborns');
+            final docSnapshot2 = await childrenNewbornsRef.get();
+            print('📄 "ChildrenNewborns" document exists: ${docSnapshot2.exists}');
+            
+            // If still not found, try with Children_Newborns format
+            if (!docSnapshot2.exists) {
+              childrenNewbornsRef = articleRef.doc('Children_Newborns');
+              final docSnapshot3 = await childrenNewbornsRef.get();
+              print('📄 "Children_Newborns" document exists: ${docSnapshot3.exists}');
+            }
+          }
         }
-      });
-      
-      // Log the sorted order
-      print('📅 Sorted articles by date:');
-      for (var article in tempArticles) {
-        print('  - ${article['title']} (${article['createdAt']})');
-      }
-      
-      // If we still don't have any articles, use placeholder content
-      if (tempArticles.isEmpty) {
-        print('⚠️ No matching articles found, adding placeholder content');
-        tempArticles.add({
-          'id': 'placeholder',
-          'title': widget.title,
-          'subtitle': 'Important information',
-          'content': _getPlaceholderContent(),
-          'images': <String>[],
-          'publicationDate': DateTime.now().toString().substring(0, 10),
+        
+        // Determine which subcollection to query based on the topic title
+        String subcollectionName = '';
+        switch (widget.title) {
+          case "Baby Health and Common Illnesses":
+            subcollectionName = 'baby-health-and-common-illnesses';
+            break;
+          case "Child Growth Stages":
+            subcollectionName = 'child-growth-stages';
+            break;
+          case "Complementary Feeding (Introducing Solid Foods)":
+            subcollectionName = 'complementary-feeding-introducing-solid-foods-';
+            break;
+          case "Daily Baby Care":
+            subcollectionName = 'daily-baby-care';
+            break;
+          case "Sensory and Motor Skills Development":
+            subcollectionName = 'sensory-and-motor-skills-development';
+            break;
+          default:
+            // Fallback to a normalized version of the title if not matched
+            subcollectionName = widget.title.toLowerCase()
+                .replaceAll(' ', '-')
+                .replaceAll('(', '')
+                .replaceAll(')', '')
+                .replaceAll('.', '');
+        }
+        
+        print('📄 Fetching articles from subcollection: $subcollectionName');
+        
+        // List all collections in the document to debug
+        final collections = await FirebaseFirestore.instance.collection('article').doc('Children and newborns').collection(subcollectionName).get();
+        print('📄 Available collections in Children and newborns:');
+        for (var collection in collections.docs) {
+          print('📄 - ${collection.id}');
+        }
+        
+        final topicRef = childrenNewbornsRef.collection(subcollectionName);
+        final querySnapshot = await topicRef.get();
+        
+        print('📄 Found ${querySnapshot.docs.length} articles in subcollection: $subcollectionName');
+        
+        List<Map<String, dynamic>> tempArticles = [];
+        
+        // Process articles
+        for (var doc in querySnapshot.docs) {
+          tempArticles.add(_extractArticleData(doc));
+          print('✅ Added article: ${doc.id}');
+        }
+        
+        // If we still don't have any articles, use placeholder content
+        if (tempArticles.isEmpty) {
+          print('⚠️ No matching articles found, adding placeholder content');
+          tempArticles.add({
+            'id': 'placeholder',
+            'title': widget.title,
+            'subtitle': 'Important information',
+            'content': _getPlaceholderContent(),
+            'images': <String>[],
+            'publicationDate': DateTime.now().toString().substring(0, 10),
+          });
+        }
+        
+        setState(() {
+          articlesData = tempArticles;
+          _isLoading = false;
+        });
+      } else {
+        // For other categories, use the original approach
+        print('📄 Using original approach for category: ${widget.category}');
+        
+        // Query the articles collection directly
+        final querySnapshot = await articleRef.get();
+        
+        List<Map<String, dynamic>> tempArticles = [];
+        
+        // Filter articles by category and title
+        for (var doc in querySnapshot.docs) {
+          final data = doc.data() as Map<String, dynamic>;
+          final articleCategory = data['category'] ?? '';
+          final articleTitle = data['title'] ?? '';
+          
+          if (articleCategory == widget.category && _isRelevantToTopic(data, widget.title)) {
+            tempArticles.add(_extractArticleData(doc));
+            print('✅ Added article: ${doc.id}');
+          }
+        }
+        
+        // If we still don't have any articles, use placeholder content
+        if (tempArticles.isEmpty) {
+          print('⚠️ No matching articles found, adding placeholder content');
+          tempArticles.add({
+            'id': 'placeholder',
+            'title': widget.title,
+            'subtitle': 'Important information',
+            'content': _getPlaceholderContent(),
+            'images': <String>[],
+            'publicationDate': DateTime.now().toString().substring(0, 10),
+          });
+        }
+        
+        setState(() {
+          articlesData = tempArticles;
+          _isLoading = false;
         });
       }
-      
-      setState(() {
-        articlesData = tempArticles;
-        _isLoading = false;
-      });
       
     } catch (e) {
       print('❌ Error fetching Firestore data: $e');
@@ -870,4 +934,4 @@ class _TopicDetailsScreenState extends State<TopicDetailsScreen> {
   bool _containsAgePattern(String text, String pattern) {
     return text.contains(pattern);
   }
-} 
+}

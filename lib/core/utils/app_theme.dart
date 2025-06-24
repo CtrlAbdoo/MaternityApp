@@ -89,16 +89,7 @@ class AppTheme {
         color: textPrimaryColor,
       ),
     ),
-    
-    // Card theme
-    cardTheme: CardTheme(
-      color: cardColor,
-      elevation: 2,
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-    ),
+
     
     // App bar theme
     appBarTheme: const AppBarTheme(

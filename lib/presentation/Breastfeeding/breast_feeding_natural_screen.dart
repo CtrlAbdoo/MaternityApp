@@ -30,37 +30,24 @@ class _BreastfeedingNaturalScreenState extends State<BreastfeedingNaturalScreen>
     try {
       print('⚠️ Fetching data for topic: Breastfeeding (Natural)');
       
-      // Get data from "articles" collection
-      final articlesRef = FirebaseFirestore.instance.collection('articles');
+      // Get data from "article" collection with the new structure
+      final articleRef = FirebaseFirestore.instance.collection('article');
+      final breastfeedingRef = articleRef.doc('Breastfeeding');
+      final naturalFeedingRef = breastfeedingRef.collection('breastfeeding-natural-');
       print('📄 Fetching articles for breastfeeding-natural');
       
-      final querySnapshot = await articlesRef
-          .where('title', isEqualTo: 'Breastfeeding (Natural)')
-          .get();
+      final querySnapshot = await naturalFeedingRef.get();
       
       print('📄 Found ${querySnapshot.docs.length} articles for breastfeeding-natural');
       
       List<Map<String, dynamic>> tempArticles = [];
       
-      // Process articles and sort them by createdAt
+      // Process articles
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
         tempArticles.add(_extractArticleData(doc));
-        print('✅ Added article: ${data['title']}');
+        print('✅ Added article: ${doc.id}');
       }
-      
-      // Sort articles by createdAt
-      tempArticles.sort((a, b) {
-        try {
-          // Handle Firestore timestamp format
-          final dateA = (a['createdAt'] as String?)?.split('T')[0] ?? '';
-          final dateB = (b['createdAt'] as String?)?.split('T')[0] ?? '';
-          return dateA.compareTo(dateB);
-        } catch (e) {
-          print('⚠️ Error sorting dates: $e');
-          return 0;
-        }
-      });
       
       // If we still don't have any articles, use placeholder content
       if (tempArticles.isEmpty) {
